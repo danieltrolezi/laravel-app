@@ -28,6 +28,15 @@ $ php artisan migrate
 $ php artisan key:generate --ansi
 ```
 
+### Comands
+
+All commands must run inside the container.
+
+| Command             | Description                     |
+| ------------------- | ------------------------------- |
+| composer run phpcs  | Runs PHP_CodeSniffer phpcs<br>  |
+| composer run phpcbf | Runs PHP_CodeSniffer phpcbf<br> |
+
 ### Documentation
 
 [Full documentation here](https://github.com/danieltrolezi/laravel-app/blob/master/docs/index.md)
