@@ -3,7 +3,7 @@
 
 ### Requirements
 
-* [Docker Engine + Desktop]()
+* [Docker Engine + Desktop](https://github.com/danieltrolezi/laravel-app/blob/master/docs/setup/docker.md)
 
 ### Setting up the Environment
 
@@ -30,4 +30,4 @@ $ php artisan key:generate --ansi
 
 ### Documentation
 
-[Full documentation here]()
+[Full documentation here](https://github.com/danieltrolezi/laravel-app/tree/master/docs)
