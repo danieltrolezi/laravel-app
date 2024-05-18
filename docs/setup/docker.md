@@ -144,8 +144,6 @@ sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
 
 3. To start Docker Desktop for Linux, search Docker Desktop on the Applications menu and open it.
 
-4. ?
-
 ## References
 
 * [Docker - Install Docker Desktop on Ubuntu](https://docs.docker.com/desktop/install/ubuntu/)
