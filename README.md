@@ -21,6 +21,7 @@ Out of the box Laravel Application
 * Git Hooks
 * Unit Testing
 * Tests in Parallel (Soon)
+* Logs + Open Telemetry (Soon)
 
 ## Setup
 
