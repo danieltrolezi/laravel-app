@@ -1,0 +1,18 @@
+#!/bin/sh
+
+echo "Running Code Sniffer..."
+
+docker exec app composer run phpcs
+if [ $? != 0 ]
+then
+    echo "Coding standards errors have been detected. Running phpcbf..."
+    docker exec app composer run phpcbf
+
+    echo "Running Code Sniffer again..."
+    docker exec app composer run phpcs
+    if [ $? != 0 ]
+    then
+        echo "Errors found not fixable automatically"
+        exit 1
+    fi
+fi

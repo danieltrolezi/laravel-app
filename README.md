@@ -17,20 +17,15 @@ $ docker compose build
 $ docker compose up -d
 ```
 
-3. Run migrations
+3. Finishing installation
 ```
-$ docker exec -it app bash
-$ php artisan migrate
-```
-
-4. Set application key
-```
-$ php artisan key:generate --ansi
+$ chmod +x ./install.sh
+$ ./install.sh
 ```
 
-### Comands
+### Coomands
 
-All commands must run inside the container.
+Commands must run inside the container.
 
 | Command             | Description                     |
 | ------------------- | ------------------------------- |
