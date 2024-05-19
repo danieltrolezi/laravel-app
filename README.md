@@ -1,6 +1,28 @@
 
 ## Laravel App
 
+### Stack
+
+* Docker
+* PHP 8.3
+* Laravel 11
+* MySQL 8.4
+
+### Server
+* nginx
+* php-fpm
+* supervisord
+
+### Features
+* Installation script
+* PHP Code Sniffer w/ PSR12
+* XDEBUG (Soon)
+* Git Hooks
+* Unit Testing
+
+
+## Setup
+
 ### Requirements
 
 * [Docker Setup on Ubuntu](https://github.com/danieltrolezi/laravel-app/blob/master/docs/01-setup/docker.md)
@@ -23,15 +45,17 @@ $ chmod +x ./install.sh
 $ ./install.sh
 ```
 
-### Coomands
+## Commands
 
 Commands must run inside the container.
 
 | Command             | Description                     |
 | ------------------- | ------------------------------- |
-| composer run phpcs  | Runs PHP_CodeSniffer phpcs<br>  |
-| composer run phpcbf | Runs PHP_CodeSniffer phpcbf<br> |
+| composer run phpcs  | Runs PHP_CodeSniffer phpcs      |
+| composer run phpcbf | Runs PHP_CodeSniffer phpcbf     |
+| composer run test   | Runs all tests                  |
+| composer run test-coverage | Generates test coverage report  |
 
-### Documentation
+## Documentation
 
 [Full documentation here](https://github.com/danieltrolezi/laravel-app/blob/master/docs/index.md)

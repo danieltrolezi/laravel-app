@@ -52,6 +52,12 @@
         ],
         "phpcbf": [
             "./vendor/bin/phpcbf"
+        ],
+        "test": [
+            "php artisan test"
+        ],
+        "test-coverage": [
+            ".php artisan test --coverage --min=80"
         ]
     },
     "extra": {
