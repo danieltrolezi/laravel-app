@@ -19,6 +19,7 @@
 * XDEBUG (Soon)
 * Git Hooks
 * Unit Testing
+* Tests in Parapel (Soon)
 
 
 ## Setup
