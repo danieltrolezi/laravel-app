@@ -1,4 +1,6 @@
-## Jumpstart Laravel Development with a Feature-Rich Base Application
+## Out of the Box Laravel Application
+
+### Jumpstart Laravel Development with a Feature-Rich Base Application
 
 This repository provides a solid foundation for your next Laravel project, accelerating development with a pre-configured environment.
 
@@ -26,13 +28,13 @@ This repository provides a solid foundation for your next Laravel project, accel
 
 By leveraging this base application, you can benefit from a well-structured foundation that promotes efficient and maintainable development practices for your Laravel projects.
 
-## Setup
+### Setup
 
-### Requirements
+#### Requirements
 
 * [Docker Setup on Ubuntu](https://github.com/danieltrolezi/laravel-app/blob/master/docs/01-setup/docker.md)
 
-### Setting up the Environment
+#### Setting up the Environment
 
 1. Build images
 ```
@@ -50,7 +52,7 @@ $ chmod +x ./install.sh
 $ ./install.sh
 ```
 
-## Commands
+### Commands
 
 Commands must run inside the container.
 
