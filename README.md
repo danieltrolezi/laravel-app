@@ -20,7 +20,7 @@ Out of the box Laravel Application
 * XDEBUG (Soon)
 * Git Hooks
 * Unit Testing
-* Tests in Parapel (Soon)
+* Tests in Parallel (Soon)
 
 ## Setup
 
