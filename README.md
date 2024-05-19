@@ -1,5 +1,6 @@
 
 ## Laravel App
+Out of the box Laravel Application
 
 ### Stack
 
@@ -20,7 +21,6 @@
 * Git Hooks
 * Unit Testing
 * Tests in Parapel (Soon)
-
 
 ## Setup
 
