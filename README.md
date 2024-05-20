@@ -22,10 +22,11 @@ This repository provides a solid foundation for your next Laravel project, accel
 
 #### Planned Enhancements:
 
-* Xdebug Integration: For improved debugging capabilities (coming soon)
-* Parallel Test Execution: For faster testing cycles (coming soon)
-* Logging and Open Telemetry: For enhanced application monitoring (coming soon)
-* Static Code Analysis (coming soon)
+* Xdebug Integration: For improved debugging capabilities
+* Parallel Test Execution: For faster testing cycles
+* Logging and Open Telemetry: For enhanced application monitoring
+* Static Code Analysis
+* MongoDB
 
 By leveraging this base application, you can benefit from a well-structured foundation that promotes efficient and maintainable development practices for your Laravel projects.
 
