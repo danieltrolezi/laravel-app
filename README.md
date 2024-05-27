@@ -23,10 +23,10 @@ This repository provides a solid foundation for your next Laravel project, accel
 
 #### Planned Enhancements:
 
-* Logging and Open Telemetry: For enhanced application monitoring
-* CI/CD;
-* Parallel Test Execution: For faster testing cycles
+* Logging and Open Telemetry
+* CI/CD
 * Static Code Analysis
+* Parallel Test Execution
 * MongoDB
 
 By leveraging this base application, you can benefit from a well-structured foundation that promotes efficient and maintainable development practices for your Laravel projects.
