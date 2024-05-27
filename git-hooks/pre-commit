@@ -11,7 +11,7 @@ then
     docker exec app composer run phpcs
     if [ $? != 0 ]
     then
-        echo "Errors found not fixable automatically"
+        echo "Fix errors to commit"
         exit 1
     fi
 fi
@@ -20,5 +20,6 @@ echo "Running Tests..."
 docker exec app ./vendor/bin/phpunit --stop-on-failure
 if [ $? != 0 ]
 then
+    echo "Fix errors to commit"
     exit 1
 fi

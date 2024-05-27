@@ -1,6 +1,6 @@
 ## Out of the Box Laravel Application
 
-### Jumpstart Laravel Development with a Feature-Rich Base Application
+### Jumpstart Laravel Development with a Base Application
 
 This repository provides a solid foundation for your next Laravel project, accelerating development with a pre-configured environment.
 
@@ -19,14 +19,14 @@ This repository provides a solid foundation for your next Laravel project, accel
 * Code Sniffer (PSR-12): Enforces consistent and clean coding practices
 * Git Hooks: Automates tasks within your development workflow
 * Unit Testing: Ensures the functionality of your code
+* Xdebug Integration: For improved debugging capabilities
 
 #### Planned Enhancements:
 
-* Xdebug Integration: For improved debugging capabilities
 * Logging and Open Telemetry: For enhanced application monitoring
 * CI/CD;
-* Static Code Analysis
 * Parallel Test Execution: For faster testing cycles
+* Static Code Analysis
 * MongoDB
 
 By leveraging this base application, you can benefit from a well-structured foundation that promotes efficient and maintainable development practices for your Laravel projects.
@@ -35,7 +35,7 @@ By leveraging this base application, you can benefit from a well-structured foun
 
 #### Requirements
 
-* [Docker Setup on Ubuntu](https://github.com/danieltrolezi/laravel-app/blob/master/docs/01-setup/docker.md)
+* [Setting Up Docker on Ubuntu](https://github.com/danieltrolezi/laravel-app/blob/master/docs/01-setup/docker.md)
 
 #### Setting up the Environment
 
@@ -66,6 +66,6 @@ Commands must run inside the container.
 | composer run test   | Runs all tests                  |
 | composer run test-coverage | Generates test coverage report  |
 
-## Documentation
+### Documentation
 
-[Full documentation here](https://github.com/danieltrolezi/laravel-app/blob/master/docs/index.md)
+[Full documentation available here](https://github.com/danieltrolezi/laravel-app/blob/master/docs/index.md)

@@ -1,4 +1,4 @@
-## Docker Setup on Ubuntu
+## Setting Up Docker on Ubuntu
 
 ### Docker Engine
 

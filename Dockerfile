@@ -13,11 +13,15 @@ RUN apt-get update && apt-get install -y \
 
 RUN docker-php-ext-install pdo pdo_mysql
 
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug
+
 RUN mkdir -p /var/log/supervisor && \
     mkdir -p /var/log/php-fpm
 
 COPY . /var/www/laravel-app
 COPY ./docker/supervisord /etc/supervisor/conf.d/
+COPY ./docker/php "${PHP_INI_DIR}/conf.d/"
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
