@@ -28,6 +28,7 @@ This repository provides a solid foundation for your next Laravel project, accel
 
 * Logging and Open Telemetry
 * CI/CD
+* Swagger
 * Static Code Analysis
 * Parallel Test Execution
 * MongoDB
