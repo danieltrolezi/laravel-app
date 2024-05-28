@@ -1,5 +1,8 @@
 ## Out of the Box Laravel Application
 
+![status](https://img.shields.io/badge/status-work%20in%20progress-green?style=flat)
+![version](https://img.shields.io/badge/version-0.4.0-blue?style=flat)
+
 ### Jumpstart Laravel Development with a Base Application
 
 This repository provides a solid foundation for your next Laravel project, accelerating development with a pre-configured environment.
