@@ -1,14 +1,14 @@
 #!/bin/sh
 
 echo "Running Code Sniffer..."
-docker exec app composer run phpcs
+docker exec app composer phpcs
 if [ $? != 0 ]
 then
     echo "Coding standards errors have been detected. Running phpcbf..."
-    docker exec app composer run phpcbf
+    docker exec app composer phpcbf
 
     echo "Running Code Sniffer again..."
-    docker exec app composer run phpcs
+    docker exec app composer phpcs
     if [ $? != 0 ]
     then
         echo "Fix errors to commit"
