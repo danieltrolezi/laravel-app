@@ -57,7 +57,7 @@
             "php artisan test"
         ],
         "test-coverage": [
-            ".php artisan test --coverage --min=80"
+            "php artisan test --coverage --min=80"
         ]
     },
     "extra": {
