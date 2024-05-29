@@ -65,10 +65,10 @@ Commands must run inside the container.
 
 | Command             | Description                     |
 | ------------------- | ------------------------------- |
-| composer run phpcs  | Runs PHP_CodeSniffer phpcs      |
-| composer run phpcbf | Runs PHP_CodeSniffer phpcbf     |
-| composer run test   | Runs all tests                  |
-| composer run test-coverage | Generates test coverage report  |
+| composer phpcs      | Runs PHP_CodeSniffer phpcs      |
+| composer phpcbf     | Runs PHP_CodeSniffer phpcbf     |
+| composer test       | Runs all tests                  |
+| composer test-coverage | Generates test coverage report  |
 
 ### Documentation
 
