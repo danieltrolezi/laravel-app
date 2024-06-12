@@ -9,7 +9,8 @@ RUN apt-get update && apt-get install -y \
         zip \
         git \
         nano \
-        supervisor
+        supervisor \
+        npm
 
 RUN docker-php-ext-install pdo pdo_mysql
 
