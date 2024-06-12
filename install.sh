@@ -12,5 +12,8 @@ if [ ! -f ./env ]; then
     cp ./env.example /.env
 fi
 
-echo "Setting APP Key"
+echo "Setting APP Key..."
 docker exec app php artisan key:generate --ansi
+
+echo "Creating Database Test..."
+docker exec db mysql -u root -psecret -e "create database if not exists laravel_test"
