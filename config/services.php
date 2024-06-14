@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'rawg' => [
+        'host' => env('RAWG_API_HOST'),
+        'key' => env('RAWG_API_KEY')
+    ]
+
 ];
