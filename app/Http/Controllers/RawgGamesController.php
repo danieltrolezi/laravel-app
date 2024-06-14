@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\RawgService;
+use App\Services\RawgGameService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
-class RawgController extends Controller
+class RawgGamesController extends Controller
 {
     public function __construct(
-        private RawgService $rawgService
+        private RawgGameService $rawgGameService
     ) {
     }
 
@@ -19,7 +18,7 @@ class RawgController extends Controller
     public function recommendations(string $genre): JsonResponse
     {
 
-        $data = $this->rawgService->getRecommendations($genre);
+        $data = $this->rawgGameService->getRecommendations($genre);
 
         return response()->json($data);
     }
@@ -29,7 +28,7 @@ class RawgController extends Controller
      */
     public function upcomingReleases(string $period): JsonResponse
     {
-        $data = $this->rawgService->getUpcomingReleases($period);
+        $data = $this->rawgGameService->getUpcomingReleases($period);
 
         return response()->json($data);
     }
@@ -37,8 +36,9 @@ class RawgController extends Controller
     /**
      * @return JsonResponse
      */
-    public function compareGames(): JsonResponse
+    public function compare(): JsonResponse
     {
+        // @TODO
         return response()->json([]);
     }
 }

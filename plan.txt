@@ -1,0 +1,8 @@
+- Parse API Response
+- Redis (Cache Rawg API Response)
+- Integrate with User preferences
+- Create interface using Livewire (?)
+- Tests
+- Notification / Commmand & Cronjob
+- Logs and OpenTelemetry
+- CI/CD

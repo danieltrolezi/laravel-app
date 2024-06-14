@@ -2,33 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\RawgService;
+use App\Services\RawgDomainService;
 use Illuminate\Http\JsonResponse;
 
 class RawgDomainController extends Controller
 {
     public function __construct(
-        private RawgService $rawgService
+        private RawgDomainService $rawgDomainService
     ) {
     }
 
     public function genres(): JsonResponse
     {
-        $data = $this->rawgService->getGenres();
+        $data = $this->rawgDomainService->getGenres();
 
         return response()->json($data);
     }
 
     public function tags(): JsonResponse
     {
-        $data = $this->rawgService->getTags();
+        $data = $this->rawgDomainService->getTags();
 
         return response()->json($data);
     }
 
     public function platforms(): JsonResponse
     {
-        $data = $this->rawgService->getPlatforms();
+        $data = $this->rawgDomainService->getPlatforms();
 
         return response()->json($data);
     }
