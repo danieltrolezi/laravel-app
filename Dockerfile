@@ -14,7 +14,9 @@ RUN apt-get update && apt-get install -y \
 RUN docker-php-ext-install pdo pdo_mysql
 
 RUN pecl install xdebug \
-    && docker-php-ext-enable xdebug
+        redis \
+    && docker-php-ext-enable xdebug \
+        redis
 
 RUN mkdir -p /var/log/supervisor && \
     mkdir -p /var/log/php-fpm
