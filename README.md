@@ -10,7 +10,7 @@ This repository provides a solid foundation for your next Laravel project, accel
 #### Key Technologies:
 
 * Backend: PHP 8.3 + Laravel 11 Framework
-* Database: MySQL 8.*
+* Databases: MySQL 8.*, Redis
 * Containerization: Docker
 * Web Server: Nginx
 * PHP Processor: PHP-fpm
@@ -34,7 +34,6 @@ This repository provides a solid foundation for your next Laravel project, accel
 * Static Code Analysis
 * Parallel Test Execution
 * MongoDB
-* Redis
 * Installation Enchancements
 
 By leveraging this base application, you can benefit from a well-structured foundation that promotes efficient and maintainable development practices for your Laravel projects.
