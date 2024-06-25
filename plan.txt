@@ -1,7 +1,6 @@
-- Implement Pagination
 - Integrate with User preferences
 - Create interface using Livewire (?)
-- Tests
+- Unit Tests
 - Notification / Commmand & Cronjob
 - Logs and OpenTelemetry
 - CI/CD
