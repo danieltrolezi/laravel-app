@@ -1,5 +1,4 @@
-- Parse API Response
-- Redis (Cache Rawg API Response)
+- Implement Pagination
 - Integrate with User preferences
 - Create interface using Livewire (?)
 - Tests
