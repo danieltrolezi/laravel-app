@@ -3,51 +3,68 @@
 namespace App\Services;
 
 use App\Models\Game;
+use App\Models\PaginatedResponse;
 use Illuminate\Support\Collection;
 
 class RawgGameService extends RawgBaseService
 {
+    /**
+     * @param string $genre
+     * @param integer|null $perPage
+     * @param integer|null $page
+     * @return PaginatedResponse
+     */
     public function getRecommendations(
         string $genre,
-        int $count = 5
-    ): Collection {
+        int $perPage = 5,
+        int $page = 1
+    ): PaginatedResponse {
         $response = $this->call(uri: 'games', data: [
             'query' => [
                 'dates'      => date('Y-m-d', strtotime('-1 year')) . ',' . date('Y-m-d'),
                 'genre'      => $genre,
                 'platforms'  => $this->platforms,
                 'ordering'   => 'updated',
-                'page_size'  => $count
+                'page_size'  => $perPage,
+                'page'       => $page
             ]
         ]);
 
-        return $this->parseGames($response);
+        return new PaginatedResponse(
+            $this->parseGames($response),
+            $perPage,
+            $page,
+            $response['count']
+        );
     }
 
     /**
-     * @return array
+     * @param string $period
+     * @param integer $perPage
+     * @param integer $page
+     * @return PaginatedResponse
      */
     public function getUpcomingReleases(
         string $period = 'week',
-        int $count = 25
-    ): Collection {
+        int $perPage = 25,
+        int $page = 1
+    ): PaginatedResponse {
         $response = $this->call(uri: 'games', data: [
             'query' => [
                 'dates'      => date('Y-m-d') . ',' . date('Y-m-d', strtotime('+1 ' . $period)),
                 'platforms'  => $this->platforms,
                 'ordering'   => 'released',
-                'page_size'  => $count
+                'page_size'  => $perPage,
+                'page'       => $page
             ]
         ]);
 
-        return $this->parseGames($response);
-    }
-
-    public function compare(): Collection
-    {
-        // @TODO
-        $collection = collect([]);
-        return $collection;
+        return new PaginatedResponse(
+            $this->parseGames($response),
+            $perPage,
+            $page,
+            $response['count']
+        );
     }
 
     /**
