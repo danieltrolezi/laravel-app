@@ -14,6 +14,8 @@ then
         echo "Fix errors to commit"
         exit 1
     fi
+
+    git add .
 fi
 
 echo "Running Tests..."
