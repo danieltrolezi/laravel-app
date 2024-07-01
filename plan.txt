@@ -1,3 +1,5 @@
+- Dynamic Ordering
+- Swagger
 - Integrate with User preferences
 - Create interface using Livewire (?)
 - Unit Tests
