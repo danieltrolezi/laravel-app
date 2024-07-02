@@ -6,6 +6,8 @@ use App\Enums\Traits\BaseEnum;
 
 enum Genre: int
 {
+    use BaseEnum;
+
     case Racing = 1;
     case Shooter = 2;
     case Adventure = 3;

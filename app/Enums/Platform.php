@@ -6,6 +6,8 @@ use App\Enums\Traits\BaseEnum;
 
 enum Platform: int
 {
+    use BaseEnum;
+
     case PC = 4;
     case Playstation5 = 187;
     case XboxSeriesX = 186;
