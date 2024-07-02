@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Enum;
+namespace App\Enums;
+
+use App\Enums\Traits\BaseEnum;
 
 enum Platform: int
 {
