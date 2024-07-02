@@ -20,6 +20,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::prefix('games')->controller(RawgGamesController::class)->group(function () {
             Route::get('/recommendations/{genre}', 'recommendations');
             Route::get('/upcoming-releases/{period}', 'upcomingReleases')->where('period', 'week|month|year');
+            Route::get('/{game}/achievements', 'achievements');
             Route::get('/compare', 'compare');
         });
     });

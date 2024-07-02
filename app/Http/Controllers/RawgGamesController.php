@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\RawgAchievementService;
 use App\Services\RawgGameService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -18,11 +19,8 @@ class RawgGamesController extends Controller
      */
     public function recommendations(Request $request, string $genre): JsonResponse
     {
-        $response = $this->rawgGameService->getRecommendations(
-            $genre,
-            $request->get('per_page', 5),
-            $request->get('page', 1)
-        );
+        // @TODO Validate Data
+        $response = $this->rawgGameService->getRecommendations($genre, $request->all());
 
         return response()->json($response->getContents());
     }
@@ -32,21 +30,23 @@ class RawgGamesController extends Controller
      */
     public function upcomingReleases(Request $request, string $period): JsonResponse
     {
-        $response = $this->rawgGameService->getUpcomingReleases(
-            $period,
-            $request->get('per_page', 25),
-            $request->get('page', 1)
-        );
+        // @TODO Validate Data
+        $response = $this->rawgGameService->getUpcomingReleases($period, $request->all());
 
         return response()->json($response->getContents());
     }
 
     /**
+     * @param Request $request
+     * @param string $game
      * @return JsonResponse
      */
-    public function compare(): JsonResponse
+    public function achievements(Request $request, string $game): JsonResponse
     {
-        // @TODO
-        return response()->json([]);
+        // @TODO Validate Data
+        $rawgAchievementService = resolve(RawgAchievementService::class);
+        $response = $rawgAchievementService->getGameAchievements($game, $request->all());
+
+        return response()->json($response);
     }
 }
