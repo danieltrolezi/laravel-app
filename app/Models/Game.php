@@ -32,11 +32,17 @@ class Game
             'background_image' => 'nullable|string',
             'released'         => 'nullable|string',
             'platforms'        => 'nullable|array',
-            'platforms.*'      => 'array:id,name,slug',
+            'platforms.*.id'   => 'required|int',
+            'platforms.*.name' => 'required|string',
+            'platforms.*.slug' => 'required|string',
             'stores'           => 'nullable|array',
-            'stores.*'         => 'array:id,name,slug',
+            'stores.*.id'      => 'required|int',
+            'stores.*.name'    => 'required|string',
+            'stores.*.slug'    => 'required|string',
             'genres'           => 'nullable|array',
-            'genres.*'         => 'array:id,name,slug',
+            'genres.*.id'      => 'required|int',
+            'genres.*.name'    => 'required|string',
+            'genres.*.slug'    => 'required|string',
         ]);
 
         $validator->validate();

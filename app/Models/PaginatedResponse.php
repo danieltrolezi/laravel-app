@@ -9,7 +9,7 @@ class PaginatedResponse
 {
     public function __construct(
         private Collection $data,
-        private int $perPage,
+        private int $pageSize,
         private int $page,
         private int $total
     ) {
@@ -22,9 +22,9 @@ class PaginatedResponse
     {
         return [
             'total'         => $this->total,
-            'per_page'      => $this->perPage,
+            'page_size'     => $this->pageSize,
             'current_page'  => $this->page,
-            'last_page'     => ceil($this->total / $this->perPage),
+            'last_page'     => ceil($this->total / $this->pageSize),
             'next_page_url' => $this->getPageUrl(1),
             'prev_page_url' => $this->getPageUrl(-1),
             'data'          => $this->data

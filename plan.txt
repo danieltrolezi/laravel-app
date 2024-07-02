@@ -1,7 +1,6 @@
-- Dynamic Ordering
+- Validate Request Data
 - Swagger
 - Integrate with User preferences
-- Create interface using Livewire (?)
 - Unit Tests
 - Notification / Commmand & Cronjob
 - Logs and OpenTelemetry

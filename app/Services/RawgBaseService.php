@@ -13,9 +13,8 @@ abstract class RawgBaseService
     protected string $apiHost;
     protected Client $client;
 
-    public function __construct(
-        protected string $platforms = '4, 187, 186, 7'
-    ) {
+    public function __construct()
+    {
         $this->apiHost = config('services.rawg.host');
         $this->apiKey = config('services.rawg.key');
 
