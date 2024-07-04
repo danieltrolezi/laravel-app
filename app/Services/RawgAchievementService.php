@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enums\RawgField;
+use App\Enums\SortOrder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
@@ -22,7 +23,7 @@ class RawgAchievementService extends RawgBaseService
         $response = $this->orderAchievements(
             $response['results'],
             Arr::get($order, 'order_by', 'id'),
-            Arr::get($order, 'sort_order', 'ASC')
+            Arr::get($order, 'sort_order', SortOrder::ASC->value)
         );
 
         return collect($response);
@@ -39,6 +40,10 @@ class RawgAchievementService extends RawgBaseService
         string $orderBy = 'id',
         string $sortOrder = 'ASC'
     ): array {
+        if (!isset(array_shift($data)[$orderBy])) {
+            $orderBy = 'id';
+        }
+
         usort($data, function ($a, $b) use ($orderBy, $sortOrder) {
             if ($sortOrder === 'ASC') {
                 if ($a[$orderBy] === $b[$orderBy]) {

@@ -1,5 +1,7 @@
 <?php
 
+use App\Enums\Period;
+use App\Enums\RawgGenre;
 use App\Http\Controllers\RawgGamesController;
 use App\Http\Controllers\RawgDomainController;
 use Illuminate\Http\Request;
@@ -18,8 +20,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         });
 
         Route::prefix('games')->controller(RawgGamesController::class)->group(function () {
-            Route::get('/recommendations/{genre}', 'recommendations');
-            Route::get('/upcoming-releases/{period}', 'upcomingReleases')->where('period', 'week|month|year');
+            Route::get('/recommendations/{genre}', 'recommendations')->where('genre', RawgGenre::valuesAsString('|'));
+            Route::get('/upcoming-releases/{period}', 'upcomingReleases')->where('period', Period::valuesAsString('|'));
             Route::get('/{game}/achievements', 'achievements');
             Route::get('/compare', 'compare');
         });

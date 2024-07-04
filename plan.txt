@@ -1,6 +1,6 @@
-- Validate Request Data
 - Swagger
-- Integrate with User preferences
+- Documentation
+- Integrate with User preferences (BD)
 - Unit Tests
 - Notification / Commmand & Cronjob
 - Logs and OpenTelemetry

@@ -13,8 +13,9 @@ abstract class RawgBaseService
     protected string $apiHost;
     protected Client $client;
 
-    public function __construct()
-    {
+    public function __construct(
+        protected RawgFilterService $filterService
+    ) {
         $this->apiHost = config('services.rawg.host');
         $this->apiKey = config('services.rawg.key');
 

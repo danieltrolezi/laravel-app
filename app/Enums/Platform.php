@@ -4,12 +4,12 @@ namespace App\Enums;
 
 use App\Enums\Traits\BaseEnum;
 
-enum Platform: int
+enum Platform: string
 {
     use BaseEnum;
 
-    case PC = 4;
-    case Playstation5 = 187;
-    case XboxSeriesX = 186;
-    case Switch = 7;
+    case PC = 'pc';
+    case Playstation5 = 'playstation5';
+    case XboxSeriesX = 'xbox-series-x';
+    case Switch = 'switch';
 }

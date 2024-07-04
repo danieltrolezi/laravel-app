@@ -27,4 +27,29 @@ trait BaseEnum
     {
         return array_combine(self::values(), self::names());
     }
+
+    /**
+     * @return string
+     */
+    public static function namesAsString(string $separator = ','): string
+    {
+        return implode($separator, self::names());
+    }
+
+    /**
+     * @return string
+     */
+    public static function valuesAsString(string $separator = ','): string
+    {
+        return implode($separator, self::values());
+    }
+
+     /**
+     * @param string $name
+     * @return self
+     */
+    public static function fromName(string $name): self
+    {
+        return self::{$name};
+    }
 }
