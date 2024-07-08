@@ -1,0 +1,20 @@
+openapi: 3.0.0
+info:
+  title: 'Laravel App'
+  version: '1.0'
+servers:
+  -
+    url: laravel-app.local
+paths:
+  /health:
+    get:
+      tags:
+        - application
+      operationId: eae7d70a8bdf26a7f224dbefa507cdb1
+      responses:
+        '200':
+          description: OK
+tags:
+  -
+    name: application
+    description: 'health and other application routes'

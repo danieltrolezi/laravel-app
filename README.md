@@ -1,7 +1,7 @@
 ## Out of the Box Laravel Application
 
 ![status](https://img.shields.io/badge/status-work%20in%20progress-green?style=flat)
-![version](https://img.shields.io/badge/version-0.4.1-blue?style=flat)
+![version](https://img.shields.io/badge/version-0.6.0-blue?style=flat)
 
 ### Jumpstart Laravel Development with a Base Application
 
@@ -23,6 +23,7 @@ This repository provides a solid foundation for your next Laravel project, accel
 * Git Hooks: Automates tasks within your development workflow
 * Unit Testing: Ensures the functionality of your code
 * Xdebug Integration: For improved debugging capabilities
+* Swagger: For OpenAPI Documentation
 
 #### Planned Enhancements:
 
@@ -30,7 +31,6 @@ This repository provides a solid foundation for your next Laravel project, accel
 * CI/CD
 * JIT
 * Secret and Env Vault
-* Swagger
 * Static Code Analysis
 * Parallel Test Execution
 * MongoDB
@@ -71,7 +71,8 @@ Commands must run inside the container.
 | composer phpcs      | Runs PHP_CodeSniffer phpcs      |
 | composer phpcbf     | Runs PHP_CodeSniffer phpcbf     |
 | composer test       | Runs all tests                  |
-| composer test-coverage | Generates test coverage report  |
+| composer test:coverage | Generates test coverage report |
+| composer swagger:generate | Generates OpenAPI documentation |
 
 ### Documentation
 
