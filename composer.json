@@ -64,7 +64,7 @@
             "php artisan test --coverage --min=80"
         ],
         "swagger:generate": [
-            "./vendor/bin/openapi -b ./config/swagger.php -o ./public/swagger.yaml ./app"
+            "./vendor/bin/openapi -b ./swagger.php -o ./public/swagger.yaml ./app"
         ]
     },
     "extra": {
