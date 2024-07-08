@@ -8,7 +8,7 @@ services:
       - "host.docker.internal:host-gateway"
     volumes:
       - .:/var/www/laravel-app
-      - /var/www/laravel-app/vendor
+      - ./vendor:/var/www/laravel-app/vendor
     working_dir: /var/www/laravel-app
     networks:
       - bridge

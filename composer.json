@@ -10,7 +10,8 @@
         "laravel/jetstream": "^5.1",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
-        "livewire/livewire": "^3.0"
+        "livewire/livewire": "^3.0",
+        "zircote/swagger-php": "^4.10"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -59,8 +60,11 @@
         "test": [
             "php artisan test"
         ],
-        "test-coverage": [
+        "test:coverage": [
             "php artisan test --coverage --min=80"
+        ],
+        "swagger:generate": [
+            "./vendor/bin/openapi -b ./config/swagger.php -o ./public/swagger.yaml ./app"
         ]
     },
     "extra": {
