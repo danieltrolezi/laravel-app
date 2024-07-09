@@ -3,7 +3,7 @@
 $constants = [
     'APP_NAME'    => env('APP_NAME', 'Laravel App'),
     'APP_VERSION' => env('APP_VERSION', '1.0'),
-    'APP_URL'     => env('APP_URL', 'laravel-app.local')
+    'APP_URL'     => env('APP_URL', 'http://laravel-app.local')
 ];
 
 foreach ($constants as $key => $value) {
