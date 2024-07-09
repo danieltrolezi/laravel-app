@@ -318,6 +318,15 @@ components:
               -
                 $ref: '#/components/schemas/Game'
       type: object
+  securitySchemes:
+    bearerAuth:
+      type: http
+      name: bearerAuth
+      in: header
+      scheme: bearer
+security:
+  -
+    bearerAuth: []
 tags:
   -
     name: application

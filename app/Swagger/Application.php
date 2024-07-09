@@ -6,10 +6,20 @@ use OpenApi\Attributes as OA;
 
 #[OA\Info(title: APP_NAME, version: APP_VERSION)]
 #[OA\Server(url: APP_URL)]
+#[OA\OpenApi(
+    security: [
+        ['bearerAuth' => []]
+    ]
+)]
+#[OA\SecurityScheme(
+    securityScheme: 'bearerAuth',
+    in: 'header',
+    name: 'bearerAuth',
+    type: 'http',
+    scheme: 'bearer',
+)]
 class Application
 {
-    // @TODO Add Authentication
-
     #[OA\Tag(
         name: 'application',
         description: 'health and other application routes'

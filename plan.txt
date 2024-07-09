@@ -1,8 +1,0 @@
-- Swagger
-- Documentation
-- Git Repositories (like laravel-top)
-- Integrate with User preferences (BD)
-- Unit Tests
-- Notification / Commmand & Cronjob
-- Logs and OpenTelemetry
-- CI/CD

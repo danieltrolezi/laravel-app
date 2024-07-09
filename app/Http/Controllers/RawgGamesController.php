@@ -16,8 +16,6 @@ class RawgGamesController extends Controller
     ) {
     }
 
-    // @TODO Add Enums in Swagger
-
     /**
      * @return JsonResponse
      */
