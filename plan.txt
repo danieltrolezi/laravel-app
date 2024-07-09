@@ -1,6 +1,6 @@
 - Swagger
-- PHP 8.1 - 8.3 features
 - Documentation
+- Git Repositories (like laravel-top)
 - Integrate with User preferences (BD)
 - Unit Tests
 - Notification / Commmand & Cronjob

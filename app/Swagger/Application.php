@@ -8,9 +8,19 @@ use OpenApi\Attributes as OA;
 #[OA\Server(url: APP_URL)]
 class Application
 {
+    // @TODO Add Authentication
+
     #[OA\Tag(
         name: 'application',
         description: 'health and other application routes'
+    )]
+    #[OA\Tag(
+        name: 'domain',
+        description: 'rawg domain routes'
+    )]
+    #[OA\Tag(
+        name: 'games',
+        description: 'rawg games routes'
     )]
     public function tags()
     {

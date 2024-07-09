@@ -9,7 +9,7 @@ class RawgDomainService extends RawgBaseService
      */
     public function getGenres(): array
     {
-        return $this->call(uri: 'genres');
+        return $this->call(uri: 'genres')['results'];
     }
 
     /**
@@ -17,7 +17,7 @@ class RawgDomainService extends RawgBaseService
      */
     public function getTags(): array
     {
-        return $this->call(uri: 'tags');
+        return $this->call(uri: 'tags')['results'];
     }
 
     /**
@@ -25,6 +25,6 @@ class RawgDomainService extends RawgBaseService
      */
     public function getPlatforms(): array
     {
-        return $this->call(uri: 'platforms');
+        return $this->call(uri: 'platforms')['results'];
     }
 }

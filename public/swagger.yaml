@@ -6,6 +6,193 @@ servers:
   -
     url: laravel-app.local
 paths:
+  /api/rawg/domain/genres:
+    get:
+      tags:
+        - domain
+      operationId: daa3484b0cfbf1f84c09190d386fb6aa
+      responses:
+        '200':
+          description: 'List of RAWG genres'
+  /api/rawg/domain/tags:
+    get:
+      tags:
+        - domain
+      operationId: b51af1f826392611185f7b288fedb845
+      responses:
+        '200':
+          description: 'List of RAWG tags'
+  /api/rawg/domain/platforms:
+    get:
+      tags:
+        - domain
+      operationId: b1a9bad8e0b69f95fd054ffcf6c4b9b3
+      responses:
+        '200':
+          description: 'List of RAWG platforms'
+  '/api/rawg/games/recommendations/{genre}':
+    get:
+      tags:
+        - games
+      operationId: 9ce6b8a31793e7f454284c21b860704b
+      parameters:
+        -
+          name: genre
+          in: path
+          description: 'Filter by genres'
+          required: true
+          schema:
+            $ref: '#/components/schemas/RawgGenre'
+        -
+          name: platforms
+          in: query
+          description: 'Filter by platforms (accepts comma separated list)'
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - pc
+                - playstation5
+                - xbox-series-x
+                - switch
+        -
+          name: ordering
+          in: query
+          description: 'Rawg field to order by'
+        -
+          name: page
+          in: query
+          description: 'Page number to request'
+        -
+          name: page_size
+          in: query
+          description: 'How many items per page'
+      responses:
+        '200':
+          description: 'List of RAWG games'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedResponse'
+  '/api/rawg/games/upcoming-releases/{period}':
+    get:
+      tags:
+        - games
+      operationId: afce02b91592c98f28a021c4a88bbfde
+      parameters:
+        -
+          name: period
+          in: path
+          description: 'Get releases for selected period'
+          required: true
+          schema:
+            $ref: '#/components/schemas/Period'
+        -
+          name: genres
+          in: query
+          description: 'Filter by genres (accepts comma separated list)'
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - racing
+                - shooter
+                - adventure
+                - action
+                - rpg
+                - fighting
+                - puzzle
+                - strategy
+                - arcade
+                - simulation
+                - sports
+                - card
+                - family
+                - board-games
+                - educational
+                - casual
+                - indie
+                - massively-multiplayer
+                - platformer
+        -
+          name: platforms
+          in: query
+          description: 'Filter by platforms (accepts comma separated list)'
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - pc
+                - playstation5
+                - xbox-series-x
+                - switch
+        -
+          name: ordering
+          in: query
+          description: 'Rawg field to order by'
+        -
+          name: page
+          in: query
+          description: 'Page number to request'
+        -
+          name: page_size
+          in: query
+          description: 'How many items per page'
+      responses:
+        '200':
+          description: 'List of RAWG games'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedResponse'
+  '/api/rawg/games/{game}/achievements':
+    get:
+      tags:
+        - games
+      operationId: 6eca34be51c7b0acaf24caf35cbd7a90
+      parameters:
+        -
+          name: game
+          in: path
+          description: 'Rawg slug of the game'
+          required: true
+        -
+          name: order_by
+          in: query
+          description: 'Field to order by'
+        -
+          name: sort_order
+          in: query
+          description: 'Sorting order'
+          schema:
+            $ref: '#/components/schemas/SortOrder'
+        -
+          name: page
+          in: query
+          description: 'Page number to request'
+        -
+          name: page_size
+          in: query
+          description: 'How many items per page'
+      responses:
+        '200':
+          description: "List of RAWG game's achievements"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties: { id: { type: integer }, name: { type: string }, description: { type: string }, image: { type: string }, percent: { type: string } }
+                  type: object
   /health:
     get:
       tags:
@@ -14,7 +201,130 @@ paths:
       responses:
         '200':
           description: OK
+components:
+  schemas:
+    Period:
+      type: string
+      enum:
+        - week
+        - month
+        - year
+    Platform:
+      type: string
+      enum:
+        - pc
+        - playstation5
+        - xbox-series-x
+        - switch
+    RawgField:
+      type: string
+      enum:
+        - id
+        - name
+        - slug
+        - background_image
+        - released
+        - dates
+        - genres
+        - platforms
+        - stores
+        - ordering
+        - page_size
+        - page
+    RawgGenre:
+      type: string
+      enum:
+        - racing
+        - shooter
+        - adventure
+        - action
+        - rpg
+        - fighting
+        - puzzle
+        - strategy
+        - arcade
+        - simulation
+        - sports
+        - card
+        - family
+        - board-games
+        - educational
+        - casual
+        - indie
+        - massively-multiplayer
+        - platformer
+    RawgPlatform:
+      type: integer
+      enum:
+        - 4
+        - 187
+        - 186
+        - 7
+    SortOrder:
+      type: string
+      enum:
+        - ASC
+        - DESC
+    Game:
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        slug:
+          type: string
+        background_image:
+          type: string
+        released:
+          type: string
+        platforms:
+          type: array
+          items:
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+              slug:
+                type: string
+            type: object
+        stores:
+          type: array
+          items:
+            type: object
+        genres:
+          type: array
+          items:
+            type: object
+      type: object
+    PaginatedResponse:
+      properties:
+        total:
+          type: integer
+        page_size:
+          type: integer
+        current_page:
+          type: integer
+        last_page:
+          type: integer
+        next_page_url:
+          type: string
+        prev_page_url:
+          type: string
+        data:
+          type: array
+          items:
+            oneOf:
+              -
+                $ref: '#/components/schemas/Game'
+      type: object
 tags:
   -
     name: application
     description: 'health and other application routes'
+  -
+    name: domain
+    description: 'rawg domain routes'
+  -
+    name: games
+    description: 'rawg games routes'

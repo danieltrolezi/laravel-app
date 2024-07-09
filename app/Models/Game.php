@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
-use Exception;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
+use OpenApi\Attributes as OA;
 
+#[OA\Schema()]
 class Game
 {
     public readonly int $id;
@@ -17,6 +18,30 @@ class Game
     public readonly ?array $stores;
     public readonly ?array $genres;
 
+    #[OA\Property(property: 'id', type: 'integer')]
+    #[OA\Property(property: 'name', type: 'string')]
+    #[OA\Property(property: 'slug', type: 'string')]
+    #[OA\Property(property: 'background_image', type: 'string')]
+    #[OA\Property(property: 'released', type: 'string')]
+    #[OA\Property(property: 'platforms', type: 'array', items: new OA\Items(
+        type: 'object',
+        properties: [
+            new OA\Property(
+                property: "id",
+                type: "integer"
+            ),
+            new OA\Property(
+                property: "name",
+                type: "string"
+            ),
+            new OA\Property(
+                property: "slug",
+                type: "string"
+            ),
+        ]
+    ))]
+    #[OA\Property(property: 'stores', type: 'array', items: new OA\Items(type: 'object'))]
+    #[OA\Property(property: 'genres', type: 'array', items: new OA\Items(type: 'object'))]
     public function __construct(array $data)
     {
         $this->validateData($data);

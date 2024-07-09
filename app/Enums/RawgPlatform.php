@@ -3,7 +3,9 @@
 namespace App\Enums;
 
 use App\Enums\Traits\BaseEnum;
+use OpenApi\Attributes as OA;
 
+#[OA\Schema(type: 'integer')]
 enum RawgPlatform: int
 {
     use BaseEnum;
