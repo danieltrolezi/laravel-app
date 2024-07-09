@@ -1,0 +1,22 @@
+- Documentation
+- Git Repositories (like laravel-top)
+- Integrate with User preferences (BD)
+- Unit Tests
+- Notification / Commmand & Cronjob
+- Logs and OpenTelemetry
+- CI/CD
+
+
+Swagger Refs:
+https://swagger.io/docs/specification/serialization/
+https://swagger.io/docs/specification/authentication/
+
+https://github.com/zircote/swagger-php/tree/master/Examples/using-links-php81
+https://github.com/zircote/swagger-php/blob/master/tests/Fixtures/Apis/Attributes/basic.php
+
+https://raank.medium.com/documenta%C3%A7%C3%A3o-swagger-em-aplica%C3%A7%C3%B5es-php-ac6e7b053fd
+https://medium.com/one-weekend-at-a-time/security-annotations-in-swagger-php-71ac097cd449
+
+https://stackoverflow.com/questions/76488949/swagger-php-response-array-of-objects-using-attributes
+https://stackoverflow.com/questions/27603871/how-to-define-an-enum-in-openapi-swagger
+https://stackoverflow.com/questions/55060478/issue-authorization-bearer-token-in-a-swagger-openapi-annotations
