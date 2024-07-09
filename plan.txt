@@ -11,6 +11,7 @@ Swagger Refs:
 https://swagger.io/docs/specification/serialization/
 https://swagger.io/docs/specification/authentication/
 
+https://zircote.github.io/swagger-php/guide/common-techniques.html
 https://github.com/zircote/swagger-php/tree/master/Examples/using-links-php81
 https://github.com/zircote/swagger-php/blob/master/tests/Fixtures/Apis/Attributes/basic.php
 
