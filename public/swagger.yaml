@@ -4,7 +4,7 @@ info:
   version: '1.0'
 servers:
   -
-    url: laravel-app.local
+    url: 'http://laravel-app.local'
 paths:
   /api/rawg/domain/genres:
     get:
