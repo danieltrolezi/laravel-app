@@ -18,6 +18,7 @@
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.0",
         "phpunit/phpunit": "^11.0.1",
+        "rector/rector": "*",
         "spatie/laravel-ignition": "^2.4",
         "squizlabs/php_codesniffer": "^3.0"
     },
@@ -63,6 +64,12 @@
         ],
         "swagger:generate": [
             "./vendor/bin/openapi -b ./swagger.php -o ./public/swagger.yaml ./app"
+        ],
+        "rector:dry-run": [
+            "./vendor/bin/rector process --dry-run"
+        ],
+        "rector:process": [
+            "./vendor/bin/rector process"
         ]
     },
     "extra": {

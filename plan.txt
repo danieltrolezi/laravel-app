@@ -1,4 +1,3 @@
-- Documentation
 - Git Repositories (like laravel-top)
 - Integrate with User preferences (BD)
 - Unit Tests

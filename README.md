@@ -1,7 +1,7 @@
 ## Out of the Box Laravel Application
 
 ![status](https://img.shields.io/badge/status-work%20in%20progress-green?style=flat)
-![version](https://img.shields.io/badge/version-0.6.0-blue?style=flat)
+![version](https://img.shields.io/badge/version-0.7.0-blue?style=flat)
 
 ### Documentation
 
@@ -28,6 +28,7 @@ This repository provides a solid foundation for your next Laravel project, accel
 * Unit Testing: Ensures the functionality of your code
 * Xdebug Integration: For improved debugging capabilities
 * Swagger: For OpenAPI Documentation
+* Rector: For easy PHP/Laravel version upgrade
 
 #### Planned Enhancements:
 
