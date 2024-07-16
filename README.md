@@ -1,7 +1,11 @@
 ## Out of the Box Laravel Application
 
 ![status](https://img.shields.io/badge/status-work%20in%20progress-green?style=flat)
-![version](https://img.shields.io/badge/version-0.6.0-blue?style=flat)
+![version](https://img.shields.io/badge/version-0.7.0-blue?style=flat)
+
+### Documentation
+
+:sparkle: [Full documentation available on the Wiki](https://github.com/danieltrolezi/laravel-app/wiki)
 
 ### Jumpstart Laravel Development with a Base Application
 
@@ -24,6 +28,7 @@ This repository provides a solid foundation for your next Laravel project, accel
 * Unit Testing: Ensures the functionality of your code
 * Xdebug Integration: For improved debugging capabilities
 * Swagger: For OpenAPI Documentation
+* Rector: For easy PHP/Laravel version upgrade
 
 #### Planned Enhancements:
 
@@ -37,43 +42,3 @@ This repository provides a solid foundation for your next Laravel project, accel
 * Installation Enchancements
 
 By leveraging this base application, you can benefit from a well-structured foundation that promotes efficient and maintainable development practices for your Laravel projects.
-
-### Setup
-
-#### Requirements
-
-* [Setting Up Docker on Ubuntu](https://github.com/danieltrolezi/laravel-app/blob/master/docs/01-setup/docker.md)
-
-#### Setting up the Environment
-
-1. Build images
-```
-$ docker compose build
-```
-
-2. Run the containers
-```
-$ docker compose up -d
-```
-
-3. Finishing installation
-```
-$ chmod +x ./install.sh
-$ ./install.sh
-```
-
-### Commands
-
-Commands must run inside the container.
-
-| Command             | Description                     |
-| ------------------- | ------------------------------- |
-| composer phpcs      | Runs PHP_CodeSniffer phpcs      |
-| composer phpcbf     | Runs PHP_CodeSniffer phpcbf     |
-| composer test       | Runs all tests                  |
-| composer test:coverage | Generates test coverage report |
-| composer swagger:generate | Generates OpenAPI documentation |
-
-### Documentation
-
-[Full documentation available here](https://github.com/danieltrolezi/laravel-app/blob/master/docs/index.md)
