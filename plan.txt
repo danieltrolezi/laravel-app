@@ -1,4 +1,10 @@
-- Git Repositories (like laravel-top)
+- Git Repositories
+    - Swoole (seprate branch)
+    - FrakenPHP (seprate branch)
+    - PHP-Runtime (seprate branch)
+    - Laravel-Envoy (master)
+    - Laravel-Error-Solutions (master)
+- JIT
 - Integrate with User preferences (BD)
 - Unit Tests
 - Notification / Commmand & Cronjob
