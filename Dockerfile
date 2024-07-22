@@ -1,7 +1,5 @@
 FROM php:8.3-cli
 
-WORKDIR /var/www/laravel-app
-
 RUN apt-get update && apt-get install -y \
         libcurl4-openssl-dev \
         libbrotli-dev \
@@ -30,7 +28,7 @@ RUN docker-php-ext-enable xdebug \
 
 RUN mkdir -p /var/log/supervisor
 
-COPY . /var/www/laravel-app
+COPY . /app
 COPY ./docker/supervisord /etc/supervisor/conf.d/
 COPY ./docker/php "${PHP_INI_DIR}/conf.d/"
 
