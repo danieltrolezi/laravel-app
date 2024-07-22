@@ -1,27 +1,34 @@
-FROM php:8.3-fpm
+FROM php:8.3-cli
 
 WORKDIR /var/www/laravel-app
 
 RUN apt-get update && apt-get install -y \
+        libcurl4-openssl-dev \
+        libbrotli-dev \
+        libc-ares-dev \
+        libssl-dev \
         apt-utils \
         curl \
         wget \
         zip \
         git \
         nano \
-        supervisor
+        supervisor \
+        npm
 
 RUN docker-php-ext-configure pcntl --enable-pcntl
 RUN docker-php-ext-install pdo pdo_mysql pcntl
 
 RUN pecl install xdebug \
-        redis \
-    && docker-php-ext-enable xdebug \
         redis
 
+RUN pecl install -D 'enable-sockets="no" enable-openssl="yes" enable-http2="yes" enable-mysqlnd="yes" enable-swoole-json="no" enable-swoole-curl="yes" enable-cares="yes"' swoole
 
-RUN mkdir -p /var/log/supervisor && \
-    mkdir -p /var/log/php-fpm
+RUN docker-php-ext-enable xdebug \
+        redis \
+        swoole
+
+RUN mkdir -p /var/log/supervisor
 
 COPY . /var/www/laravel-app
 COPY ./docker/supervisord /etc/supervisor/conf.d/
