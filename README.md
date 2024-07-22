@@ -14,10 +14,10 @@ This repository provides a solid foundation for your next Laravel project, accel
 #### Key Technologies:
 
 * Backend: PHP 8.3 + Laravel 11 Framework
-* Databases: MySQL 8.*, Redis
+* Databases: MySQL 8 + Redis
 * Containerization: Docker
 * Web Server: Nginx
-* PHP Processor: PHP-fpm
+* PHP Processor: PHP-fpm, Laravel Octane (Swoole)
 * Process Supervisor: Supervisord
 
 #### Streamlined Development Experience:
