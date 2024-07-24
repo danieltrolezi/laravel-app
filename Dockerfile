@@ -1,7 +1,5 @@
 FROM php:8.3-fpm
 
-WORKDIR /var/www/laravel-app
-
 RUN apt-get update && apt-get install -y \
         apt-utils \
         curl \
@@ -19,7 +17,6 @@ RUN pecl install xdebug \
         redis \
     && docker-php-ext-enable xdebug \
         redis
-
 
 RUN mkdir -p /var/log/supervisor && \
     mkdir -p /var/log/php-fpm
