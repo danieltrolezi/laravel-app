@@ -1,3 +1,4 @@
+- Add lock files to .gitignore
 - Laravel-Error-Solutions (Git Repo)
 - JIT
 - Integrate with User preferences (BD)
