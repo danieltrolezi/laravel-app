@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Enums\Platform;
 use App\Enums\RawgGenre;
 use App\Enums\RawgField;
+use App\Rules\KeywordList;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RawgGamesRequest extends FormRequest
@@ -28,24 +29,16 @@ class RawgGamesRequest extends FormRequest
             RawgField::Genres->value    => [
                 'nullable',
                 'string',
-                $this->keywordListRule(RawgGenre::valuesAsString('|'))
+                new KeywordList(RawgGenre::values())
             ],
             RawgField::Platforms->value => [
                 'nullable',
-                'string', $this->keywordListRule(Platform::valuesAsString('|'))
+                'string',
+                new KeywordList(Platform::values())
             ],
             RawgField::Ordering->value  => ['nullable', 'string'],
             RawgField::PageSize->value  => ['nullable', 'int'],
             RawgField::Page->value      => ['nullable', 'int']
         ];
-    }
-
-    /**
-     * @param string $string
-     * @return string
-     */
-    private function keywordListRule(string $string): string
-    {
-        return "regex:/^(?<keywords>($string)+)(,(?&keywords))*$/i";
     }
 }
