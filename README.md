@@ -30,15 +30,4 @@ This repository provides a solid foundation for your next Laravel project, accel
 * Swagger: For OpenAPI Documentation
 * Rector: For easy PHP/Laravel version upgrade
 
-#### Planned Enhancements:
-
-* JIT
-* Logging and Open Telemetry
-* Secret and Env Vault
-* CI/CD
-* MongoDB
-* Static Code Analysis
-* Parallel Test Execution
-* Installation Enchancements
-
 By leveraging this base application, you can benefit from a well-structured foundation that promotes efficient and maintainable development practices for your Laravel projects.

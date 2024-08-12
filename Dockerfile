@@ -1,5 +1,7 @@
 FROM php:8.3-fpm
 
+WORKDIR /var/www/laravel-app
+
 RUN apt-get update && apt-get install -y \
         apt-utils \
         curl \

@@ -1,8 +1,0 @@
-- Laravel-Error-Solutions (Git Repo)
-- JIT
-- Integrate with User preferences (BD)
-- Unit Tests
-- Notification / Commmand & Cronjob
-- Logs and OpenTelemetry
-- CI/CD
-    - Laravel-Envoy
