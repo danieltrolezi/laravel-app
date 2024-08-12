@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Actions\Jetstream\DeleteUser;
+use App\Enums\Permission;
+use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Jetstream\Jetstream;
 
@@ -31,13 +33,10 @@ class JetstreamServiceProvider extends ServiceProvider
      */
     protected function configurePermissions(): void
     {
-        Jetstream::defaultApiTokenPermissions(['read']);
+        Jetstream::defaultApiTokenPermissions([Permission::Read->value]);
 
-        Jetstream::permissions([
-            'create',
-            'read',
-            'update',
-            'delete',
-        ]);
+        Jetstream::permissions(
+            Arr::except(Permission::values(), Permission::RawgRead->value)
+        );
     }
 }

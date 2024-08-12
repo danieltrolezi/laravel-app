@@ -112,4 +112,17 @@ return [
 
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Root User
+    |--------------------------------------------------------------------------
+    |
+    */
+    'root' => [
+        'name'     => env('ROOT_NAME', 'root'),
+        'email'    => env('ROOT_EMAIL', 'root@localhost'),
+        'password' => env('ROOT_PASSWORD', 'secret'),
+    ]
+
 ];
