@@ -36,7 +36,7 @@ class JetstreamServiceProvider extends ServiceProvider
         Jetstream::defaultApiTokenPermissions([Permission::Read->value]);
 
         Jetstream::permissions(
-            Arr::except(Permission::values(), Permission::RawgRead->value)
+            array_diff(Permission::values(), [Permission::RawgRead->value])
         );
     }
 }
