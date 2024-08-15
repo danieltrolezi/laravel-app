@@ -10,7 +10,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "leventcz/laravel-top": "^1.1",
-        "livewire/livewire": "^3.0",
+        "spatie/laravel-health": "^1.30",
         "zircote/swagger-php": "^4.10"
     },
     "require-dev": {

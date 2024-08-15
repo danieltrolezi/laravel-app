@@ -8,9 +8,11 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RawgGamesController;
 use App\Http\Controllers\RawgDomainController;
 use Illuminate\Support\Facades\Route;
+use Spatie\Health\Http\Controllers\HealthCheckJsonResultsController;
 
 Route::permanentRedirect('/docs', '/swagger/index.html');
 
+Route::get('/health', HealthCheckJsonResultsController::class);
 Route::post('/account/register', [AccountController::class, 'register']);
 Route::post('/auth/login', [AuthController::class, 'login']);
 
