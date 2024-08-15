@@ -2,10 +2,11 @@
 
 namespace App\Services;
 
-use App\Enums\Permission;
 use App\Exceptions\InvalidCredentialsException;
 use Illuminate\Support\Facades\Auth;
 use Firebase\JWT\JWT;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Validation\UnauthorizedException;
 
 class AuthService
 {
@@ -21,7 +22,6 @@ class AuthService
             $payload = [
                 'iss' => env('APP_URL'),
                 'sub' => $user->getAuthIdentifier(),
-                'scp' => $user->scopes,
                 'iat' => time(),
                 'exp' => time() + 3600,
             ];
@@ -35,5 +35,20 @@ class AuthService
         }
 
         throw new InvalidCredentialsException();
+    }
+
+    public function checkScopes(...$scopes): void
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            throw new AuthenticationException('Unauthenticated');
+        }
+
+        foreach ($scopes as $scope) {
+            if (!in_array($scope, $user->scopes)) {
+                throw new UnauthorizedException('Unautorized');
+            }
+        }
     }
 }

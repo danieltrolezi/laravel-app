@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Enums\Permission;
+use App\Enums\Scope;
 use App\Models\User;
 
 class UserRepository
@@ -17,10 +17,28 @@ class UserRepository
         $user->name = $data['name'];
         $user->email = $data['email'];
         $user->password = bcrypt($data['password']);
-        $user->scopes = json_encode([Permission::Default->value]);
+        $user->scopes = [Scope::Default->value];
         $user->save();
 
         return $user;
+    }
+
+    public function createRoot(): bool
+    {
+        $user = User::where('email', config('auth.root.email'))->first();
+
+        if (!$user) {
+            $user = new User();
+            $user->name = config('auth.root.name');
+            $user->email = config('auth.root.email');
+            $user->password = bcrypt(config('auth.root.password'));
+            $user->scopes = Scope::values();
+            $user->save();
+
+            return true;
+        }
+
+        return false;
     }
 
     /**

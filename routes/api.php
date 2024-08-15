@@ -3,6 +3,7 @@
 use App\Enums\Period;
 use App\Enums\Permission;
 use App\Enums\RawgGenre;
+use App\Enums\Scope;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RawgGamesController;
@@ -16,13 +17,14 @@ Route::get('/health', HealthCheckJsonResultsController::class);
 Route::post('/account/register', [AccountController::class, 'register']);
 Route::post('/auth/login', [AuthController::class, 'login']);
 
-Route::middleware(['auth:api'])->group(function () {
+Route::middleware(['auth:api', 'scopes:' . Scope::Default->value])->group(function () {
     Route::prefix('account')->controller(AccountController::class)->group(function () {
         Route::get('/show', 'show');
         Route::put('/update', 'update');
     });
 
     Route::prefix('rawg')
+        ->middleware(['scopes:' . Scope::Root->value])
         ->group(function () {
         Route::prefix('domain')->controller(RawgDomainController::class)->group(function() {
             Route::get('/genres', 'genres');

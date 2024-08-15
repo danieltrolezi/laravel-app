@@ -1,11 +1,14 @@
 <?php
 
 use App\Exceptions\InvalidCredentialsException;
+use App\Http\Middleware\CheckScopesMiddleware;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Response;
+use Illuminate\Validation\UnauthorizedException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -15,6 +18,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        $middleware->alias([
+            'scopes' => CheckScopesMiddleware::class
+        ]);
+
         $middleware->redirectGuestsTo(fn() => response());
     })
     ->withExceptions(function (Exceptions $exceptions) {
@@ -26,7 +33,11 @@ return Application::configure(basePath: dirname(__DIR__))
             return $request->expectsJson();
         });
 
-        $exceptions->render(function (InvalidCredentialsException $e, Request $request) {
+        $exceptions->render(function (
+            InvalidCredentialsException|AuthenticationException|UnauthorizedException $e, 
+            Request $request
+        ) 
+        {
             return response()->json([
                 'message' => $e->getMessage()
             ], Response::HTTP_UNAUTHORIZED);

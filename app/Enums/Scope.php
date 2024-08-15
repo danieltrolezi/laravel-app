@@ -6,7 +6,7 @@ use App\Enums\Traits\BaseEnum;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(type: 'string')]
-enum Permission: string
+enum Scope: string
 {
     use BaseEnum;
 
