@@ -14,7 +14,7 @@ class AuthController extends Controller
         tags: ['auth'],
         security: [],
         responses: [
-            new OA\Response(response: 200, description: 'Short-lived Access Token')
+            new OA\Response(response: 200, description: 'JWT')
         ],
         requestBody: new OA\RequestBody(
             required: true,
@@ -29,7 +29,7 @@ class AuthController extends Controller
     public function login(LoginRequest $request): JsonResponse
     {
         return response()->json(
-            resolve(AuthService::class)->getAccessToken(
+            resolve(AuthService::class)->generateJWT(
                 $request->only(['email', 'password'])
             )
         );

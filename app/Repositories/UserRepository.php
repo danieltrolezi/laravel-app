@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Enums\Permission;
 use App\Models\User;
 
 class UserRepository
@@ -12,11 +13,14 @@ class UserRepository
      */
     public function create(array $data): User
     {
-        return User::create([
-            'name'     => $data['name'],
-            'email'    => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+        $user = new User();
+        $user->name = $data['name'];
+        $user->email = $data['email'];
+        $user->password = bcrypt($data['password']);
+        $user->scopes = json_encode([Permission::Default->value]);
+        $user->save();
+
+        return $user;
     }
 
     /**

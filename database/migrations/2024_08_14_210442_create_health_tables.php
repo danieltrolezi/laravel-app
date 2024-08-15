@@ -33,4 +33,14 @@ return new class extends Migration
             $table->index('batch');
         });
     }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        $tableName = EloquentHealthResultStore::getHistoryItemInstance()->getTable();
+        
+        Schema::dropIfExists($tableName);
+    }
 };

@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Guards\JwtGuard;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 use Spatie\Health\Checks\Checks\DatabaseCheck;
 use Spatie\Health\Checks\Checks\EnvironmentCheck;
@@ -24,9 +27,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->setHealthCheck();
+        $this->setJwtGuard();
+    }
+
+    private function setHealthCheck(): void
+    {
         $env = match (config('app.url')) {
             'http://laravel-app.local' => 'local',
-            default => 'production'
+            'http://laravel-app.qa'    => 'qa',
+            default                    => 'production'
         };
 
         Health::checks([
@@ -35,5 +45,15 @@ class AppServiceProvider extends ServiceProvider
             DatabaseCheck::new(),
             RedisCheck::new()
         ]);
+    }
+
+    private function setJwtGuard(): void
+    {
+        Auth::extend('jwt', function (Application $app, string $name, array $config) {
+            return new JwtGuard(
+                Auth::createUserProvider($config['provider']),
+                $app['request']
+            );
+        });
     }
 }

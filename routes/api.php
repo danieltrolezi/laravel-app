@@ -16,14 +16,13 @@ Route::get('/health', HealthCheckJsonResultsController::class);
 Route::post('/account/register', [AccountController::class, 'register']);
 Route::post('/auth/login', [AuthController::class, 'login']);
 
-Route::middleware(['auth:sanctum', 'ability:' . Permission::Default->value])->group(function () {
+Route::middleware(['auth:api'])->group(function () {
     Route::prefix('account')->controller(AccountController::class)->group(function () {
         Route::get('/show', 'show');
         Route::put('/update', 'update');
     });
 
     Route::prefix('rawg')
-        ->middleware(['ability:' . Permission::Admin->value])
         ->group(function () {
         Route::prefix('domain')->controller(RawgDomainController::class)->group(function() {
             Route::get('/genres', 'genres');

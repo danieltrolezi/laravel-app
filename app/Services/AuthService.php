@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\Permission;
 use App\Exceptions\InvalidCredentialsException;
 use Illuminate\Support\Facades\Auth;
+use Firebase\JWT\JWT;
 
 class AuthService
 {
@@ -12,26 +13,24 @@ class AuthService
      * @param array $credentials
      * @return string
      */
-    public function getAccessToken(array $credentials): array
+    public function generateJWT(array $credentials): array
     {
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-            $user->tokens()->delete();
-            $permissions = [Permission::Default->value];
 
-            if ($user->email === config('auth.root.email')) {
-                $permissions = Permission::values();
-            }
+            $payload = [
+                'iss' => env('APP_URL'),
+                'sub' => $user->getAuthIdentifier(),
+                'scp' => $user->scopes,
+                'iat' => time(),
+                'exp' => time() + 3600,
+            ];
 
-            $token = $user->createToken(
-                'default',
-                $permissions,
-                now()->addMinutes(config('sanctum.expiration'))
-            );
+            $jwt = JWT::encode($payload, config('app.key'), 'HS256');
 
             return [
-                'token'      => $token->plainTextToken,
-                'expires_at' => $token->accessToken->expires_at->format('U')
+                'token'      => $jwt,
+                'expires_at' => $payload['exp']
             ];
         }
 

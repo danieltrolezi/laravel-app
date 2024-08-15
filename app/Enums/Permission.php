@@ -11,5 +11,5 @@ enum Permission: string
     use BaseEnum;
 
     case Default = 'default';
-    case Admin = 'admin';
+    case Root = 'root';
 }

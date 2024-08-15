@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Enums\Permission;
 use App\Models\User;
+use App\Services\AuthService;
 use Illuminate\Console\Command;
 
 class CreateRoot extends Command
@@ -30,16 +31,20 @@ class CreateRoot extends Command
         $user = User::where('email', config('auth.root.email'))->first();
 
         if (!$user) {
-            $user = User::create([
-                'name'     => config('auth.root.name'),
-                'email'    => config('auth.root.email'),
-                'password' => bcrypt(config('auth.root.password')),
-            ]);
-
-            $token = $user->createToken('default', Permission::values())->plainTextToken;
+            $user = new User();
+            $user->name = config('auth.root.name');
+            $user->email = config('auth.root.email');
+            $user->password = bcrypt(config('auth.root.password'));
+            $user->scopes = json_encode(Permission::values());
+            $user->save();
 
             if (app()->environment('local')) {
-                $this->info('Token: ' . $token);
+                $token = resolve(AuthService::class)->generateJWT([
+                    'email'    => $user->email,
+                    'password' => $user->password
+                ]);
+
+                $this->info('JWT: ' . $token);
             }
         }
     }
