@@ -36,7 +36,7 @@ class CreateRoot extends Command
                 'password' => bcrypt(config('auth.root.password')),
             ]);
 
-            $token = $user->createToken('full-access', Permission::values())->plainTextToken;
+            $token = $user->createToken('default', Permission::values())->plainTextToken;
 
             if (app()->environment('local')) {
                 $this->info('Token: ' . $token);

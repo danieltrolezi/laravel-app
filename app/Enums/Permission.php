@@ -10,9 +10,6 @@ enum Permission: string
 {
     use BaseEnum;
 
-    case Create = 'create';
-    case Read = 'read';
-    case Update = 'update';
-    case Delete = 'delete';
-    case RawgRead = 'rawg:read';
+    case Default = 'default';
+    case Admin = 'admin';
 }
