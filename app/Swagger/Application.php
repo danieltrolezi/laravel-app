@@ -32,12 +32,31 @@ class Application
         name: 'games',
         description: 'rawg games routes'
     )]
+    #[OA\Tag(
+        name: 'auth',
+        description: 'authentication routes'
+    )]
+    #[OA\Tag(
+        name: 'account',
+        description: 'account management routes'
+    )]
     public function tags()
     {
     }
 
     #[OA\Get(
-        path: '/health',
+        path: '/up',
+        tags: ['application'],
+        responses: [
+            new OA\Response(response: 200, description: 'OK')
+        ]
+    )]
+    public function up()
+    {
+    }
+
+    #[OA\Get(
+        path: '/api/health',
         tags: ['application'],
         responses: [
             new OA\Response(response: 200, description: 'OK')

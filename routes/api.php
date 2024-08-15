@@ -3,6 +3,7 @@
 use App\Enums\Period;
 use App\Enums\Permission;
 use App\Enums\RawgGenre;
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RawgGamesController;
 use App\Http\Controllers\RawgDomainController;
@@ -10,9 +11,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::permanentRedirect('/docs', '/swagger/index.html');
 
+Route::post('/account/register', [AccountController::class, 'register']);
 Route::post('/auth/login', [AuthController::class, 'login']);
 
 Route::middleware(['auth:sanctum', 'ability:' . Permission::Default->value])->group(function () {
+    Route::prefix('account')->controller(AccountController::class)->group(function () {
+        Route::get('/show', 'show');
+        Route::put('/update', 'update');
+    });
+
     Route::prefix('rawg')
         ->middleware(['ability:' . Permission::Admin->value])
         ->group(function () {

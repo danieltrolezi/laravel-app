@@ -6,13 +6,25 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use OpenApi\Attributes as OA;
 
+#[OA\Schema()]
 class User extends Authenticatable
 {
     use HasApiTokens;
     use HasFactory;
     use Notifiable;
 
+    #[OA\Property(property: 'id', type: 'integer')]
+    #[OA\Property(property: 'name', type: 'string')]
+    #[OA\Property(property: 'email', type: 'string')]
+    #[OA\Property(property: 'email_verified_at', type: 'datetime')]
+    #[OA\Property(property: 'created_at', type: 'datetime')]
+    #[OA\Property(property: 'updated_at', type: 'datetime')]
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+    }
 
     /**
      * The attributes that are mass assignable.
