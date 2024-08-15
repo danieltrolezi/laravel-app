@@ -6,6 +6,98 @@ servers:
   -
     url: 'http://laravel-app.local'
 paths:
+  /api/account/show:
+    get:
+      tags:
+        - account
+      operationId: 7b10175533fd9d5dd4be1d8b950e90ec
+      responses:
+        '200':
+          description: 'Account data'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /api/account/register:
+    post:
+      tags:
+        - account
+      operationId: dd1184c14a98467480820df6a52e04bb
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  type: string
+                  nullable: false
+                email:
+                  type: string
+                  nullable: false
+                password:
+                  type: string
+                  format: password
+                  nullable: false
+              type: object
+      responses:
+        '201':
+          description: 'Account data'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      security: []
+  /api/account/update:
+    put:
+      tags:
+        - account
+      operationId: 5cfed2aa6285b24797f79bc20c3f7106
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  type: string
+                  nullable: true
+                email:
+                  type: string
+                  nullable: true
+                password:
+                  type: string
+                  format: password
+                  nullable: true
+              type: object
+      responses:
+        '200':
+          description: 'Account data'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /api/auth/login:
+    post:
+      tags:
+        - auth
+      operationId: 8dcb70df1020986038d098cc08d05dae
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                  format: password
+              type: object
+      responses:
+        '200':
+          description: 'Short-lived Access Token'
+      security: []
   /api/rawg/domain/genres:
     get:
       tags:
@@ -193,11 +285,19 @@ paths:
                 items:
                   properties: { id: { type: integer }, name: { type: string }, description: { type: string }, image: { type: string }, percent: { type: string } }
                   type: object
-  /health:
+  /up:
     get:
       tags:
         - application
-      operationId: eae7d70a8bdf26a7f224dbefa507cdb1
+      operationId: babf1c1e7a1e559b1836be5e2e457254
+      responses:
+        '200':
+          description: OK
+  /api/health:
+    get:
+      tags:
+        - application
+      operationId: cf1f080fb1aecf4993751251dedf0b57
       responses:
         '200':
           description: OK
@@ -209,6 +309,11 @@ components:
         - week
         - month
         - year
+    Permission:
+      type: string
+      enum:
+        - default
+        - admin
     Platform:
       type: string
       enum:
@@ -318,6 +423,24 @@ components:
               -
                 $ref: '#/components/schemas/Game'
       type: object
+    User:
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        email_verified_at:
+          type: string
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      type: object
   securitySchemes:
     bearerAuth:
       type: http
@@ -337,3 +460,9 @@ tags:
   -
     name: games
     description: 'rawg games routes'
+  -
+    name: auth
+    description: 'authentication routes'
+  -
+    name: account
+    description: 'account management routes'
