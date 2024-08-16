@@ -4,3 +4,4 @@ node_modules
 .vscode
 .phpunit.result.cache
 *info.php
+composer.lock
