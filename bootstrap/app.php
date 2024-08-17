@@ -40,8 +40,8 @@ return Application::configure(basePath: dirname(__DIR__))
                         'trace'     => $e->getTraceAsString()
                     ]);
                 }
-            }
 
-            return response()->json($response, $e->getStatusCode());
+                return response()->json($response, $e->getStatusCode());
+            }            
         });
     })->create();
