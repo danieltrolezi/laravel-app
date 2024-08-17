@@ -1,14 +1,11 @@
 <?php
 
-use App\Exceptions\InvalidCredentialsException;
 use App\Http\Middleware\CheckScopesMiddleware;
-use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use Illuminate\Http\Response;
-use Illuminate\Validation\UnauthorizedException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -35,13 +32,23 @@ return Application::configure(basePath: dirname(__DIR__))
             return $request->expectsJson();
         });
 
-        $exceptions->render(function (
-            InvalidCredentialsException|AuthenticationException|UnauthorizedException $e, 
-            Request $request
-        ) 
+        $exceptions->render(function (HttpException $e, Request $request)
         {
-            return response()->json([
-                'message' => $e->getMessage()
-            ], Response::HTTP_UNAUTHORIZED);
+            if($request->is('api/*')) {
+                $response = [
+                    'message' => $e->getMessage()
+                ];
+    
+                if(config('app.debug')) {
+                    $response = array_merge($response, [
+                        'exception' => get_class($e),
+                        'file'      => $e->getFile(),
+                        'line'      => $e->getLine(),
+                        'trace'     => $e->getTraceAsString()
+                    ]);
+                }
+            }
+
+            return response()->json($response, $e->getStatusCode());
         });
     })->create();

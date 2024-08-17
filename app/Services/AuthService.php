@@ -3,10 +3,10 @@
 namespace App\Services;
 
 use App\Exceptions\InvalidCredentialsException;
+use App\Exceptions\InvalidScopeException;
 use Illuminate\Support\Facades\Auth;
 use Firebase\JWT\JWT;
 use Illuminate\Auth\AuthenticationException;
-use Illuminate\Validation\UnauthorizedException;
 
 class AuthService
 {
@@ -37,18 +37,24 @@ class AuthService
         throw new InvalidCredentialsException();
     }
 
-    public function checkScopes(...$scopes): void
+    /**
+     * @param [string] ...$scopes
+     * @return boolean
+     */
+    public function checkScopes(...$scopes): bool
     {
         $user = Auth::user();
 
         if (!$user) {
-            throw new AuthenticationException('Unauthenticated');
+            throw new AuthenticationException();
         }
 
         foreach ($scopes as $scope) {
             if (!in_array($scope, $user->scopes)) {
-                throw new UnauthorizedException('Unautorized');
+                throw new InvalidScopeException();
             }
         }
+
+        return true;
     }
 }
