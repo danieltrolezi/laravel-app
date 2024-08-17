@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -22,5 +23,25 @@ return Application::configure(basePath: dirname(__DIR__))
             }
 
             return $request->expectsJson();
+        });
+
+        $exceptions->render(function (HttpException $e, Request $request)
+        {
+            if($request->is('api/*')) {
+                $response = [
+                    'message' => $e->getMessage()
+                ];
+    
+                if(config('app.debug')) {
+                    $response = array_merge($response, [
+                        'exception' => get_class($e),
+                        'file'      => $e->getFile(),
+                        'line'      => $e->getLine(),
+                        'trace'     => $e->getTraceAsString()
+                    ]);
+                }
+            }
+
+            return response()->json($response, $e->getStatusCode());
         });
     })->create();
