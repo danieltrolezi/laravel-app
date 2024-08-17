@@ -14,28 +14,31 @@ use Spatie\Health\Http\Controllers\HealthCheckJsonResultsController;
 Route::permanentRedirect('/docs', '/swagger/index.html');
 
 Route::get('/health', HealthCheckJsonResultsController::class);
-Route::post('/account/register', [AccountController::class, 'register']);
-Route::post('/auth/login', [AuthController::class, 'login']);
 
-Route::middleware(['auth:api', 'scopes:' . Scope::Default->value])->group(function () {
-    Route::prefix('account')->controller(AccountController::class)->group(function () {
-        Route::get('/show', 'show');
-        Route::put('/update', 'update');
-    });
+Route::middleware(['throttle:api'])->group(function () {
+    Route::post('/account/register', [AccountController::class, 'register']);
+    Route::post('/auth/login', [AuthController::class, 'login']);
 
-    Route::prefix('rawg')
-        ->middleware(['scopes:' . Scope::Root->value])
-        ->group(function () {
-        Route::prefix('domain')->controller(RawgDomainController::class)->group(function() {
-            Route::get('/genres', 'genres');
-            Route::get('/tags', 'tags');
-            Route::get('/platforms', 'platforms');
+    Route::middleware(['auth:api', 'scopes:' . Scope::Default->value])->group(function () {
+        Route::prefix('account')->controller(AccountController::class)->group(function () {
+            Route::get('/show', 'show');
+            Route::put('/update', 'update');
         });
 
-        Route::prefix('games')->controller(RawgGamesController::class)->group(function () {
-            Route::get('/recommendations/{genre}', 'recommendations')->where('genre', RawgGenre::valuesAsString('|'));
-            Route::get('/upcoming-releases/{period}', 'upcomingReleases')->where('period', Period::valuesAsString('|'));
-            Route::get('/{game}/achievements', 'achievements');
+        Route::prefix('rawg')
+            ->middleware(['scopes:' . Scope::Root->value])
+            ->group(function () {
+            Route::prefix('domain')->controller(RawgDomainController::class)->group(function() {
+                Route::get('/genres', 'genres');
+                Route::get('/tags', 'tags');
+                Route::get('/platforms', 'platforms');
+            });
+
+            Route::prefix('games')->controller(RawgGamesController::class)->group(function () {
+                Route::get('/recommendations/{genre}', 'recommendations')->where('genre', RawgGenre::valuesAsString('|'));
+                Route::get('/upcoming-releases/{period}', 'upcomingReleases')->where('period', Period::valuesAsString('|'));
+                Route::get('/{game}/achievements', 'achievements');
+            });
         });
     });
 });

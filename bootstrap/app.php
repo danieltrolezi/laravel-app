@@ -23,6 +23,8 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->redirectGuestsTo(fn() => response());
+        
+        $middleware->throttleWithRedis();
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->shouldRenderJsonWhen(function (Request $request, Throwable $e) {

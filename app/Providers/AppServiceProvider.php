@@ -3,8 +3,11 @@
 namespace App\Providers;
 
 use App\Guards\JwtGuard;
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Spatie\Health\Checks\Checks\DatabaseCheck;
 use Spatie\Health\Checks\Checks\EnvironmentCheck;
@@ -29,6 +32,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->setHealthCheck();
         $this->setJwtGuard();
+        $this->setRateLimit();
     }
 
     private function setHealthCheck(): void
@@ -54,6 +58,23 @@ class AppServiceProvider extends ServiceProvider
                 Auth::createUserProvider($config['provider']),
                 $app['request']
             );
+        });
+    }
+
+    private function setRateLimit(): void
+    {
+        RateLimiter::for('api', function (Request $request) {
+            $limit = config('app.rate_limit');
+
+            if ($request->user()) {
+                $user = $request->user();
+
+                return $user->isRoot()
+                    ? Limit::none()
+                    : Limit::perMinute($limit)->by($user()->id);
+            }
+
+            return Limit::perMinute($limit)->by($request->ip());
         });
     }
 }
