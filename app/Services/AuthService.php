@@ -6,10 +6,20 @@ use App\Exceptions\InvalidCredentialsException;
 use App\Exceptions\InvalidScopeException;
 use Illuminate\Support\Facades\Auth;
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use Illuminate\Auth\AuthenticationException;
+use stdClass;
 
 class AuthService
 {
+    private const HASH_ALGO = 'HS256';
+    private string $key;
+
+    public function __construct()
+    {
+        $this->key = config('app.key');
+    }
+
     /**
      * @param array $credentials
      * @return string
@@ -26,7 +36,7 @@ class AuthService
                 'exp' => time() + 3600,
             ];
 
-            $jwt = JWT::encode($payload, config('app.key'), 'HS256');
+            $jwt = JWT::encode($payload, $this->key, self::HASH_ALGO);
 
             return [
                 'token'      => $jwt,
@@ -35,6 +45,15 @@ class AuthService
         }
 
         throw new InvalidCredentialsException();
+    }
+
+    /**
+     * @param string $token
+     * @return stdClass
+     */
+    public function decodeJWT(string $token): stdClass
+    {
+        return JWT::decode($token, new Key($this->key, self::HASH_ALGO));
     }
 
     /**

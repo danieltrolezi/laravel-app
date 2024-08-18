@@ -19,7 +19,7 @@ Route::middleware(['throttle:api'])->group(function () {
     Route::post('/account/register', [AccountController::class, 'register']);
     Route::post('/auth/login', [AuthController::class, 'login']);
 
-    Route::middleware(['auth:api', 'scopes:' . Scope::Default->value])->group(function () {
+    Route::middleware(['auth', 'scopes:' . Scope::Default->value])->group(function () {
         Route::prefix('account')->controller(AccountController::class)->group(function () {
             Route::get('/show', 'show');
             Route::put('/update', 'update');

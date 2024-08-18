@@ -2,21 +2,34 @@
 
 namespace App\Guards;
 
+use App\Services\AuthService;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Http\Request;
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
 use Illuminate\Contracts\Auth\Authenticatable;
 
 class JwtGuard implements Guard
 {
     protected ?Authenticatable $user = null;
+    protected AuthService $authService;
 
     public function __construct(
         protected UserProvider $provider,
         protected Request $request
     ) {
+        $this->authService = resolve(AuthService::class);
+    }
+
+    public function attempt(array $credentials = [])
+    {
+        $user = $this->provider->retrieveByCredentials($credentials);
+
+        if ($user && $this->provider->validateCredentials($user, $credentials)) {
+            $this->user = $user;
+            return true;
+        }
+
+        return false;
     }
 
     public function check()
@@ -42,7 +55,7 @@ class JwtGuard implements Guard
         }
 
         try {
-            $jwt = JWT::decode($token, new Key(config('app.key'), 'HS256'));
+            $jwt = $this->authService->decodeJWT($token);
             $this->user = $this->provider->retrieveById($jwt->sub);
         } catch (\Exception $e) {
             return null;
@@ -53,11 +66,7 @@ class JwtGuard implements Guard
 
     public function id()
     {
-        if ($this->hasUser()) {
-            return $this->user->getAuthIdentifier();
-        }
-
-        return null;
+        return $this->user()?->getAuthIdentifier();
     }
 
     public function validate(array $credentials = [])
@@ -65,7 +74,7 @@ class JwtGuard implements Guard
         return false;
     }
 
-    public function setUser(Authenticatable $user): self
+    public function setUser(Authenticatable $user)
     {
         $this->user = $user;
         return $this;
