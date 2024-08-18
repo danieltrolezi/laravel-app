@@ -130,5 +130,8 @@ return [
     |
     */
 
-    'rate_limit' => env('RATE_LIMIT', 100)
+    'rate_limit' => [
+        'user'  => env('RATE_LIMIT_USER', 100),
+        'guest' => env('RATE_LIMIT_GUEST', 10)
+    ]
 ];

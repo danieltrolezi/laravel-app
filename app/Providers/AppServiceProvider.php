@@ -64,17 +64,15 @@ class AppServiceProvider extends ServiceProvider
     private function setRateLimit(): void
     {
         RateLimiter::for('api', function (Request $request) {
-            $limit = config('app.rate_limit');
-
             if ($request->user()) {
                 $user = $request->user();
 
                 return $user->isRoot()
                     ? Limit::none()
-                    : Limit::perMinute($limit)->by($user()->id);
+                    : Limit::perMinute(config('app.rate_limit.user'))->by($user()->id);
             }
 
-            return Limit::perMinute($limit)->by($request->ip());
+            return Limit::perMinute(config('app.rate_limit.guest'))->by($request->ip());
         });
     }
 }
