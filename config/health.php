@@ -9,7 +9,7 @@ return [
     'result_stores' => [
         Spatie\Health\ResultStores\EloquentHealthResultStore::class => [
             'connection' => env('HEALTH_DB_CONNECTION', env('DB_CONNECTION')),
-            'model' => Spatie\Health\Models\HealthCheckResultHistoryItem::class,
+            'model' => App\Models\HealthCheck::class,
             'keep_history_for_days' => 5,
         ],
 
