@@ -77,6 +77,41 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+  /api/account/settings:
+    put:
+      tags:
+        - account
+      operationId: 2eacf149a4144a183a782362f4140e28
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                platforms:
+                  type: array
+                  items: { type: string, enum: [pc, playstation5, xbox-series-x, switch] }
+                  nullable: true
+                genres:
+                  type: array
+                  items: { type: string, enum: [racing, shooter, adventure, action, rpg, fighting, puzzle, strategy, arcade, simulation, sports, card, family, board-games, educational, casual, indie, massively-multiplayer, platformer] }
+                  nullable: true
+                period:
+                  type: string
+                  enum: [next-7-days, next-30-days, next-12-months]
+                  nullable: true
+                frequency:
+                  type: string
+                  enum: [none, daily, weekly, monthly]
+                  nullable: true
+              type: object
+      responses:
+        '200':
+          description: 'Account data'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
   /api/auth/login:
     post:
       tags:
@@ -96,7 +131,7 @@ paths:
               type: object
       responses:
         '200':
-          description: 'Short-lived Access Token'
+          description: JWT
       security: []
   /api/rawg/domain/genres:
     get:
@@ -303,17 +338,19 @@ paths:
           description: OK
 components:
   schemas:
+    Frequency:
+      type: string
+      enum:
+        - none
+        - daily
+        - weekly
+        - monthly
     Period:
       type: string
       enum:
-        - week
-        - month
-        - year
-    Permission:
-      type: string
-      enum:
-        - default
-        - admin
+        - next-7-days
+        - next-30-days
+        - next-12-months
     Platform:
       type: string
       enum:
@@ -365,6 +402,11 @@ components:
         - 187
         - 186
         - 7
+    Scope:
+      type: string
+      enum:
+        - default
+        - root
     SortOrder:
       type: string
       enum:
@@ -440,6 +482,61 @@ components:
         updated_at:
           type: string
           format: date-time
+        settings:
+          $ref: '#/components/schemas/UserSetting'
+      type: object
+    UserSetting:
+      properties:
+        id:
+          type: integer
+        user_id:
+          type: integer
+        platforms:
+          type: array
+          items:
+            type: string
+            enum:
+              - pc
+              - playstation5
+              - xbox-series-x
+              - switch
+        genres:
+          type: array
+          items:
+            type: string
+            enum:
+              - racing
+              - shooter
+              - adventure
+              - action
+              - rpg
+              - fighting
+              - puzzle
+              - strategy
+              - arcade
+              - simulation
+              - sports
+              - card
+              - family
+              - board-games
+              - educational
+              - casual
+              - indie
+              - massively-multiplayer
+              - platformer
+        period:
+          type: string
+          enum:
+            - next-7-days
+            - next-30-days
+            - next-12-months
+        frequency:
+          type: string
+          enum:
+            - none
+            - daily
+            - weekly
+            - monthly
       type: object
   securitySchemes:
     bearerAuth:
