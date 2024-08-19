@@ -1,7 +1,6 @@
 <?php
 
 use App\Enums\Period;
-use App\Enums\Permission;
 use App\Enums\RawgGenre;
 use App\Enums\Scope;
 use App\Http\Controllers\AccountController;
