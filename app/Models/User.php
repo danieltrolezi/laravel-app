@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -15,17 +16,6 @@ class User extends Authenticatable
     use HasApiTokens;
     use HasFactory;
     use Notifiable;
-
-    #[OA\Property(property: 'id', type: 'integer')]
-    #[OA\Property(property: 'name', type: 'string')]
-    #[OA\Property(property: 'email', type: 'string')]
-    #[OA\Property(property: 'email_verified_at', type: 'datetime')]
-    #[OA\Property(property: 'created_at', type: 'datetime')]
-    #[OA\Property(property: 'updated_at', type: 'datetime')]
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-    }
 
     /**
      * The attributes that are mass assignable.
@@ -49,6 +39,25 @@ class User extends Authenticatable
     ];
 
     /**
+     * @var array
+     */
+    protected $with = [
+        'settings'
+    ];
+
+    #[OA\Property(property: 'id', type: 'integer')]
+    #[OA\Property(property: 'name', type: 'string')]
+    #[OA\Property(property: 'email', type: 'string')]
+    #[OA\Property(property: 'email_verified_at', type: 'datetime')]
+    #[OA\Property(property: 'created_at', type: 'datetime')]
+    #[OA\Property(property: 'updated_at', type: 'datetime')]
+    #[OA\Property(property: 'settings', ref: '#/components/schemas/UserSetting')]
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+    }
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
@@ -68,5 +77,13 @@ class User extends Authenticatable
     public function isRoot(): bool
     {
         return in_array(Scope::Root->value, $this->scopes);
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function settings(): HasOne
+    {
+        return $this->hasOne(UserSetting::class);
     }
 }

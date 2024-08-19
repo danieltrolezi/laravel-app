@@ -22,7 +22,7 @@ class RawgGamesService extends RawgBaseService
     ): PaginatedResponse {
         $query = $this->filterService->getQueryFilters(filters: $filters, default: [
             RawgField::Dates->value    => date('Y-m-d', strtotime('-1 year')) . ',' . date('Y-m-d'),
-            RawgField::Genres->value    => $genre,
+            RawgField::Genres->value   => $genre,
             RawgField::Ordering->value => 'updated',
             RawgField::PageSize->value => 5,
             RawgField::Page->value     => 1
@@ -50,6 +50,7 @@ class RawgGamesService extends RawgBaseService
         string $period = Period::Week->value,
         array $filters = []
     ): PaginatedResponse {
+        $period = strtolower(Period::from($period)->name);
         $query = $this->filterService->getQueryFilters(filters: $filters, default: [
             RawgField::Dates->value    => date('Y-m-d') . ',' . date('Y-m-d', strtotime('+1 ' . $period)),
             RawgField::Ordering->value => 'released',

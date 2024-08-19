@@ -2,8 +2,14 @@
 
 namespace App\Repositories;
 
+use App\Enums\Frequency;
+use App\Enums\Period;
+use App\Enums\Platform;
+use App\Enums\RawgGenre;
 use App\Enums\Scope;
 use App\Models\User;
+use Exception;
+use Illuminate\Support\Facades\DB;
 
 class UserRepository
 {
@@ -13,12 +19,23 @@ class UserRepository
      */
     public function create(array $data): User
     {
-        $user = new User();
-        $user->name = $data['name'];
-        $user->email = $data['email'];
-        $user->password = bcrypt($data['password']);
-        $user->scopes = [Scope::Default->value];
-        $user->save();
+        DB::beginTransaction();
+
+        try {
+            $user = new User();
+            $user->name = $data['name'];
+            $user->email = $data['email'];
+            $user->password = bcrypt($data['password']);
+            $user->scopes = [Scope::Default->value];
+            $user->save();
+
+            $this->createDefaultSettings($user);
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
 
         return $user;
     }
@@ -27,7 +44,13 @@ class UserRepository
     {
         $user = User::where('email', config('auth.root.email'))->first();
 
-        if (!$user) {
+        if ($user) {
+            return false;
+        }
+
+        DB::beginTransaction();
+
+        try {
             $user = new User();
             $user->name = config('auth.root.name');
             $user->email = config('auth.root.email');
@@ -35,10 +58,27 @@ class UserRepository
             $user->scopes = Scope::values();
             $user->save();
 
-            return true;
+            $this->createDefaultSettings($user);
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
         }
 
-        return false;
+        return true;
+    }
+
+    private function createDefaultSettings(User $user): void
+    {
+        $user->settings()->create([
+            'platforms' => Platform::values(),
+            'genres'    => RawgGenre::values(),
+            'period'    => Period::Month->value,
+            'frequency' => Frequency::Monthly->value
+        ]);
+
+        $user->load('settings');
     }
 
     /**
@@ -53,6 +93,19 @@ class UserRepository
         }
 
         $user->update($data);
+
+        return $user;
+    }
+
+    /**
+     * @param User $user
+     * @param array $data
+     * @return User
+     */
+    public function updateSettings(User $user, array $data): User
+    {
+        $user->settings()->update($data);
+        $user->refresh();
 
         return $user;
     }

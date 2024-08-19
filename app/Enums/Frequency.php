@@ -6,11 +6,12 @@ use App\Enums\Traits\BaseEnum;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(type: 'string')]
-enum Period: string
+enum Frequency: string
 {
     use BaseEnum;
 
-    case Week = 'next-7-days';
-    case Month = 'next-30-days';
-    case Year = 'next-12-months';
+    case None = 'none';
+    case Daily = 'daily';
+    case Weekly = 'weekly';
+    case Monthly = 'monthly';
 }
