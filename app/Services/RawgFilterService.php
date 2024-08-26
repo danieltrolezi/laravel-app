@@ -78,6 +78,6 @@ class RawgFilterService
      */
     private function parsePlatform(Platform $platform): RawgPlatform
     {
-        return RawgPlatform::fromName($platform->name);
+        return RawgPlatform::{$platform->name};
     }
 }

@@ -2,8 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Enums\Scope;
-use App\Models\User;
 use App\Repositories\UserRepository;
 use App\Services\AuthService;
 use Illuminate\Console\Command;
@@ -31,7 +29,7 @@ class CreateRoot extends Command
     {
         $created = resolve(UserRepository::class)->createRoot();
 
-        if ($created && app()->environment('local')) {
+        if ($created && app()->environment(['local', 'testing'])) {
             $jwt = resolve(AuthService::class)->generateJWT([
                 'email'    => config('auth.root.email'),
                 'password' => config('auth.root.password')
