@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Models\User;
 use Faker\Factory;
 use Faker\Generator;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
@@ -14,5 +15,14 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
         $this->faker = Factory::create();
+    }
+
+    protected function createUser(?string $password = null)
+    {
+        $data = !empty($password)
+            ? ['password' => bcrypt($password)]
+            : [];
+
+        return User::factory()->hasSettings(1)->create($data)->load('settings');
     }
 }

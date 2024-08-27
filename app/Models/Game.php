@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 use OpenApi\Attributes as OA;
@@ -9,6 +10,8 @@ use OpenApi\Attributes as OA;
 #[OA\Schema()]
 class Game
 {
+    use HasFactory;
+
     public readonly int $id;
     public readonly string $name;
     public readonly string $slug;

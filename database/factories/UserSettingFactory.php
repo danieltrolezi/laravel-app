@@ -2,10 +2,14 @@
 
 namespace Database\Factories;
 
+use App\Enums\Frequency;
+use App\Enums\Period;
+use App\Enums\Platform;
+use App\Enums\RawgGenre;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\UserSetting>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Game>
  */
 class UserSettingFactory extends Factory
 {
@@ -17,7 +21,10 @@ class UserSettingFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'platforms' => Platform::values(),
+            'genres'    => RawgGenre::values(),
+            'period'    => Period::Month->value,
+            'frequency' => Frequency::Monthly->value
         ];
     }
 }
