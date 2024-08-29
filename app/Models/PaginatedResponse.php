@@ -9,6 +9,8 @@ use OpenApi\Attributes as OA;
 #[OA\Schema()]
 class PaginatedResponse
 {
+    private int $lastPage;
+
     #[OA\Property(property: 'total', type: 'integer')]
     #[OA\Property(property: 'page_size', type: 'integer')]
     #[OA\Property(property: 'current_page', type: 'integer')]
@@ -24,9 +26,10 @@ class PaginatedResponse
     public function __construct(
         private Collection $data,
         private int $pageSize,
-        private int $page,
+        private int $curentPage,
         private int $total
     ) {
+        $this->lastPage = ceil($this->total / $this->pageSize);
     }
 
     /**
@@ -37,9 +40,10 @@ class PaginatedResponse
         return [
             'total'         => $this->total,
             'page_size'     => $this->pageSize,
-            'current_page'  => $this->page,
-            'last_page'     => ceil($this->total / $this->pageSize),
-            'next_pageint_url' => $this->getPageUrl(-1),
+            'current_page'  => $this->curentPage,
+            'last_page'     => $this->lastPage,
+            'next_page_url' => $this->getPageUrl(1),
+            'prev_page_url' => $this->getPageUrl(-1),
             'data'          => $this->data
         ];
     }
@@ -50,16 +54,27 @@ class PaginatedResponse
      */
     private function getPageUrl(int $pageIncrement): string
     {
-        if ($this->page === 1 && $pageIncrement < 0) {
+        if (
+            $this->isFirstPageAndPrevLink($pageIncrement)
+            || $this->isLastPageAndNextLink($pageIncrement)
+        ) {
             return '';
         }
 
-        $request = resolve(Request::class);
-        $query = $request->query();
+        $query = request()->query();
         $url = url()->current();
-
-        $query['page'] = $this->page + $pageIncrement;
+        $query['page'] = $this->curentPage + $pageIncrement;
 
         return $url . '?' . http_build_query($query);
+    }
+
+    private function isFirstPageAndPrevLink(int $pageIncrement): bool
+    {
+        return $this->curentPage === 1 && $pageIncrement < 0;
+    }
+
+    private function isLastPageAndNextLink(int $pageIncrement): bool
+    {
+        return $this->curentPage >= $this->lastPage && $pageIncrement > 0;
     }
 }

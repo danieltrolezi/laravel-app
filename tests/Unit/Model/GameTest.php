@@ -1,6 +1,6 @@
 <?php
 
-namespace Test\Unit\Models;
+namespace Tests\Unit\Models;
 
 use App\Models\Game;
 use Database\Factories\GameFactory;
