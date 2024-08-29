@@ -16,7 +16,7 @@ class RawgAchievementService extends RawgBaseService
      */
     public function getGameAchievements(
         string $game,
-        array $order
+        array $order = []
     ): Collection {
         $response = $this->call(uri: 'games/' . $game . '/achievements');
 

@@ -11,17 +11,13 @@ abstract class RawgBaseService
 
     protected string $apiKey;
     protected string $apiHost;
-    protected Client $client;
 
     public function __construct(
-        protected RawgFilterService $filterService
+        protected RawgFilterService $filterService,
+        protected Client $client
     ) {
         $this->apiHost = config('services.rawg.host');
         $this->apiKey = config('services.rawg.key');
-
-        $this->client = new Client([
-            'base_uri' => $this->apiHost . '/api/'
-        ]);
     }
 
     /**
@@ -38,7 +34,8 @@ abstract class RawgBaseService
         $contents = $this->getCacheContents($uri, $data);
 
         if (empty($contents)) {
-            $res = $this->client->request($method, $uri, [
+            $endpoint = $this->apiHost . '/api/' . $uri;
+            $res = $this->client->request($method, $endpoint, [
                 'query' => array_merge($data['query'], [
                     'key' => $this->apiKey
                 ])
