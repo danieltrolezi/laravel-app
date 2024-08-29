@@ -4,6 +4,7 @@ namespace Tests\Unit\Console\Commands;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Artisan;
+use PHPUnit\Framework\Attributes\Depends;
 use Tests\TestCase;
 
 class CreateRootTest extends TestCase

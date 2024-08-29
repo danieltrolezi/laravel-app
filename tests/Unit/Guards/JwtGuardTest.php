@@ -28,7 +28,7 @@ class JwtGuardTest extends TestCase
 
     public function test_attempt_should_succeed()
     {
-        $password = $this->faker->text(12);
+        $password = $this->faker->password(8, 12);
         $user = $this->createUser($password);
 
         $this->assertTrue(
@@ -46,7 +46,7 @@ class JwtGuardTest extends TestCase
         $this->assertFalse(
             $this->guard->attempt([
                 'email'    => $user->email,
-                'password' => $this->faker->text(12)
+                'password' => $this->faker->password(8, 12)
             ])
         );
     }
@@ -105,7 +105,7 @@ class JwtGuardTest extends TestCase
 
     public function test_user_should_return_user_using_jwt()
     {
-        $password = $this->faker->text(12);
+        $password = $this->faker->password(8, 12);
         $user = $this->createUser($password);
 
         $jwt = resolve(AuthService::class)->generateJWT([

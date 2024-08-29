@@ -8,6 +8,7 @@ use Faker\Factory;
 use Faker\Generator;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Collection;
+use Illuminate\Foundation\Testing\RefreshApplication;
 
 abstract class TestCase extends BaseTestCase
 {

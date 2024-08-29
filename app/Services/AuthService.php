@@ -22,7 +22,7 @@ class AuthService
 
     /**
      * @param array $credentials
-     * @return string
+     * @return array
      */
     public function generateJWT(array $credentials): array
     {
