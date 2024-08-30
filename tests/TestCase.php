@@ -29,7 +29,10 @@ abstract class TestCase extends BaseTestCase
             ? ['password' => bcrypt($password)]
             : [];
 
-        return User::factory()->hasSettings(1)->create($data)->load('settings');
+        return User::factory()
+            ->hasSettings(1)
+            ->create($data)
+            ->load('settings');
     }
 
     protected function createGameCollection(int $total): Collection
