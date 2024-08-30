@@ -12,12 +12,15 @@ use stdClass;
 
 class AuthService
 {
-    private const HASH_ALGO = 'HS256';
     private string $key;
+    private string $algorithm;
+    private int $ttl;
 
     public function __construct()
     {
         $this->key = config('app.key');
+        $this->algorithm = config('auth.jwt.algorithm');
+        $this->ttl = config('auth.jwt.ttl');
     }
 
     /**
@@ -32,15 +35,18 @@ class AuthService
             $payload = [
                 'iss' => env('APP_URL'),
                 'sub' => $user->getAuthIdentifier(),
-                'iat' => time(),
-                'exp' => time() + 3600,
+                'iat' => time()
             ];
 
-            $jwt = JWT::encode($payload, $this->key, self::HASH_ALGO);
+            if (config('auth.jwt.expires')) {
+                $payload['exp'] = time() + $this->ttl;
+            }
+
+            $jwt = JWT::encode($payload, $this->key, $this->algorithm);
 
             return [
                 'token'      => $jwt,
-                'expires_at' => $payload['exp']
+                'expires_at' => isset($payload['exp']) ? $payload['exp'] : 'never'
             ];
         }
 
@@ -53,7 +59,7 @@ class AuthService
      */
     public function decodeJWT(string $token): stdClass
     {
-        return JWT::decode($token, new Key($this->key, self::HASH_ALGO));
+        return JWT::decode($token, new Key($this->key, $this->algorithm));
     }
 
     /**
