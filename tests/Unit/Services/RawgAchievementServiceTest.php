@@ -2,13 +2,10 @@
 
 namespace Tests\Unit\Services;
 
+use App\Enums\SortOrder;
 use App\Services\RawgAchievementService;
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Psr7\Stream;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
-use Mockery;
 use Tests\TestCase;
 
 class RawgAchievementServiceTest extends TestCase
@@ -21,14 +18,14 @@ class RawgAchievementServiceTest extends TestCase
 
         Config::set('services.rawg.host', $this->faker->url());
         Config::set('services.rawg.api_key', $this->faker->password(8, 12));
+
+        $this->service = resolve(RawgAchievementService::class, [
+            'client' => $this->createClientMock('rawg_achievements.json')
+        ]);
     }
 
     public function test_should_return_achievements()
     {
-        $this->service = resolve(RawgAchievementService::class, [
-            'client' => $this->createClientMock()
-        ]);
-
         $result = $this->service->getGameAchievements($this->faker->name());
 
         $this->assertInstanceOf(Collection::class, $result);
@@ -36,28 +33,37 @@ class RawgAchievementServiceTest extends TestCase
 
         $item = $result->first();
 
-        $this->assertArrayHasKey('id', $item);
-        $this->assertArrayHasKey('name', $item);
-        $this->assertArrayHasKey('description', $item);
-        $this->assertArrayHasKey('image', $item);
-        $this->assertArrayHasKey('percent', $item);
+        $this->assertEquals(126805, $item['id']);
+        $this->assertEquals('Master Marksman', $item['name']);
+        $this->assertEquals('Kill 50 human and nonhuman opponents by striking ' .
+                            'them in the head with a crossbow bolt.', $item['description']);
+        $this->assertEquals('https://media.rawg.io/media/achievements/' .
+                            '233/23314da942731f8ce34378917a703aaf.jpg', $item['image']);
+        $this->assertEquals('9.14', $item['percent']);
     }
 
-    private function createClientMock()
+    public function test_should_order_achievements()
     {
-        $contents = file_get_contents(
-            storage_path('tests/rawg_achievements.json')
+        $result = $this->service->getGameAchievements(
+            $this->faker->name(),
+            [
+                'order_by'   => 'percent',
+                'sort_order' => SortOrder::DESC->value
+            ]
         );
 
-        $body = Mockery::mock(Stream::class)->makePartial();
-        $body->shouldReceive('getContents')->andReturn($contents);
+        $result = $result->pluck('id')->toArray();
 
-        $response = Mockery::mock(Response::class)->makePartial();
-        $response->shouldReceive('getBody')->andReturn($body);
-
-        $client = Mockery::mock(Client::class)->makePartial();
-        $client->shouldReceive('request')->andReturn($response);
-
-        return $client;
+        $this->assertEquals([
+            152157,
+            152158,
+            140771,
+            148021,
+            140770,
+            135938,
+            126805,
+            177407,
+            167134,
+        ], $result);
     }
 }

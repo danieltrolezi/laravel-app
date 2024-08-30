@@ -15,7 +15,7 @@ class PaginatedResponseTest extends TestCase
         int $currentPage
     ) {
         $lastPage = ceil($total / $pageSize);
-        $games = $this->generateGameCollection($total);
+        $games = $this->createGameCollection($total);
 
         $url = url()->current();
         $nextPageUrl = $prevPageUrl = '';
