@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Enums\Scope;
 use App\Models\Game;
 use App\Models\User;
 use Faker\Factory;
@@ -33,6 +34,13 @@ abstract class TestCase extends BaseTestCase
             ->hasSettings(1)
             ->create($data)
             ->load('settings');
+    }
+
+    protected function createRootUser()
+    {
+        return User::factory()->hasSettings(1)->create([
+            'scopes' => Scope::values()
+        ])->load('settings');
     }
 
     protected function createGameCollection(int $total): Collection

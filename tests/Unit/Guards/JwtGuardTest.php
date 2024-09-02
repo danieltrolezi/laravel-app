@@ -130,8 +130,6 @@ class JwtGuardTest extends TestCase
 
     public function test_user_should_return_null_invalid_jwt()
     {
-        $this->createUser()->save();
-
         $request = Mockery::mock(\Illuminate\Http\Request::class)->makePartial();
         $request->shouldReceive('bearerToken')
                 ->andReturn($this->faker->text(12));
@@ -155,8 +153,7 @@ class JwtGuardTest extends TestCase
 
     public function test_should_set_user()
     {
-        $user = User::factory()->create();
-
+        $user = $this->createUser();
         $this->guard->setUser($user);
 
         $this->assertEquals(
@@ -181,7 +178,7 @@ class JwtGuardTest extends TestCase
 
     public function test_has_user_should_return_true()
     {
-        $user = User::factory()->create();
+        $user = $this->createUser();
         $this->guard->setUser($user);
 
         $this->assertTrue(

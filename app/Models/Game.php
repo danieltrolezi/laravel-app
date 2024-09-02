@@ -15,7 +15,7 @@ class Game
     public readonly int $id;
     public readonly string $name;
     public readonly string $slug;
-    public readonly ?string $backgroundImage;
+    public readonly ?string $background_image;
     public readonly ?string $released;
     public readonly ?array $platforms;
     public readonly ?array $stores;
@@ -79,7 +79,7 @@ class Game
     private function setData(array $data): void
     {
         foreach ($data as $key => $value) {
-            $this->{Str::camel($key)} = $value;
+            $this->$key = $value;
         }
     }
 }

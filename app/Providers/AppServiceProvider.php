@@ -69,7 +69,7 @@ class AppServiceProvider extends ServiceProvider
 
                 return $user->isRoot()
                     ? Limit::none()
-                    : Limit::perMinute(config('app.rate_limit.user'))->by($user()->id);
+                    : Limit::perMinute(config('app.rate_limit.user'))->by($user->id);
             }
 
             return Limit::perMinute(config('app.rate_limit.guest'))->by($request->ip());

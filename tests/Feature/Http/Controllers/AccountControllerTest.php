@@ -5,30 +5,23 @@ namespace Tests\Feature\Http\Controllers;
 use App\Enums\Platform;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
 
 class AccountControllerTest extends TestCase
 {
     use DatabaseMigrations;
 
+    private User $user;
+
     public function setUp(): void
     {
         parent::setUp();
-        $this->seed();
-    }
-
-    private function logUserIn()
-    {
-        $user = User::first();
-        Auth::setUser($user);
-        return $user;
+        $this->user = $this->createUser();
     }
 
     public function test_should_return_authenticated_user()
     {
-        $user = $this->logUserIn();
-        $response = $this->get('/api/account/show');
+        $response = $this->actingAs($this->user)->get('/api/account/show');
 
         $response->assertStatus(200);
         $response->assertJsonStructure([
@@ -43,7 +36,7 @@ class AccountControllerTest extends TestCase
         ]);
 
         $response->assertJsonFragment([
-            'id' => $user->id
+            'id' => $this->user->id
         ]);
     }
 
@@ -69,8 +62,7 @@ class AccountControllerTest extends TestCase
 
     public function test_should_update_user()
     {
-        $user = $this->logUserIn();
-        $response = $this->put('/api/account/update', [
+        $response = $this->actingAs($this->user)->put('/api/account/update', [
             'name' => 'Test User Updated',
         ]);
 
@@ -90,16 +82,15 @@ class AccountControllerTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('users', [
-            'id'   => $user->id,
+            'id'   => $this->user->id,
             'name' => 'Test User Updated'
         ]);
     }
 
     public function test_should_updated_user_settings()
     {
-        $user = $this->logUserIn();
         $platforms = [Platform::PC->value];
-        $response = $this->put('/api/account/settings', [
+        $response = $this->actingAs($this->user)->put('/api/account/settings', [
             'platforms' => $platforms
         ]);
 
@@ -121,7 +112,7 @@ class AccountControllerTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('user_settings', [
-            'user_id'       => $user->id,
+            'user_id'   => $this->user->id,
             'platforms' => json_encode([Platform::PC->value])
         ]);
     }
