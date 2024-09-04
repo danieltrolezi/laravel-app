@@ -38,6 +38,13 @@ return [
     'rawg' => [
         'host' => env('RAWG_API_HOST'),
         'key' => env('RAWG_API_KEY')
+    ],
+
+    'discord' => [
+        'app_id' => env('DISCORD_APP_ID'),
+        'public_key' => env('DISCORD_PUBLIC_KEY'),
+        'bot_token' => env('DISCORD_BOT_TOKEN'),
+        'host' => env('DISCORD_API_HOST')
     ]
 
 ];

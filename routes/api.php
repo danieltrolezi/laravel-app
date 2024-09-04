@@ -5,6 +5,7 @@ use App\Enums\Rawg\RawgGenre;
 use App\Enums\Scope;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DiscordController;
 use App\Http\Controllers\RawgGamesController;
 use App\Http\Controllers\RawgDomainController;
 use Illuminate\Support\Facades\Route;
@@ -12,9 +13,16 @@ use Spatie\Health\Http\Controllers\HealthCheckJsonResultsController;
 
 Route::get('/health', HealthCheckJsonResultsController::class);
 
-Route::middleware(['throttle:api'])->group(function () {
-    Route::permanentRedirect('/docs', '/swagger/index.html');
+Route::permanentRedirect('/docs', '/swagger/index.html');
 
+Route::prefix('discord')
+    ->middleware('discord.sign')
+    ->controller(DiscordController::class)
+    ->group(function () {
+        Route::post('/interactions', 'interactions');
+    });
+
+Route::middleware('throttle:api')->group(function () {
     Route::post('/auth/login', [AuthController::class, 'login']);
 
     Route::middleware(['auth', 'scopes:' . Scope::Default->value])->group(function () {
@@ -24,7 +32,7 @@ Route::middleware(['throttle:api'])->group(function () {
             Route::put('/settings', 'settings');
         });
 
-        Route::middleware(['auth', 'scopes:' . Scope::Root->value])->group(function () {
+        Route::middleware('scopes:' . Scope::Root->value)->group(function () {
             Route::post('/account/register', [AccountController::class, 'register']);
             
             Route::prefix('rawg')

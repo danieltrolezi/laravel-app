@@ -87,7 +87,9 @@ class AccountController extends Controller
                 properties: [
                     new OA\Property(property: 'name', type: 'string', nullable: true),
                     new OA\Property(property: 'email', type: 'string', nullable: true),
-                    new OA\Property(property: 'password', type: 'string', format: 'password', nullable: true)
+                    new OA\Property(property: 'username', type: 'string', nullable: true),
+                    new OA\Property(property: 'password', type: 'string', format: 'password', nullable: true),
+                    new OA\Property(property: 'discord_user_id', type: 'string', nullable: true),
                 ]
             )
         )

@@ -19,21 +19,27 @@ class AccountControllerTest extends TestCase
         $this->user = $this->createUser();
     }
 
+    private function getUserJsonStructure(): array
+    {
+        return [
+            'id',
+            'name',
+            'email',
+            'scopes',
+            'created_at',
+            'updated_at',
+            'settings'
+        ];
+    }
+
     public function test_should_return_authenticated_user()
     {
         $response = $this->actingAs($this->user)->get('/api/account/show');
 
         $response->assertStatus(200);
-        $response->assertJsonStructure([
-            'id',
-            'name',
-            'email',
-            'email_verified_at',
-            'scopes',
-            'created_at',
-            'updated_at',
-            'settings'
-        ]);
+        $response->assertJsonStructure(
+            $this->getUserJsonStructure()
+        );
 
         $response->assertJsonFragment([
             'id' => $this->user->id
@@ -50,15 +56,9 @@ class AccountControllerTest extends TestCase
         ]);
 
         $response->assertStatus(201);
-        $response->assertJsonStructure([
-            'id',
-            'name',
-            'email',
-            'scopes',
-            'created_at',
-            'updated_at',
-            'settings'
-        ]);
+        $response->assertJsonStructure(
+            $this->getUserJsonStructure()
+        );
     }
 
     public function test_should_update_user()
@@ -68,15 +68,9 @@ class AccountControllerTest extends TestCase
         ]);
 
         $response->assertStatus(200);
-        $response->assertJsonStructure([
-            'id',
-            'name',
-            'email',
-            'scopes',
-            'created_at',
-            'updated_at',
-            'settings'
-        ]);
+        $response->assertJsonStructure(
+            $this->getUserJsonStructure()
+        );
 
         $response->assertJson([
             'name' => 'Test User Updated'
@@ -96,15 +90,9 @@ class AccountControllerTest extends TestCase
         ]);
 
         $response->assertStatus(200);
-        $response->assertJsonStructure([
-            'id',
-            'name',
-            'email',
-            'scopes',
-            'created_at',
-            'updated_at',
-            'settings'
-        ]);
+        $response->assertJsonStructure(
+            $this->getUserJsonStructure()
+        );
 
         $response->assertJson([
             'settings' => [

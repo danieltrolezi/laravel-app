@@ -64,9 +64,15 @@ paths:
                 email:
                   type: string
                   nullable: true
+                username:
+                  type: string
+                  nullable: true
                 password:
                   type: string
                   format: password
+                  nullable: true
+                discord_user_id:
+                  type: string
                   nullable: true
               type: object
       responses:
@@ -327,6 +333,7 @@ paths:
       responses:
         '200':
           description: OK
+      security: []
   /api/health:
     get:
       tags:
@@ -335,13 +342,15 @@ paths:
       responses:
         '200':
           description: OK
+      security: []
 components:
   schemas:
     Acknowledge:
       type: integer
       enum:
-        - Ping
-        - SendResponse
+        - Pong
+        - ChannelMessageWithSource
+        - AutoCompleteResult
     CommandType:
       type: integer
       enum:
@@ -487,9 +496,8 @@ components:
           type: string
         email:
           type: string
-        email_verified_at:
+        username:
           type: string
-          format: date-time
         discord_user_id:
           type: string
         created_at:

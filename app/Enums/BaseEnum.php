@@ -43,4 +43,12 @@ trait BaseEnum
     {
         return implode($separator, self::values());
     }
+
+    /**
+     * @return array
+     */
+    public static function casesAsArray(): array
+    {
+        return array_map(fn($case) => (array) $case, self::cases());
+    }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\CheckScopesMiddleware;
+use App\Http\Middleware\VerifyDiscordSignature;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -16,7 +17,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
-            'scopes' => CheckScopesMiddleware::class
+            'scopes'       => CheckScopesMiddleware::class,
+            'discord.sign' => VerifyDiscordSignature::class
         ]);
 
         $middleware->redirectGuestsTo(fn() => response());

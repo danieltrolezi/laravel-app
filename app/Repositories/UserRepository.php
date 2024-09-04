@@ -9,6 +9,7 @@ use App\Enums\Rawg\RawgGenre;
 use App\Enums\Scope;
 use App\Models\User;
 use Exception;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class UserRepository
@@ -29,7 +30,7 @@ class UserRepository
             $user->scopes = [Scope::Default->value];
             $user->save();
 
-            $this->createDefaultSettings($user);
+            $this->createSettings($user);
 
             DB::commit();
         } catch (Exception $e) {
@@ -58,7 +59,7 @@ class UserRepository
             $user->scopes = Scope::values();
             $user->save();
 
-            $this->createDefaultSettings($user);
+            $this->createSettings($user);
 
             DB::commit();
         } catch (Exception $e) {
@@ -69,16 +70,41 @@ class UserRepository
         return true;
     }
 
-    private function createDefaultSettings(User $user): void
+    /**
+     * @param array $data
+     * @param array $settings
+     * @return User
+     */
+    public function createFromDiscord(array $data, array $settings): User
     {
-        $user->settings()->create([
-            'platforms' => Platform::values(),
-            'genres'    => RawgGenre::values(),
-            'period'    => Period::Month->value,
-            'frequency' => Frequency::Monthly->value
-        ]);
+        DB::beginTransaction();
 
-        $user->load('settings');
+        try {
+            $user = new User();
+            $user->name = $data['name'];
+            $user->username = $data['username'];
+            $user->scopes = [Scope::Default->value];
+            $user->discord_user_id = $data['discord_user_id'];
+            $user->save();
+
+            $this->createSettings($user, $settings);
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+
+        return $user;
+    }
+
+    /**
+     * @param string $discordUserId
+     * @return User|null
+     */
+    public function findByDiscordId(string $discordUserId): ?User
+    {
+        return User::where('discord_user_id', $discordUserId)->first();
     }
 
     /**
@@ -95,6 +121,18 @@ class UserRepository
         $user->update($data);
 
         return $user;
+    }
+
+    private function createSettings(User $user, array $settings = []): void
+    {
+        $user->settings()->create([
+            'platforms' => Arr::get($settings, 'platforms', Platform::values()),
+            'genres'    => Arr::get($settings, 'genres', RawgGenre::values()),
+            'period'    => Arr::get($settings, 'period', Period::Month->value),
+            'frequency' => Arr::get($settings, 'frequency', Frequency::Monthly->value),
+        ]);
+
+        $user->load('settings');
     }
 
     /**

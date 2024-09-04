@@ -10,31 +10,32 @@ abstract class RawgBaseService
     private const int CACHE_TTL = 24 * 60 * 60;
 
     protected string $apiKey;
-    protected string $apiHost;
+    protected string $apiUrl;
 
     public function __construct(
         protected RawgFilterService $filterService,
         protected Client $client
     ) {
-        $this->apiHost = config('services.rawg.host');
+        $this->apiUrl = config('services.rawg.host') . '/api/';
         $this->apiKey = config('services.rawg.key');
     }
 
     /**
-     * @param string $method
      * @param string $uri
      * @param array $data
+     * @param string $method
      * @return array
      */
     protected function call(
+        string $uri,
+        array $data = ['query' => []],
         string $method = 'GET',
-        string $uri = '',
-        array $data = ['query' => []]
     ): array {
         $contents = $this->getCacheContents($uri, $data);
 
         if (empty($contents)) {
-            $endpoint = $this->apiHost . '/api/' . $uri;
+            $endpoint = $this->apiUrl . $uri;
+
             $res = $this->client->request($method, $endpoint, [
                 'query' => array_merge($data['query'], [
                     'key' => $this->apiKey

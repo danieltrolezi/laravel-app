@@ -47,6 +47,7 @@ class Application
     #[OA\Get(
         path: '/up',
         tags: ['application'],
+        security: [],
         responses: [
             new OA\Response(response: 200, description: 'OK')
         ]
@@ -58,6 +59,7 @@ class Application
     #[OA\Get(
         path: '/api/health',
         tags: ['application'],
+        security: [],
         responses: [
             new OA\Response(response: 200, description: 'OK')
         ]
