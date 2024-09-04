@@ -94,7 +94,7 @@ class RawgGamesController extends Controller
                     type: 'array',
                     items: new OA\Items(
                         type: 'string',
-                        enum: 'App\Enums\RawgGenre'
+                        enum: 'App\Enums\Rawg\RawgGenre'
                     )
                 )
             ),

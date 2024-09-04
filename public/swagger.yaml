@@ -47,7 +47,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
-      security: []
   /api/account/update:
     put:
       tags:
@@ -338,6 +337,21 @@ paths:
           description: OK
 components:
   schemas:
+    Acknowledge:
+      type: integer
+      enum:
+        - Ping
+        - SendResponse
+    CommandType:
+      type: integer
+      enum:
+        - String
+    InteractionType:
+      type: integer
+      enum:
+        - Ping
+        - Command
+        - AutoComplete
     Frequency:
       type: string
       enum:
@@ -476,6 +490,8 @@ components:
         email_verified_at:
           type: string
           format: date-time
+        discord_user_id:
+          type: string
         created_at:
           type: string
           format: date-time
