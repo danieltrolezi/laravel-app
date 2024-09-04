@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Unit\Services;
+namespace Tests\Unit\Services\Rawg;
 
 use App\Enums\Platform;
-use App\Enums\RawgField;
-use App\Enums\RawgGenre;
-use App\Enums\RawgPlatform;
-use App\Services\RawgFilterService;
+use App\Enums\Rawg\RawgField;
+use App\Enums\Rawg\RawgGenre;
+use App\Enums\Rawg\RawgPlatform;
+use App\Services\Rawg\RawgFilterService;
 use Tests\TestCase;
 
 class RawgFilterServiceTest extends TestCase

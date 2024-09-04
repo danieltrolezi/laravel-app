@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\RawgField;
+use App\Enums\Rawg\RawgField;
 use App\Enums\SortOrder;
 use Illuminate\Foundation\Http\FormRequest;
 

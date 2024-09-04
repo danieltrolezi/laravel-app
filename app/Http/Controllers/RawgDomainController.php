@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\RawgDomainService;
+use App\Services\Rawg\RawgDomainService;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
 

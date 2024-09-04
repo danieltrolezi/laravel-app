@@ -5,7 +5,7 @@ namespace Database\Factories;
 use App\Enums\Frequency;
 use App\Enums\Period;
 use App\Enums\Platform;
-use App\Enums\RawgGenre;
+use App\Enums\Rawg\RawgGenre;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

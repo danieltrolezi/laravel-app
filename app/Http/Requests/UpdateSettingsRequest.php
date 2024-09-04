@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Enums\Frequency;
 use App\Enums\Period;
 use App\Enums\Platform;
-use App\Enums\RawgGenre;
+use App\Enums\Rawg\RawgGenre;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateSettingsRequest extends FormRequest
@@ -26,12 +26,12 @@ class UpdateSettingsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'platforms'    => ['sometimes', 'array'],
-            'platforms.*'  => ['required', 'string', 'in:' . Platform::valuesAsString()],
-            'genres'       => ['sometimes', 'array'],
-            'genres.*'     => ['required', 'string', 'in:' . RawgGenre::valuesAsString()],
-            'period'       => ['sometimes', 'string', 'in:' . Period::valuesAsString()],
-            'frequency'    => ['sometimes', 'string', 'in:' . Frequency::valuesAsString()],
+            'platforms'       => ['sometimes', 'array'],
+            'platforms.*'     => ['required', 'string', 'in:' . Platform::valuesAsString()],
+            'genres'          => ['sometimes', 'array'],
+            'genres.*'        => ['required', 'string', 'in:' . RawgGenre::valuesAsString()],
+            'period'          => ['sometimes', 'string', 'in:' . Period::valuesAsString()],
+            'frequency'       => ['sometimes', 'string', 'in:' . Frequency::valuesAsString()],
         ];
     }
 }

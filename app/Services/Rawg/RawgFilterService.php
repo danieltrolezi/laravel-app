@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Rawg;
 
 use App\Enums\Platform;
-use App\Enums\RawgField;
-use App\Enums\RawgPlatform;
+use App\Enums\Rawg\RawgField;
+use App\Enums\Rawg\RawgPlatform;
 use Illuminate\Support\Arr;
 
 class RawgFilterService

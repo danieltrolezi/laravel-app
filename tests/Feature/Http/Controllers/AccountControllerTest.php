@@ -42,7 +42,8 @@ class AccountControllerTest extends TestCase
 
     public function test_should_register_user()
     {
-        $response = $this->post('/api/account/register', [
+        $user = $this->createRootUser();
+        $response = $this->actingAs($user)->post('/api/account/register', [
             'name'     => 'Test User',
             'email'    => 'test@example.com',
             'password' => 'password',

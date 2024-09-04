@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RawgAchievementRequest;
 use App\Http\Requests\RawgGamesRequest;
-use App\Services\RawgAchievementService;
-use App\Services\RawgGamesService;
+use App\Services\Rawg\RawgAchievementService;
+use App\Services\Rawg\RawgGamesService;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
 

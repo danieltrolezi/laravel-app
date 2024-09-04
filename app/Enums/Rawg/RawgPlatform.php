@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Enums;
+namespace App\Enums\Rawg;
 
-use App\Enums\Traits\BaseEnum;
+use App\Enums\BaseEnum;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(type: 'integer')]

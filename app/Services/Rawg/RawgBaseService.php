@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Rawg;
 
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Redis;

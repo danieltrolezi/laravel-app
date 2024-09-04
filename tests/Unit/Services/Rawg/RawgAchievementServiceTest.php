@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Unit\Services;
+namespace Tests\Unit\Services\Rawg;
 
 use App\Enums\SortOrder;
-use App\Services\RawgAchievementService;
+use App\Services\Rawg\RawgAchievementService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;

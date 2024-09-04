@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Unit\Services;
+namespace Tests\Unit\Services\Rawg;
 
-use App\Services\RawgDomainService;
+use App\Services\Rawg\RawgDomainService;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 

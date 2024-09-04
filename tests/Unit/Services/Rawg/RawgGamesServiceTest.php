@@ -1,14 +1,14 @@
 <?php
 
-namespace Tests\Unit\Services;
+namespace Tests\Unit\Services\Rawg;
 
 use App\Enums\Period;
-use App\Enums\RawgField;
-use App\Enums\RawgGenre;
+use App\Enums\Rawg\RawgField;
+use App\Enums\Rawg\RawgGenre;
 use App\Models\Game;
 use App\Models\PaginatedResponse;
-use App\Services\RawgFilterService;
-use App\Services\RawgGamesService;
+use App\Services\Rawg\RawgFilterService;
+use App\Services\Rawg\RawgGamesService;
 use Illuminate\Support\Facades\Config;
 use Mockery;
 use Tests\TestCase;

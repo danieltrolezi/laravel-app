@@ -1,8 +1,9 @@
 <?php
 
-namespace Tests\Unit\Enums;
+namespace Tests\Unit\Enums\Rawg;
 
-use App\Enums\RawgPlatform;
+use App\Enums\Rawg\RawgPlatform;
+use Tests\Unit\Enums\EnumTestCase;
 
 class RawgPlatformTest extends EnumTestCase
 {

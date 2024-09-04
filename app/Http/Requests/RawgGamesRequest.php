@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use App\Enums\Platform;
-use App\Enums\RawgGenre;
-use App\Enums\RawgField;
+use App\Enums\Rawg\RawgGenre;
+use App\Enums\Rawg\RawgField;
 use App\Rules\KeywordList;
 use Illuminate\Foundation\Http\FormRequest;
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Rawg;
 
 use App\Enums\Period;
-use App\Enums\RawgField;
+use App\Enums\Rawg\RawgField;
 use App\Models\Game;
 use App\Models\PaginatedResponse;
 use Illuminate\Support\Collection;

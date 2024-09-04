@@ -41,7 +41,6 @@ class AccountController extends Controller
     #[OA\Post(
         path: '/api/account/register',
         tags: ['account'],
-        security: [],
         responses: [
             new OA\Response(
                 response: 201,

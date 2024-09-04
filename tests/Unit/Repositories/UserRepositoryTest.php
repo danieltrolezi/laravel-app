@@ -5,7 +5,7 @@ namespace Tests\Unit\Repositories;
 use App\Enums\Frequency;
 use App\Enums\Period;
 use App\Enums\Platform;
-use App\Enums\RawgGenre;
+use App\Enums\Rawg\RawgGenre;
 use App\Enums\Scope;
 use App\Models\User;
 use App\Repositories\UserRepository;

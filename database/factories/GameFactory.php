@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use App\Enums\Platform;
-use App\Enums\RawgGenre;
-use App\Enums\RawgPlatform;
+use App\Enums\Rawg\RawgGenre;
+use App\Enums\Rawg\RawgPlatform;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
