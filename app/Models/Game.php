@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
+use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 use OpenApi\Attributes as OA;
 
@@ -16,7 +16,7 @@ class Game
     public readonly string $name;
     public readonly string $slug;
     public readonly ?string $background_image;
-    public readonly ?string $released;
+    public readonly ?DateTime $released;
     public readonly ?array $platforms;
     public readonly ?array $stores;
     public readonly ?array $genres;
@@ -25,7 +25,7 @@ class Game
     #[OA\Property(property: 'name', type: 'string')]
     #[OA\Property(property: 'slug', type: 'string')]
     #[OA\Property(property: 'background_image', type: 'string')]
-    #[OA\Property(property: 'released', type: 'string')]
+    #[OA\Property(property: 'released', type: 'datetime')]
     #[OA\Property(property: 'platforms', type: 'array', items: new OA\Items(
         type: 'object',
         properties: [
@@ -58,7 +58,7 @@ class Game
             'name'             => 'required|string',
             'slug'             => 'required|string',
             'background_image' => 'nullable|string',
-            'released'         => 'nullable|string',
+            'released'         => 'nullable|date',
             'platforms'        => 'nullable|array',
             'platforms.*.id'   => 'required|int',
             'platforms.*.name' => 'required|string',

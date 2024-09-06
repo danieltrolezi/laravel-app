@@ -4,6 +4,7 @@ namespace App\Services\Discord;
 
 use App\Enums\Discord\Acknowledge;
 use App\Enums\Discord\InteractionType;
+use App\Services\Discord\Commands\ReleasesCommand;
 use App\Services\Discord\Commands\ClearCommand;
 use App\Services\Discord\Commands\Contracts\CallbackCommandInterface;
 use App\Services\Discord\Commands\Contracts\CommandInterface;
@@ -66,7 +67,7 @@ class DiscordInteractionsService extends DiscordBaseService
     {
         return match ($command) {
             'settings' => resolve(SettingsCommand::class),
-            //'releases' => resolve(ReleasesCommand::class),
+            'releases' => resolve(ReleasesCommand::class),
             'clear'      => resolve(ClearCommand::class),
             //'help'     => resolve(HelpCommand::class),
             default    => throw new Exception('Command not found: ' . $command)

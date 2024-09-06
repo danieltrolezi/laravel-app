@@ -32,7 +32,7 @@ return [
                     'type'        => OptionType::String->value,
                     'name'        => 'period',
                     'description' => 'Choose the period',
-                    'required'    => true,
+                    'required'    => false,
                     'choices'     => Period::friendlyCases()
                 ],
             ]

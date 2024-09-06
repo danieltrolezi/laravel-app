@@ -6,6 +6,7 @@ use App\Enums\Period;
 use App\Enums\Rawg\RawgField;
 use App\Models\Game;
 use App\Models\PaginatedResponse;
+use DateTime;
 use Illuminate\Support\Collection;
 
 class RawgGamesService extends RawgBaseService
@@ -85,7 +86,7 @@ class RawgGamesService extends RawgBaseService
                     'name'             => $game[RawgField::Name->value],
                     'slug'             => $game[RawgField::Slug->value],
                     'background_image' => $game[RawgField::BgImage->value],
-                    'released'         => $game[RawgField::Released->value],
+                    'released'         => new DateTime($game[RawgField::Released->value]),
                     'platforms'        => array_column($game[RawgField::Platforms->value] ?: [], 'platform'),
                     'stores'           => array_column($game[RawgField::Stores->value] ?: [], 'store'),
                     'genres'           => $game[RawgField::Genres->value]

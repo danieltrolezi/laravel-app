@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Enums\Platform;
 use App\Enums\Rawg\RawgGenre;
 use App\Enums\Rawg\RawgPlatform;
+use DateTime;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -24,7 +25,7 @@ class GameFactory extends Factory
             'name'            => fake()->name(),
             'slug'            => fake()->slug(),
             'backgroundImage' => fake()->imageUrl(),
-            'released'        => fake()->date(),
+            'released'        => new DateTime(fake()->date()),
             'platforms'       => [
                 [
                     'id'   => RawgPlatform::PC->value,
