@@ -2,6 +2,8 @@
 
 namespace App\Enums;
 
+use Illuminate\Support\Str;
+
 trait BaseEnum
 {
     /**
@@ -29,6 +31,14 @@ trait BaseEnum
     }
 
     /**
+     * @return integer
+     */
+    public static function count(): int
+    {
+        return count(self::cases());
+    }
+
+    /**
      * @return string
      */
     public static function namesAsString(string $separator = ','): string
@@ -47,8 +57,17 @@ trait BaseEnum
     /**
      * @return array
      */
-    public static function casesAsArray(): array
+    public static function friendlyCases(): array
     {
-        return array_map(fn($case) => (array) $case, self::cases());
+        return array_map(function ($case) {
+            $name = strtoupper($case->name) === $case->name
+                ? $case->name
+                : Str::headline($case->name);
+
+            return [
+                'name'  => $name,
+                'value' => $case->value,
+            ];
+        }, self::cases());
     }
 }

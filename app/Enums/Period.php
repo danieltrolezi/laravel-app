@@ -10,7 +10,20 @@ enum Period: string
 {
     use BaseEnum;
 
-    case Week = 'next-7-days';
-    case Month = 'next-30-days';
-    case Year = 'next-12-months';
+    case Next_7_Days = 'next-7-days';
+    case Next_30_Days = 'next-30-days';
+    case Next_12_Months = 'next-12-months';
+
+    /**
+     * @param string $name
+     * @return string
+     */
+    public static function getTimeUnit(string $value): string
+    {
+        return match ($value) {
+            self::Next_7_Days->value    => 'week',
+            self::Next_30_Days->value   => 'month',
+            self::Next_12_Months->value => 'year',
+        };
+    }
 }

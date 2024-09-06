@@ -75,7 +75,7 @@ class UserRepository
      * @param array $settings
      * @return User
      */
-    public function createFromDiscord(array $data, array $settings): User
+    public function createFromDiscord(array $data): User
     {
         DB::beginTransaction();
 
@@ -87,7 +87,7 @@ class UserRepository
             $user->discord_user_id = $data['discord_user_id'];
             $user->save();
 
-            $this->createSettings($user, $settings);
+            $this->createSettings($user);
 
             DB::commit();
         } catch (Exception $e) {
@@ -128,7 +128,7 @@ class UserRepository
         $user->settings()->create([
             'platforms' => Arr::get($settings, 'platforms', Platform::values()),
             'genres'    => Arr::get($settings, 'genres', RawgGenre::values()),
-            'period'    => Arr::get($settings, 'period', Period::Month->value),
+            'period'    => Arr::get($settings, 'period', Period::Next_30_Days->value),
             'frequency' => Arr::get($settings, 'frequency', Frequency::Monthly->value),
         ]);
 

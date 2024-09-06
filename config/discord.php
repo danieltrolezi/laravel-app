@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\Discord\CommandType;
+use App\Enums\Discord\OptionType;
 use App\Enums\Frequency;
 use App\Enums\Period;
 
@@ -23,34 +23,27 @@ return [
         [
             'name'        => 'settings',
             'description' => 'Set your preferences for game notifications',
+        ],
+        [
+            'name'        => 'releases',
+            'description' => 'List upcoming game releases',
             'options' => [
                 [
-                    'type'        => CommandType::String->value,
-                    'name'        => 'platforms',
-                    'description' => 'Enter the platforms for game releases (comma-separated)',
-                    'required'    => true,
-                ],
-                [
-                    'type'         => CommandType::String->value,
-                    'name'         => 'genres',
-                    'description'  => 'Choose the genres for game releases (comma-separated)',
-                    'required'     => true
-                ],
-                [
-                    'type'        => CommandType::String->value,
+                    'type'        => OptionType::String->value,
                     'name'        => 'period',
-                    'description' => 'Choose the period for notifications',
+                    'description' => 'Choose the period',
                     'required'    => true,
-                    'choices'     => Period::casesAsArray()
-                ],
-                [
-                    'type'        => CommandType::String->value,
-                    'name'        => 'frequency',
-                    'description' => 'Choose how often you want notifications',
-                    'required'    => true,
-                    'choices'     => Frequency::casesAsArray()
+                    'choices'     => Period::friendlyCases()
                 ],
             ]
+        ],
+        [
+            'name'        => 'clear',
+            'description' => 'Clear channel messages'
+        ],
+        [
+            'name'        => 'help',
+            'description' => 'Need help?',
         ]
     ]
 

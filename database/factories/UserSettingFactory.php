@@ -23,7 +23,7 @@ class UserSettingFactory extends Factory
         return [
             'platforms' => Platform::values(),
             'genres'    => RawgGenre::values(),
-            'period'    => Period::Month->value,
+            'period'    => Period::Next_30_Days->value,
             'frequency' => Frequency::Monthly->value
         ];
     }

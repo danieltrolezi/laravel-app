@@ -6,9 +6,9 @@ use App\Enums\BaseEnum;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(type: 'int')]
-enum CommandType: int
+enum ButtonStyle: int
 {
     use BaseEnum;
 
-    case ChatInput = 1;
+    case Primary = 1;
 }

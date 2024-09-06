@@ -47,12 +47,12 @@ class RawgGamesService extends RawgBaseService
      * @return PaginatedResponse
      */
     public function getUpcomingReleases(
-        string $period = Period::Week->value,
+        string $period = Period::Next_7_Days->value,
         array $filters = []
     ): PaginatedResponse {
-        $period = strtolower(Period::from($period)->name);
+        $timeUnit = Period::getTimeUnit($period);
         $query = $this->filterService->getQueryFilters(filters: $filters, default: [
-            RawgField::Dates->value    => date('Y-m-d') . ',' . date('Y-m-d', strtotime('+1 ' . $period)),
+            RawgField::Dates->value    => date('Y-m-d') . ',' . date('Y-m-d', strtotime('+1 ' . $timeUnit)),
             RawgField::Ordering->value => 'released',
             RawgField::PageSize->value => 25,
             RawgField::Page->value     => 1

@@ -12,5 +12,6 @@ enum Acknowledge: int
 
     case Pong = 1;
     case ChannelMessageWithSource = 4;
+    case UpdateMessage = 7;
     case AutoCompleteResult = 8;
 }

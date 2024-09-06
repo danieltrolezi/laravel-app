@@ -12,5 +12,6 @@ enum InteractionType: int
 
     case Ping = 1;
     case Command = 2;
+    case MessageComponent = 3;
     case AutoComplete = 4;
 }

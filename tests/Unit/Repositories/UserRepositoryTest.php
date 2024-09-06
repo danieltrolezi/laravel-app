@@ -45,7 +45,7 @@ class UserRepositoryTest extends TestCase
             'user_id'   => $user->id,
             'platforms' => json_encode(Platform::values()),
             'genres'    => json_encode(RawgGenre::values()),
-            'period'    => Period::Month->value,
+            'period'    => Period::Next_30_Days->value,
             'frequency' => Frequency::Monthly->value
         ]);
     }

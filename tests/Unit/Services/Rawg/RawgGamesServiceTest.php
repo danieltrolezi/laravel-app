@@ -67,8 +67,8 @@ class RawgGamesServiceTest extends TestCase
 
     public function test_should_get_upcoming_releases()
     {
-        $period = Period::Week->value;
-        $parsedPeriod = strtolower(Period::from($period)->name);
+        $period = Period::Next_7_Days->value;
+        $timeUnit = Period::getTimeUnit($period);
 
         $filters = [
             RawgField::Page->value     => 2,
@@ -76,7 +76,7 @@ class RawgGamesServiceTest extends TestCase
         ];
 
         $filterServiceSpy = $this->createFilterServiceSpy([
-            RawgField::Dates->value    => date('Y-m-d') . ',' . date('Y-m-d', strtotime('+1 ' . $parsedPeriod)),
+            RawgField::Dates->value    => date('Y-m-d') . ',' . date('Y-m-d', strtotime('+1 ' . $timeUnit)),
             RawgField::Ordering->value => 'released',
             RawgField::PageSize->value => 25,
             RawgField::Page->value     => 1

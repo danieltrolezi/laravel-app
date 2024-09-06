@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Discord\Commands;
+namespace App\Services\Discord\Commands\Contracts;
 
 interface CommandInterface
 {

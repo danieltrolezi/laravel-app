@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Services\Discord\DiscordService;
+use App\Services\Discord\DiscordAppService;
 use Closure;
 use Illuminate\Http\Request;
 
@@ -17,7 +17,7 @@ class VerifyDiscordSignature
      */
     public function handle(Request $request, Closure $next)
     {
-        resolve(DiscordService::class)->verifyDiscordSignature(
+        resolve(DiscordAppService::class)->verifyDiscordSignature(
             $request->header('X-Signature-Ed25519'),
             $request->header('X-Signature-Timestamp'),
             $request->getContent()

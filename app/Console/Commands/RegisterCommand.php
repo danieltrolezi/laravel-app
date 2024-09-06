@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Services\Discord\DiscordService;
+use App\Services\Discord\DiscordAppService;
 use Illuminate\Console\Command;
 
 class RegisterCommand extends Command
@@ -27,7 +27,7 @@ class RegisterCommand extends Command
     public function handle()
     {
         $this->info(
-            resolve(DiscordService::class)->registerCommand(
+            resolve(DiscordAppService::class)->registerCommand(
                 $this->argument('name')
             )
         );
