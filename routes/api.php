@@ -16,7 +16,7 @@ Route::get('/health', HealthCheckJsonResultsController::class);
 Route::permanentRedirect('/docs', '/swagger/index.html');
 
 Route::prefix('discord')
-    ->middleware('discord.sign')
+    ->middleware(['discord.sign', 'throttle:discord'])
     ->controller(DiscordController::class)
     ->group(function () {
         Route::post('/interactions', 'interactions');

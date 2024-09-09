@@ -3,14 +3,18 @@
 namespace App\Services\Discord\Commands;
 
 use App\Services\Discord\Commands\Contracts\CommandInterface;
-use App\Services\Discord\DiscordBaseService;
+use App\Services\Discord\DiscordAppService;
 
-class ClearCommand implements CommandInterface
+class ClearCommand extends BaseCommand implements CommandInterface
 {
+    /**
+     * @param array $payload
+     * @return array
+     */
     public function exec(array $payload): array
     {
-        $discordService = resolve(DiscordBaseService::class);
-        $results = $discordService->deleteMessagesFromBot($payload['channel']['id']);
+        $discordService = resolve(DiscordAppService::class);
+        $results = $discordService->deleteBotMessages($payload['channel']['id']);
 
         return [
             'content' => 'Command finished!',

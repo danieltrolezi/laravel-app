@@ -74,5 +74,15 @@ class AppServiceProvider extends ServiceProvider
 
             return Limit::perMinute(config('app.rate_limit.guest'))->by($request->ip());
         });
+
+        RateLimiter::for('discord', function (Request $request) {
+            $user = $request->get('user');
+
+            if (!empty($user)) {
+                return Limit::perMinute(config('app.rate_limit.user'))->by($user['id']);
+            }
+
+            return Limit::perMinute(config('app.rate_limit.discord'));
+        });
     }
 }

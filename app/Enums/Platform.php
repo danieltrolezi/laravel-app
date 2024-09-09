@@ -14,4 +14,7 @@ enum Platform: string
     case Playstation5 = 'playstation5';
     case XboxSeriesX = 'xbox-series-x';
     case Switch = 'switch';
+    case Linux = 'linux';
+    case Android = 'android';
+    case IOS = 'ios';
 }

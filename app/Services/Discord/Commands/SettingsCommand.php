@@ -6,43 +6,22 @@ use App\Enums\Frequency;
 use App\Enums\Period;
 use App\Enums\Platform;
 use App\Enums\Rawg\RawgGenre;
-use App\Models\User;
 use App\Repositories\UserRepository;
 use App\Services\Discord\Commands\Contracts\CallbackCommandInterface;
-use App\Services\Discord\DiscordCallbackUtils;
+use App\Services\Discord\Utils\DiscordComponentUtils;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
-class SettingsCommand implements CallbackCommandInterface
+class SettingsCommand extends BaseCommand implements CallbackCommandInterface
 {
-    use DiscordCallbackUtils;
+    use DiscordComponentUtils;
 
     private const string COMPONENT_PLATFORMS = 'platforms';
     private const string COMPONENT_GENRES = 'genres';
     private const string COMPONENT_PERIOD = 'period';
     private const string COMPONENT_FREQUENCY = 'frequency';
-
-    private User $user;
-
-    /**
-     * @param UserRepository $userRepository
-     */
-    public function __construct(
-        private UserRepository $userRepository
-    ) {
-        $this->user = Auth::user();
-    }
-
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return 'settings';
-    }
 
     /**
      * @param array $payload
@@ -53,15 +32,19 @@ class SettingsCommand implements CallbackCommandInterface
         return [
             'content' => 'Select your preferred platforms:',
             'components' => [
-                $this->makeMenuComponent(
-                    name: self::COMPONENT_PLATFORMS,
-                    options: Platform::cases(),
-                    defaults: $this->user->settings->platforms
-                ),
-                $this->makeButtonComponent(
-                    label: 'Next',
-                    name: self::COMPONENT_PLATFORMS
-                )
+                $this->makeActionRow([
+                    $this->makeMenuComponent(
+                        name: self::COMPONENT_PLATFORMS,
+                        options: Platform::cases(),
+                        defaults: $this->user->settings->platforms
+                    )
+                ]),
+                $this->makeActionRow([
+                    $this->makeButtonComponent(
+                        label: 'Next',
+                        name: self::COMPONENT_PLATFORMS
+                    )
+                ])
             ]
         ];
     }
@@ -72,18 +55,16 @@ class SettingsCommand implements CallbackCommandInterface
      */
     public function callback(array $payload): array
     {
-        $customId = $this->parseCustomId(
-            $payload['data']['custom_id']
-        );
-
+        $customId = $this->parseCustomId($payload);
         $values = Arr::get($payload, 'data.values', []);
 
         if (!empty($values)) {
+            $userRepository = resolve(UserRepository::class);
             $values = $this->prepValues($customId['component'], $values);
 
             try {
                 $this->validateSettings($values);
-                $this->userRepository->updateSettings($this->user, $values);
+                $userRepository->updateSettings($this->user, $values);
             } catch (ValidationException $e) {
                 return $this->makeError($e);
             }
@@ -152,15 +133,19 @@ class SettingsCommand implements CallbackCommandInterface
         return [
             'content' => 'Select your preferred genres:',
             'components' => [
-                $this->makeMenuComponent(
-                    name: self::COMPONENT_GENRES,
-                    options: RawgGenre::cases(),
-                    defaults: $this->user->settings->genres,
-                ),
-                $this->makeButtonComponent(
-                    label: 'Next',
-                    name: self::COMPONENT_GENRES
-                )
+                $this->makeActionRow([
+                    $this->makeMenuComponent(
+                        name: self::COMPONENT_GENRES,
+                        options: RawgGenre::cases(),
+                        defaults: $this->user->settings->genres,
+                    )
+                ]),
+                $this->makeActionRow([
+                    $this->makeButtonComponent(
+                        label: 'Next',
+                        name: self::COMPONENT_GENRES
+                    )
+                ])
             ]
         ];
     }
@@ -171,18 +156,22 @@ class SettingsCommand implements CallbackCommandInterface
     private function handleGenres(array $values = []): array
     {
         return [
-            'content' => 'Choose the period for game releases:',
+            'content'    => 'Choose the period for game releases:',
             'components' => [
-                $this->makeMenuComponent(
-                    name: self::COMPONENT_PERIOD,
-                    options: Period::cases(),
-                    defaults: [$this->user->settings->period->value],
-                    maxValues: 1
-                ),
-                $this->makeButtonComponent(
-                    label: 'Next',
-                    name: self::COMPONENT_PERIOD
-                )
+                $this->makeActionRow([
+                    $this->makeMenuComponent(
+                        name: self::COMPONENT_PERIOD,
+                        options: Period::cases(),
+                        defaults: [$this->user->settings->period->value],
+                        maxValues: 1
+                    )
+                ]),
+                $this->makeActionRow([
+                    $this->makeButtonComponent(
+                        label: 'Next',
+                        name: self::COMPONENT_PERIOD
+                    )
+                ])
             ]
         ];
     }
@@ -195,16 +184,20 @@ class SettingsCommand implements CallbackCommandInterface
         return [
             'content' => 'Choose how often you want notifications:',
             'components' => [
-                $this->makeMenuComponent(
-                    name: self::COMPONENT_FREQUENCY,
-                    options: Frequency::cases(),
-                    defaults: [$this->user->settings->frequency->value],
-                    maxValues: 1
-                ),
-                $this->makeButtonComponent(
-                    label: 'Next',
-                    name: self::COMPONENT_FREQUENCY
-                )
+                $this->makeActionRow([
+                    $this->makeMenuComponent(
+                        name: self::COMPONENT_FREQUENCY,
+                        options: Frequency::cases(),
+                        defaults: [$this->user->settings->frequency->value],
+                        maxValues: 1
+                    )
+                ]),
+                $this->makeActionRow([
+                    $this->makeButtonComponent(
+                        label: 'Next',
+                        name: self::COMPONENT_FREQUENCY
+                    )
+                ])
             ]
         ];
     }

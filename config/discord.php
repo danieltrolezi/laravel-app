@@ -1,8 +1,11 @@
 <?php
 
 use App\Enums\Discord\OptionType;
-use App\Enums\Frequency;
 use App\Enums\Period;
+use App\Services\Discord\Commands\ClearCommand;
+use App\Services\Discord\Commands\HelpCommand;
+use App\Services\Discord\Commands\ReleasesCommand;
+use App\Services\Discord\Commands\SettingsCommand;
 
 return [
 
@@ -11,7 +14,8 @@ return [
     | Discord
     |--------------------------------------------------------------------------
     |
-    | List of Application Commands that can be registered on Discord.
+    | List of Application Commands that can be registered on Discord and other
+    | configurations.
     | 
     | More info:
     | - Commands: https://discord.com/developers/docs/interactions/application-commands
@@ -19,14 +23,18 @@ return [
     |
     */
 
+    'colors' => [
+        'primary' => '7332C7'
+    ],
+
     'commands' => [
         [
             'name'        => 'settings',
-            'description' => 'Set your preferences for game notifications',
+            'description' => 'Set your preferences for game releases and notifications',
         ],
         [
             'name'        => 'releases',
-            'description' => 'List upcoming game releases',
+            'description' => 'List upcoming game releases based on your preferences',
             'options' => [
                 [
                     'type'        => OptionType::String->value,
@@ -39,11 +47,11 @@ return [
         ],
         [
             'name'        => 'clear',
-            'description' => 'Clear channel messages'
+            'description' => 'Clear Bot messages',
         ],
         [
             'name'        => 'help',
-            'description' => 'Need help?',
+            'description' => 'Show help message',
         ]
     ]
 

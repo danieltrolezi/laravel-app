@@ -17,6 +17,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Version
+    |--------------------------------------------------------------------------
+    |
+    | This value is the version of your application, which will be used when the
+    | framework needs to place the application's version in a notification or
+    | other UI elements where an application version needs to be displayed.
+    |
+    */
+
+    'version' => env('APP_VERSION', '1.0.0'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Environment
     |--------------------------------------------------------------------------
     |
@@ -127,11 +140,11 @@ return [
     |--------------------------------------------------------------------------
     | API Rate Limit
     |--------------------------------------------------------------------------
-    |
     */
 
     'rate_limit' => [
-        'user'  => env('RATE_LIMIT_USER', 100),
-        'guest' => env('RATE_LIMIT_GUEST', 10)
+        'user'    => env('RATE_LIMIT_USER', 100),
+        'guest'   => env('RATE_LIMIT_GUEST', 10),
+        'discord' => env('RATE_LIMIT_DISCORD', 1000)
     ]
 ];

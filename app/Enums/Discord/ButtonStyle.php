@@ -11,4 +11,5 @@ enum ButtonStyle: int
     use BaseEnum;
 
     case Primary = 1;
+    case Secundary = 2;
 }

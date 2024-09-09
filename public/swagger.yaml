@@ -95,7 +95,7 @@ paths:
               properties:
                 platforms:
                   type: array
-                  items: { type: string, enum: [pc, playstation5, xbox-series-x, switch] }
+                  items: { type: string, enum: [pc, playstation5, xbox-series-x, switch, linux, android, ios] }
                   nullable: true
                 genres:
                   type: array
@@ -190,6 +190,9 @@ paths:
                 - playstation5
                 - xbox-series-x
                 - switch
+                - linux
+                - android
+                - ios
         -
           name: ordering
           in: query
@@ -267,6 +270,9 @@ paths:
                 - playstation5
                 - xbox-series-x
                 - switch
+                - linux
+                - android
+                - ios
         -
           name: ordering
           in: query
@@ -356,10 +362,7 @@ components:
       type: integer
       enum:
         - Primary
-    CommandType:
-      type: integer
-      enum:
-        - ChatInput
+        - Secundary
     ComponentType:
       type: integer
       enum:
@@ -397,6 +400,9 @@ components:
         - playstation5
         - xbox-series-x
         - switch
+        - linux
+        - android
+        - ios
     RawgField:
       type: string
       enum:
@@ -441,6 +447,9 @@ components:
         - 187
         - 186
         - 7
+        - 6
+        - 21
+        - 3
     Scope:
       type: string
       enum:
@@ -488,15 +497,15 @@ components:
       properties:
         total:
           type: integer
-        page_size:
+        pageSize:
           type: integer
-        current_page:
+        currentPage:
           type: integer
-        last_page:
+        lastPage:
           type: integer
-        next_page_url:
+        nextPageUrl:
           type: string
-        prev_page_url:
+        prevPageUrl:
           type: string
         data:
           type: array
@@ -541,6 +550,9 @@ components:
               - playstation5
               - xbox-series-x
               - switch
+              - linux
+              - android
+              - ios
         genres:
           type: array
           items:

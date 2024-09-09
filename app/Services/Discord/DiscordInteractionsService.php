@@ -4,13 +4,11 @@ namespace App\Services\Discord;
 
 use App\Enums\Discord\Acknowledge;
 use App\Enums\Discord\InteractionType;
-use App\Services\Discord\Commands\ReleasesCommand;
-use App\Services\Discord\Commands\ClearCommand;
 use App\Services\Discord\Commands\Contracts\CallbackCommandInterface;
 use App\Services\Discord\Commands\Contracts\CommandInterface;
-use App\Services\Discord\Commands\SettingsCommand;
-use Exception;
+use App\Services\Discord\Utils\DiscordCallbackUtils;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use InvalidArgumentException;
 
 class DiscordInteractionsService extends DiscordBaseService
@@ -53,46 +51,35 @@ class DiscordInteractionsService extends DiscordBaseService
      */
     private function execCommand(array $payload): array
     {
-        $command = Arr::get($payload, 'data.name');
+        $commandName = Arr::get($payload, 'data.name');
 
-        return $this->makeCommand($command)
+        return $this->makeCommand($commandName)
                     ->exec($payload);
     }
 
     /**
-     * @param string $command
-     * @return CommandInterface
+     * @param array $payload
+     * @return array
      */
-    private function makeCommand(string $command): CommandInterface
-    {
-        return match ($command) {
-            'settings' => resolve(SettingsCommand::class),
-            'releases' => resolve(ReleasesCommand::class),
-            'clear'      => resolve(ClearCommand::class),
-            //'help'     => resolve(HelpCommand::class),
-            default    => throw new Exception('Command not found: ' . $command)
-        };
-    }
-
     private function callbackCommand(array $payload): array
     {
-        $customId = $this->parseCustomId(
-            Arr::get($payload, 'data.custom_id')
-        );
+        $customId = $this->parseCustomId($payload);
 
-        return $this->makeCallbackCommand($customId['command'])
+        return $this->makeCommand($customId['command'])
                     ->callback($payload);
     }
 
     /**
-     * @param string $command
-     * @return CallbackCommandInterface
+     * @param string $commandName
+     * @return CommandInterface|CallbackCommandInterface
      */
-    private function makeCallbackCommand(string $command): CallbackCommandInterface
+    private function makeCommand(string $commandName): CommandInterface|CallbackCommandInterface
     {
-        return match ($command) {
-            'settings' => resolve(SettingsCommand::class),
-            default    => throw new Exception('Callback Command not found: ' . $command)
-        };
+        return resolve(
+            sprintf(
+                'App\Services\Discord\Commands\%sCommand',
+                Str::studly($commandName)
+            )
+        );
     }
 }

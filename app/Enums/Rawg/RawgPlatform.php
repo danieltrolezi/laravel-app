@@ -14,4 +14,7 @@ enum RawgPlatform: int
     case Playstation5 = 187;
     case XboxSeriesX = 186;
     case Switch = 7;
+    case Linux = 6;
+    case Android = 21;
+    case IOS = 3;
 }

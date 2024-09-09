@@ -38,7 +38,8 @@ class DiscordInteractionRequest extends FormRequest
             'user.id'              => 'required|string',
             'user.username'        => 'required|string',
             'user.global_name'     => 'required|string',
-            'channel.id'           => 'required|string'
+            'channel.id'           => 'required|string',
+            'message.components'   => 'sometimes|array'
         ], $rules);
     }
 

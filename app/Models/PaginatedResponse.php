@@ -2,21 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema()]
 class PaginatedResponse
 {
-    private int $lastPage;
+    public readonly int $lastPage;
+    public readonly string $nextPageUrl;
+    public readonly string $prevPageUrl;
 
     #[OA\Property(property: 'total', type: 'integer')]
-    #[OA\Property(property: 'page_size', type: 'integer')]
-    #[OA\Property(property: 'current_page', type: 'integer')]
-    #[OA\Property(property: 'last_page', type: 'integer')]
-    #[OA\Property(property: 'next_page_url', type: 'string')]
-    #[OA\Property(property: 'prev_page_url', type: 'string')]
+    #[OA\Property(property: 'pageSize', type: 'integer')]
+    #[OA\Property(property: 'currentPage', type: 'integer')]
+    #[OA\Property(property: 'lastPage', type: 'integer')]
+    #[OA\Property(property: 'nextPageUrl', type: 'string')]
+    #[OA\Property(property: 'prevPageUrl', type: 'string')]
     #[OA\Property(property: 'data', type: 'array', items: new OA\Items(
         //ref: '#/components/schemas/Game'
         oneOf: [
@@ -24,12 +25,14 @@ class PaginatedResponse
         ]
     ))]
     public function __construct(
-        private Collection $data,
-        private int $pageSize,
-        private int $curentPage,
-        private int $total
+        public readonly Collection $data,
+        public readonly int $pageSize,
+        public readonly int $currentPage,
+        public readonly int $total
     ) {
         $this->lastPage = ceil($this->total / $this->pageSize);
+        $this->nextPageUrl = $this->getPageUrl(1);
+        $this->prevPageUrl = $this->getPageUrl(-1);
     }
 
     /**
@@ -40,10 +43,10 @@ class PaginatedResponse
         return [
             'total'         => $this->total,
             'page_size'     => $this->pageSize,
-            'current_page'  => $this->curentPage,
+            'current_page'  => $this->currentPage,
             'last_page'     => $this->lastPage,
-            'next_page_url' => $this->getPageUrl(1),
-            'prev_page_url' => $this->getPageUrl(-1),
+            'next_page_url' => $this->nextPageUrl,
+            'prev_page_url' => $this->prevPageUrl,
             'data'          => $this->data
         ];
     }
@@ -63,18 +66,26 @@ class PaginatedResponse
 
         $query = request()->query();
         $url = url()->current();
-        $query['page'] = $this->curentPage + $pageIncrement;
+        $query['page'] = $this->currentPage + $pageIncrement;
 
         return $url . '?' . http_build_query($query);
     }
 
+    /**
+     * @param integer $pageIncrement
+     * @return boolean
+     */
     private function isFirstPageAndPrevLink(int $pageIncrement): bool
     {
-        return $this->curentPage === 1 && $pageIncrement < 0;
+        return $this->currentPage === 1 && $pageIncrement < 0;
     }
 
+    /**
+     * @param integer $pageIncrement
+     * @return boolean
+     */
     private function isLastPageAndNextLink(int $pageIncrement): bool
     {
-        return $this->curentPage >= $this->lastPage && $pageIncrement > 0;
+        return $this->currentPage >= $this->lastPage && $pageIncrement > 0;
     }
 }
