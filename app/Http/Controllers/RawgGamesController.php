@@ -199,7 +199,7 @@ class RawgGamesController extends Controller
     public function achievements(RawgAchievementRequest $request, string $game): JsonResponse
     {
         $rawgAchievementService = resolve(RawgAchievementService::class);
-        $response = $rawgAchievementService->getGameAchievements($game, $request->all());
+        $response = $rawgAchievementService->getGameAchievements($game, $request->validated());
 
         return response()->json($response);
     }

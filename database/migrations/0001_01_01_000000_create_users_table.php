@@ -15,10 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique()->nullable();
-            $table->string('username')->unique()->nullable();
             $table->string('password')->nullable();
             $table->string('scopes');
-            $table->string('discord_user_id')->nullable();
+            $table->string('discord_user_id')->unique()->nullable();
+            $table->string('discord_username')->unique()->nullable();
+            $table->string('discord_channel_id')->unique()->nullable();
             $table->timestamps();
         });
     }

@@ -522,9 +522,11 @@ components:
           type: string
         email:
           type: string
-        username:
-          type: string
         discord_user_id:
+          type: string
+        discord_username:
+          type: string
+        discord_channel_id:
           type: string
         created_at:
           type: string

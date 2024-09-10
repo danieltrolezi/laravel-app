@@ -11,6 +11,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\LazyCollection;
 
 class UserRepository
 {
@@ -57,6 +58,9 @@ class UserRepository
             $user->email = config('auth.root.email');
             $user->password = bcrypt(config('auth.root.password'));
             $user->scopes = Scope::values();
+            $user->discord_user_id = config('auth.root.discord_user_id');
+            $user->discord_username = config('auth.root.discord_username');
+            $user->discord_channel_id = config('auth.root.discord_channel_id');
             $user->save();
 
             $this->createSettings($user);
@@ -82,9 +86,10 @@ class UserRepository
         try {
             $user = new User();
             $user->name = $data['name'];
-            $user->username = $data['username'];
             $user->scopes = [Scope::Default->value];
             $user->discord_user_id = $data['discord_user_id'];
+            $user->discord_username = $data['discord_username'];
+            $user->discord_channel_id = $data['discord_channel_id'];
             $user->save();
 
             $this->createSettings($user);
@@ -146,5 +151,15 @@ class UserRepository
         $user->refresh();
 
         return $user;
+    }
+
+    /**
+     * @return LazyCollection
+     */
+    public function getDiscordUsersAndSettings(): LazyCollection
+    {
+        return User::whereNotNull('discord_user_id')
+            ->with('settings')
+            ->lazy();
     }
 }

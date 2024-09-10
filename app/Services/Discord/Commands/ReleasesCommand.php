@@ -3,6 +3,7 @@
 namespace App\Services\Discord\Commands;
 
 use App\Models\PaginatedResponse;
+use App\Models\User;
 use App\Services\Discord\Commands\Contracts\CallbackCommandInterface;
 use App\Services\Discord\Utils\DiscordComponentUtils;
 use App\Services\Discord\Utils\DiscordEmbedUtils;
@@ -13,6 +14,12 @@ class ReleasesCommand extends BaseCommand implements CallbackCommandInterface
 {
     use DiscordComponentUtils;
     use DiscordEmbedUtils;
+
+    public function __construct(
+        private RawgGamesService $rawgGamesService
+    ) {
+        parent::__construct();
+    }
 
     /**
      * @param array $payload
@@ -43,7 +50,7 @@ class ReleasesCommand extends BaseCommand implements CallbackCommandInterface
      * @param integer $page
      * @return array
      */
-    private function getGameReleases(array $payload, int $page = 1): array
+    private function getGameReleases(array $payload = [], int $page = 1): array
     {
         $period = Arr::get(
             $payload,
@@ -51,8 +58,7 @@ class ReleasesCommand extends BaseCommand implements CallbackCommandInterface
             $this->user->settings->period->value
         );
 
-        $rawgGamesService = resolve(RawgGamesService::class);
-        $releases = $rawgGamesService->getUpcomingReleases(
+        $response = $this->rawgGamesService->getUpcomingReleases(
             period: $period,
             filters: [
                 'platforms' => implode(',', $this->user->settings->platforms),
@@ -62,9 +68,43 @@ class ReleasesCommand extends BaseCommand implements CallbackCommandInterface
             ]
         );
 
+        return $this->makeResponse($response, $period);
+    }
+
+    /**
+     * @param User $user
+     * @return array
+     */
+    public function makeNotificationForUser(User $user): array
+    {
+        $period = $user->settings->period->value;
+
+        $response = $this->rawgGamesService->getUpcomingReleases(
+            period: $period,
+            filters: [
+                'platforms' => implode(',', $user->settings->platforms),
+                'genres'    => implode(',', $user->settings->genres),
+                'page_size' => 10,
+            ]
+        );
+
+        if ($response->data->isEmpty()) {
+            return [];
+        }
+
+        return $this->makeResponse($response, $period);
+    }
+
+    /**
+     * @param PaginatedResponse $response
+     * @param string $period
+     * @return array
+     */
+    private function makeResponse(PaginatedResponse $response, string $period): array
+    {
         $friendlyPeriod = str_replace('-', ' ', $period);
 
-        if ($releases->data->isEmpty()) {
+        if ($response->data->isEmpty()) {
             return [
                 'content' => 'No upcoming releases found for the ' . $friendlyPeriod
             ];
@@ -72,10 +112,10 @@ class ReleasesCommand extends BaseCommand implements CallbackCommandInterface
 
         return [
             'content'    => '**Here are the upcoming releases for the ' . $friendlyPeriod . ':**',
-            'embeds'     => $this->makeGameEmbeds($releases),
+            'embeds'     => $this->makeGameEmbeds($response),
             'components' => [
                 $this->makeActionRow(
-                    $this->makePaginationComponents($releases)
+                    $this->makePaginationComponents($response)
                 )
             ]
         ];

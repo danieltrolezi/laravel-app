@@ -64,7 +64,7 @@ class AccountController extends Controller
     public function register(RegisterAccountRequest $request): JsonResponse
     {
         return response()->json(
-            $this->userRepository->create($request->all()),
+            $this->userRepository->create($request->validated()),
             Response::HTTP_CREATED
         );
     }
@@ -99,7 +99,7 @@ class AccountController extends Controller
         return response()->json(
             $this->userRepository->update(
                 $request->user(),
-                $request->all()
+                $request->validated()
             )
         );
     }
@@ -159,7 +159,7 @@ class AccountController extends Controller
         return response()->json(
             $this->userRepository->updateSettings(
                 $request->user(),
-                $request->all()
+                $request->validated()
             )
         );
     }

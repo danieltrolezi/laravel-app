@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 abstract class BaseCommand
 {
-    protected User $user;
+    protected ?User $user;
 
     public function __construct()
     {

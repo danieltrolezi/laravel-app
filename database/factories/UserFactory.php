@@ -24,12 +24,13 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name'            => fake()->name(),
-            'email'           => fake()->unique()->safeEmail(),
-            'username'        => null,
-            'password'        => static::$password ??= Hash::make('password'),
-            'scopes'          => [Scope::Default->value],
-            'discord_user_id' => null
+            'name'               => fake()->name(),
+            'email'              => fake()->unique()->safeEmail(),
+            'password'           => static::$password ??= Hash::make('password'),
+            'scopes'             => [Scope::Default->value],
+            'discord_user_id'    => null,
+            'discord_username'   => null,
+            'discord_channel_id' => null
         ];
     }
 }

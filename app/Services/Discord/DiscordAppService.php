@@ -4,7 +4,9 @@ namespace App\Services\Discord;
 
 use App\Exceptions\InvalidDiscordSignatureException;
 use App\Models\User;
+use App\Services\Discord\Commands\ReleasesCommand;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
 use InvalidArgumentException;
 
 class DiscordAppService extends DiscordBaseService
@@ -47,9 +49,10 @@ class DiscordAppService extends DiscordBaseService
 
         if (!$user) {
             $user = $this->userRepository->createFromDiscord([
-                'name'            => $payload['user']['global_name'],
-                'username'        => $payload['user']['username'],
-                'discord_user_id' => $payload['user']['id']
+                'name'               => $payload['user']['global_name'],
+                'discord_user_id'    => $payload['user']['id'],
+                'discord_username'   => $payload['user']['username'],
+                'discord_channel_id' => $payload['channel']['id']
             ]);
         }
 
@@ -95,17 +98,24 @@ class DiscordAppService extends DiscordBaseService
     }
 
     /**
-     * @param string $userId
-     * @return string
+     * @param User $user
+     * @param array $payload
+     * @return boolean
      */
-    public function sendMessage(string $userId): string
+    public function sendMessage(User $user, array $payload): bool
     {
         $res = $this->makeRequest(
-            uri: "users/$userId/messages",
-            payload: ['content' => 'This is a notification about upcoming game releases!']
+            uri: "/channels/$user->discord_channel_id/messages",
+            payload: $payload
         );
 
-        return $res->getBody()->getContents();
+
+        if ($res->getStatusCode() !== 200) {
+            Log::error($res->getBody()->getContents());
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -151,5 +161,41 @@ class DiscordAppService extends DiscordBaseService
         }
 
         return $results;
+    }
+
+    /**
+     * @return void
+     */
+    public function dispatchNotifications(): void
+    {
+        $command = resolve(ReleasesCommand::class);
+        $users = $this->userRepository->getDiscordUsersAndSettings();
+
+        Log::info('Dispatching notifications for ' . $users->count() . ' user(s)...');
+
+        $users->each(function ($user) use ($command) {
+            $message = $command->makeNotificationForUser($user);
+
+            if (!empty($message)) {
+                $result = $this->sendMessage($user, $message);
+
+                Log::info(
+                    sprintf(
+                        'Notification for %s (%s): %s',
+                        $user->discord_username,
+                        $user->discord_user_id,
+                        $result ? 'SUCCESS' : 'FAILED'
+                    )
+                );
+            } else {
+                Log::info(
+                    sprintf(
+                        'Notification for %s (%s): SKIPPED',
+                        $user->discord_username,
+                        $user->discord_user_id,
+                    )
+                );
+            }
+        });
     }
 }

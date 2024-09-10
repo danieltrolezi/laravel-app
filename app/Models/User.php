@@ -25,9 +25,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'username',
         'password',
-        'discord_user_id'
     ];
 
     /**
@@ -37,7 +35,8 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'remember_token',
+        'discord_user_id',
+        'discord_channel_id'
     ];
 
     /**
@@ -50,8 +49,9 @@ class User extends Authenticatable
     #[OA\Property(property: 'id', type: 'integer')]
     #[OA\Property(property: 'name', type: 'string')]
     #[OA\Property(property: 'email', type: 'string')]
-    #[OA\Property(property: 'username', type: 'string')]
     #[OA\Property(property: 'discord_user_id', type: 'string')]
+    #[OA\Property(property: 'discord_username', type: 'string')]
+    #[OA\Property(property: 'discord_channel_id', type: 'string')]
     #[OA\Property(property: 'created_at', type: 'datetime')]
     #[OA\Property(property: 'updated_at', type: 'datetime')]
     #[OA\Property(property: 'settings', ref: '#/components/schemas/UserSetting')]
