@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
         nano
 
 RUN docker-php-ext-configure pcntl --enable-pcntl
-RUN docker-php-ext-install pdo pdo_mysql pcntl
+RUN docker-php-ext-install pdo pdo_mysql pcntl opcache
 
 RUN pecl install xdebug \
         redis \
