@@ -23,14 +23,14 @@ RUN mkdir -p /var/log/supervisor && \
     mkdir -p /var/log/php-fpm
 
 COPY . /var/www/laravel-app
-COPY ./docker/supervisord /etc/supervisor/conf.d/
+COPY ./docker/supervisor /etc/supervisor/
 COPY ./docker/php "${PHP_INI_DIR}/conf.d/"
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 RUN find /var/www/laravel-app -not -path "/var/www/laravel-app/vendor/*" -type f -exec chmod 644 {} \;
 RUN find /var/www/laravel-app -type d -exec chmod 755 {} \;
-RUN chown -R $USER:www-data /var/www/laravel-app
+RUN chown -R www-data:www-data /var/www/laravel-app
 RUN chgrp -R www-data storage bootstrap/cache
 RUN chmod -R ug+rwx storage bootstrap/cache
 

@@ -5,4 +5,4 @@ if [ ! -f ./composer.lock ]; then
     composer dump-autoload
 fi
 
-/usr/bin/supervisord -n
+/usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf

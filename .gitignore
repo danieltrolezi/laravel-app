@@ -5,3 +5,4 @@ node_modules
 .phpunit.result.cache
 *info.php
 composer.lock
+public/coverage
