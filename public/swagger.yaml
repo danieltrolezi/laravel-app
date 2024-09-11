@@ -340,11 +340,11 @@ paths:
         '200':
           description: OK
       security: []
-  /api/health:
+  /api/up:
     get:
       tags:
         - application
-      operationId: cf1f080fb1aecf4993751251dedf0b57
+      operationId: 0209dbce81fba7988605af0dd5da1f73
       responses:
         '200':
           description: OK
