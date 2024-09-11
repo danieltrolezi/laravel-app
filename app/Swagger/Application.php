@@ -17,13 +17,14 @@ class Application
     }
 
     #[OA\Get(
-        path: '/health',
+        path: '/up',
         tags: ['application'],
+        security: [],
         responses: [
             new OA\Response(response: 200, description: 'OK')
         ]
     )]
-    public function health()
+    public function up()
     {
     }
 }

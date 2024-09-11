@@ -4,16 +4,17 @@ info:
   version: '1.0'
 servers:
   -
-    url: laravel-app.local
+    url: 'http://laravel-app.local'
 paths:
-  /health:
+  /up:
     get:
       tags:
         - application
-      operationId: eae7d70a8bdf26a7f224dbefa507cdb1
+      operationId: babf1c1e7a1e559b1836be5e2e457254
       responses:
         '200':
           description: OK
+      security: []
 tags:
   -
     name: application
