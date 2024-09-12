@@ -14,15 +14,19 @@ if [ ! -d "vendor" ] || [ -z "$(ls -A vendor)" ]; then
     fi
 fi
 
-if [ "$RUN_MODE" == "octane" ]; then
-    if [ "$APP_ENV" == "local" ]; then
-        php artisan octane:swoole --watch --host=0.0.0.0
-    else
-        php artisan octane:swoole --host=0.0.0.0 --workers=4 --task-workers=4
-    fi
-elif [ "$RUN_MODE" == "notif" ]; then
-    php artisan app:dispatch-notifications
-else
-    echo "Invalid RUN_MODE. Please set it to 'octane' or 'notif'."
-    exit 1
-fi
+case "$RUN_MODE" in
+    octane)
+        if [ "$APP_ENV" == "local" ]; then
+            php artisan octane:swoole --host=0.0.0.0 --watch 
+        else
+            php artisan octane:swoole --host=0.0.0.0 --workers=4 --task-workers=4
+        fi
+        ;;
+    notif)
+        php artisan app:dispatch-notifications
+        ;;
+    *)
+        echo "Invalid RUN_MODE. Please set it to 'octane' or 'notif'."
+        exit 1
+        ;;
+esac
