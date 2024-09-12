@@ -8,6 +8,7 @@
         "php": "^8.2",
         "firebase/php-jwt": "^6.10",
         "laravel/framework": "^11.0",
+        "laravel/octane": "^2.5",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "leventcz/laravel-top": "^1.1",
@@ -23,7 +24,8 @@
         "phpunit/phpunit": "^11.0.1",
         "rector/rector": "*",
         "spatie/laravel-ignition": "^2.4",
-        "squizlabs/php_codesniffer": "^3.0"
+        "squizlabs/php_codesniffer": "^3.0",
+        "swoole/ide-helper": "~5.0.0"
     },
     "autoload": {
         "psr-4": {
