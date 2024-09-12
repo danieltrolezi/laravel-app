@@ -32,7 +32,7 @@ This repository provides a solid foundation for your next Laravel project, accel
 
 By leveraging this base application, you can benefit from a well-structured foundation that promotes efficient and maintainable development practices for your Laravel projects.
 
-#### Experements
+#### Experiments
 
 On the Wiki You'll also find some examples showing how to use Laravel's Octane instead of PHP-fpm and many other things, such as:
 
