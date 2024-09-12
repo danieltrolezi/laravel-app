@@ -1,9 +1,7 @@
-vendor
 node_modules
+public/coverage
+vendor
 .env
 .vscode
 .phpunit.result.cache
 *info.php
-composer.lock
-package-lock.json
-public/coverage
