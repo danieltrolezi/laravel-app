@@ -38,9 +38,8 @@ class AppServiceProvider extends ServiceProvider
     private function setHealthCheck(): void
     {
         $env = match (config('app.url')) {
-            'http://laravel-app.local' => 'local',
-            'http://laravel-app.qa'    => 'qa',
-            default                    => 'production'
+            'http://gamewatch.local' => 'local',
+            default                  => 'prod'
         };
 
         Health::checks([
