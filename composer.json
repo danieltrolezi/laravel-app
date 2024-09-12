@@ -63,6 +63,9 @@
         "test:coverage": [
             "php artisan test --coverage --min=80"
         ],
+        "test:generate": [
+            "./vendor/bin/phpunit --coverage-html ./public/coverage"
+        ],
         "swagger:generate": [
             "./vendor/bin/openapi -b ./swagger.php -o ./public/swagger.yaml ./app"
         ],
