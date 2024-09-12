@@ -1,12 +1,13 @@
-name: Docker Image CI
+name: CD
 
 on:
   push:
     branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
 
 jobs:
+  test: 
+    uses: danieltrolezi/laravel-app/.github/workflows/ci.yml@master
+
   build:
     runs-on: ubuntu-latest
 

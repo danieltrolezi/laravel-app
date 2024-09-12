@@ -1,13 +1,12 @@
-name: Laravel CI
+name: CI
 
 on:
-  push:
-    branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
+  workflow_call:
 
 jobs:
-  build-n-test:
+  test:
     runs-on: ubuntu-latest
     
     steps:
