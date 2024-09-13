@@ -13,6 +13,6 @@ class ApplicationTest extends TestCase
         $this->assertInstanceOf(Application::class, $app);
         $this->assertNull($app->tags());
         $this->assertNull($app->up());
-        $this->assertNull($app->health());
+        $this->assertNull($app->apiUp());
     }
 }
