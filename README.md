@@ -1,7 +1,7 @@
 ## Out of the Box Laravel Application
 
-![status](https://img.shields.io/badge/status-work%20in%20progress-green?style=flat)
 ![version](https://img.shields.io/badge/version-0.8.0-blue?style=flat)
+[![build](https://github.com/danieltrolezi/laravel-app/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/danieltrolezi/laravel-app/actions/workflows/ci-cd.yml)
 
 ### Jumpstart Laravel Development with a Base Application
 
