@@ -19,9 +19,12 @@ jobs:
         php-version: '8.3'
     
     - uses: actions/checkout@v4
-    
-    - name: Copy .env
-      run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+
+    - name: Create .env file
+      run: |
+        cp .env.example .env
+        sed -i 's/REDIS_HOST=.*/REDIS_HOST=localhost/' .env
+        sed -i 's/REDIS_PASSWORD=.*/REDIS_PASSWORD=null/' .env
     
     - name: Install Dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
@@ -34,6 +37,13 @@ jobs:
     
     - name: Run Code Sniffer
       run: composer phpcs
-    
+
+    - name: Wait for Redis
+      run: sleep 10
+
+    - name: Check Redis Connectivity
+      run: |
+        nc -zv localhost 6379
+            
     - name: Run Tests
       run: composer test

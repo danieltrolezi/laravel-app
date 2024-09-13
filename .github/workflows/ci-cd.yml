@@ -13,7 +13,8 @@ jobs:
     needs: tests-n-cs
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Check out the repository
+      uses: actions/checkout@v4
 
     - name: Build Docker image
       run: docker build . --file Dockerfile --tag ${{ vars.DOCKER_IMAGE_TAG }}
