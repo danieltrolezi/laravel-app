@@ -56,6 +56,25 @@ abstract class TestCase extends BaseTestCase
         return collect($games);
     }
 
+    protected function prepRawgForUnitTesting(): void
+    {
+        Config::set('services.rawg.host', $this->faker->url());
+        Config::set('services.rawg.api_key', $this->faker->password(8, 12));
+
+        $this->mockRedis();
+    }
+
+    protected function mockRedis(): void
+    {
+        Redis::shouldReceive('get')
+        ->once()
+        ->andReturn(null);
+
+        Redis::shouldReceive('setEx')
+        ->once()
+        ->andReturn(true);
+    }
+
     protected function createClientMock(string $file)
     {
         $contents = file_get_contents(
@@ -72,24 +91,5 @@ abstract class TestCase extends BaseTestCase
         $client->shouldReceive('request')->andReturn($response);
 
         return $client;
-    }
-
-    protected function mockRedis(): void
-    {
-        Redis::shouldReceive('get')
-        ->once()
-        ->andReturn(null);
-
-        Redis::shouldReceive('setEx')
-        ->once()
-        ->andReturn(true);
-    }
-
-    protected function prepRawgForUnitTesting(): void
-    {
-        Config::set('services.rawg.host', $this->faker->url());
-        Config::set('services.rawg.api_key', $this->faker->password(8, 12));
-
-        $this->mockRedis();
     }
 }
