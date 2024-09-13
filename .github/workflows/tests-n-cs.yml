@@ -1,8 +1,6 @@
-name: Application CI
+name: Tests & Code Sniffer
 
 on:
-  pull_request:
-    branches: [ "master" ]
   workflow_call:
 
 jobs:
@@ -13,26 +11,23 @@ jobs:
     - uses: shivammathur/setup-php@v2
       with:
         php-version: '8.3'
+    
     - uses: actions/checkout@v4
+    
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+    
     - name: Install Dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+    
     - name: Generate Key
       run: php artisan key:generate
+    
     - name: Set Directory Permissions
       run: chmod -R 777 storage bootstrap/cache
-    - name: Verify Code Style
+    
+    - name: Run Code Sniffer
       run: composer phpcs
+    
     - name: Run Tests
       run: composer test
-  
-  build:
-    runs-on: ubuntu-latest
-    needs: test
-
-    steps:
-    - uses: actions/checkout@v4
-    - name: Build Docker image
-      run: docker build . --file Dockerfile --tag laravel-app:$(date +%s)
-
