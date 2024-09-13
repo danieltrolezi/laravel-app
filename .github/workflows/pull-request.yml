@@ -1,0 +1,20 @@
+name: Pull Request CI
+
+on:
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  tests-n-cs: 
+    uses: danieltrolezi/laravel-app/.github/workflows/tests-n-cs.yml@master
+  
+  docker-image:
+    runs-on: ubuntu-latest
+    needs: tests-n-cs
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Build Docker image
+      run: docker build . --file Dockerfile --tag ${{ env.DOCKER_IMAGE_TAG }}
+
