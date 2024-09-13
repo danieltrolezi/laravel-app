@@ -11,9 +11,7 @@ class RawgDomainServiceTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-
-        Config::set('services.rawg.host', $this->faker->url());
-        Config::set('services.rawg.api_key', $this->faker->password(8, 12));
+        $this->prepRawgForUnitTesting();
     }
 
     public function test_should_return_genres(): void

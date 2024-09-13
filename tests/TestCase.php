@@ -12,6 +12,8 @@ use Illuminate\Support\Collection;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Stream;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Redis;
 use Mockery;
 
 abstract class TestCase extends BaseTestCase
@@ -70,5 +72,24 @@ abstract class TestCase extends BaseTestCase
         $client->shouldReceive('request')->andReturn($response);
 
         return $client;
+    }
+
+    protected function mockRedis(): void
+    {
+        Redis::shouldReceive('get')
+        ->once()
+        ->andReturn(null);
+
+        Redis::shouldReceive('setEx')
+        ->once()
+        ->andReturn(true);
+    }
+
+    protected function prepRawgForUnitTesting(): void
+    {
+        Config::set('services.rawg.host', $this->faker->url());
+        Config::set('services.rawg.api_key', $this->faker->password(8, 12));
+
+        $this->mockRedis();
     }
 }

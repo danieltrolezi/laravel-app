@@ -18,9 +18,7 @@ class RawgGamesServiceTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-
-        Config::set('services.rawg.host', $this->faker->url());
-        Config::set('services.rawg.api_key', $this->faker->password(8, 12));
+        $this->prepRawgForUnitTesting();
     }
 
     private function createFilterServiceSpy(array $defaultFilters, array $filters)
