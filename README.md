@@ -39,4 +39,4 @@ On the Wiki You'll also find some examples showing how to use Laravel's Octane i
 * [Swagger](https://github.com/danieltrolezi/laravel-app/wiki/07.-Swagger)
 * [Laravel Octane](https://github.com/danieltrolezi/laravel-app/wiki/08.-Laravel-Octane)
 * [Authentication & Authorization](https://github.com/danieltrolezi/laravel-app/wiki/09.-Authentication-&-Authorization)
-* [PHP's Yaml](https://github.com/danieltrolezi/laravel-app/wiki/97.-Appendix#yaml)
+* [PHP's Yaml](https://github.com/danieltrolezi/laravel-app/wiki/98.-Appendix#yaml)
