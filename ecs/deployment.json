@@ -11,7 +11,7 @@
   "containerDefinitions": [
     {
       "name": "nginx",
-      "image": "471112560082.dkr.ecr.us-east-2.amazonaws.com/codelab92/laravel-app.nginx:latest",
+      "image": "471112560082.dkr.ecr.us-east-2.amazonaws.com/codelab92/laravel-app:latest-nginx",
       "essential": true,
       "portMappings": [
         {
@@ -26,21 +26,21 @@
         "options": {
           "awslogs-group": "/ecs/laravel-app",
           "awslogs-region": "us-east-2",
-          "awslogs-stream-prefix": "web",
+          "awslogs-stream-prefix": "nginx",
           "awslogs-create-group": "true"
         }
       }
     },
     {
       "name": "php-fpm",
-      "image": "471112560082.dkr.ecr.us-east-2.amazonaws.com/codelab92/laravel-app.php-fpm:latest",
+      "image": "471112560082.dkr.ecr.us-east-2.amazonaws.com/codelab92/laravel-app:latest-php-fpm",
       "essential": true,
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
           "awslogs-group": "/ecs/laravel-app",
           "awslogs-region": "us-east-2",
-          "awslogs-stream-prefix": "app",
+          "awslogs-stream-prefix": "php-fpm",
           "awslogs-create-group": "true"
         }
       },
