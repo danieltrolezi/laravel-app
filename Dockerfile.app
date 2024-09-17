@@ -34,6 +34,6 @@ RUN chown -R www-data:www-data /var/www/laravel-app
 RUN chgrp -R www-data storage bootstrap/cache
 RUN chmod -R ug+rwx storage bootstrap/cache
 
-COPY ./docker/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+COPY ./docker/entrypoint.app.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+ENTRYPOINT ["entrypoint.sh"]

@@ -9,4 +9,4 @@ if [ ! -d "vendor" ] || [ -z "$(ls -A vendor)" ]; then
     fi
 fi
 
-/usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf
+supervisord -n -c /etc/supervisor/supervisord.conf

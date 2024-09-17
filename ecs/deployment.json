@@ -10,31 +10,19 @@
   "networkMode": "awsvpc",
   "containerDefinitions": [
     {
-      "name": "nginx",
-      "image": "471112560082.dkr.ecr.us-east-2.amazonaws.com/codelab92/laravel-app:latest-nginx",
-      "essential": true,
-      "portMappings": [
-        {
-          "containerPort": 80,
-          "hostPort": 80,
-          "protocol": "tcp"
-        }
-      ],
-      
-      "logConfiguration": {
-        "logDriver": "awslogs",
-        "options": {
-          "awslogs-group": "/ecs/laravel-app",
-          "awslogs-region": "us-east-2",
-          "awslogs-stream-prefix": "nginx",
-          "awslogs-create-group": "true"
-        }
-      }
-    },
-    {
       "name": "php-fpm",
       "image": "471112560082.dkr.ecr.us-east-2.amazonaws.com/codelab92/laravel-app:latest-php-fpm",
       "essential": true,
+      "healthCheck": {
+        "command": [
+          "CMD-SHELL",
+          "curl -f http://localhost:9000/up || exit 1"
+        ],
+        "interval": 30,
+        "timeout": 5,
+        "retries": 3,
+        "startPeriod": 10
+      },
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
@@ -102,6 +90,39 @@
           "valueFrom": "arn:aws:ssm:us-east-2:471112560082:parameter/laravel-app/REDIS_PASSWORD"
         }
       ]
+    },
+    {
+      "name": "nginx",
+      "image": "471112560082.dkr.ecr.us-east-2.amazonaws.com/codelab92/laravel-app:latest-nginx",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 80,
+          "hostPort": 80,
+          "protocol": "tcp"
+        }
+      ],
+      "dependsOn": [
+        {
+          "containerName": "php-fpm",
+          "condition": "HEALTHY"
+        }
+      ],
+      "secrets": [
+        {
+          "name": "PHP_UPSTREAM_HOST",
+          "valueFrom": "arn:aws:ssm:us-east-2:471112560082:parameter/laravel-app/PHP_UPSTREAM_HOST"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/laravel-app",
+          "awslogs-region": "us-east-2",
+          "awslogs-stream-prefix": "nginx",
+          "awslogs-create-group": "true"
+        }
+      }
     }
   ],
   "requiresCompatibilities": [

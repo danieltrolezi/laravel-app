@@ -18,6 +18,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.nginx
+    environment:
+      - PHP_UPSTREAM_HOST=php-fpm
     ports:
       - '80:80'
     depends_on:
