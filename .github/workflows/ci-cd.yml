@@ -8,7 +8,7 @@ jobs:
   tests-n-cs: 
     uses: danieltrolezi/laravel-app/.github/workflows/tests-n-cs.yml@master
 
-  docker-image:
+  docker-image-ecr:
     runs-on: ubuntu-latest
     needs: tests-n-cs
 
@@ -16,8 +16,11 @@ jobs:
     - name: Check out the repository
       uses: actions/checkout@v4
 
-    - name: Build Docker image
-      run: docker build . --file Dockerfile --tag ${{ vars.DOCKER_IMAGE_TAG }}
+    - name: Build Docker image (PHP-fpm)
+      run: docker build . --file Dockerfile.app --tag ${{ vars.DOCKER_IMAGE_TAG }}/php-fpm
+
+    - name: Build Docker image (PHP-fpm)
+      run: docker build . --file Dockerfile.nginx --tag ${{ vars.DOCKER_IMAGE_TAG }}/nginx
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v4
@@ -31,8 +34,12 @@ jobs:
         aws ecr get-login-password --region ${{ vars.AWS_REGION }} \
         | docker login --username AWS --password-stdin ${{ vars.ECR_REPOSITORY_URI }}
 
-    - name: Tag Docker image
-      run: docker tag ${{ vars.DOCKER_IMAGE_TAG }}:latest ${{ vars.ECR_REPOSITORY_URI }}:latest
+    - name: Tag Docker images
+      run: |
+        docker tag ${{ vars.DOCKER_IMAGE_TAG }}/php-fpm:latest ${{ vars.ECR_REPOSITORY_URI }}/php-fpm:latest
+        docker tag ${{ vars.DOCKER_IMAGE_TAG }}/nginx:latest ${{ vars.ECR_REPOSITORY_URI }}/nginx:latest
 
     - name: Push Docker image to ECR
-      run: docker push ${{ vars.ECR_REPOSITORY_URI }}:latest
+      run: |
+        docker push ${{ vars.ECR_REPOSITORY_URI }}/php-fpm:latest
+        docker push ${{ vars.ECR_REPOSITORY_URI }}/nginx:latest
