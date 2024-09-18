@@ -43,3 +43,37 @@ jobs:
       run: |
         docker push ${{ vars.ECR_REPOSITORY_URI }}:latest-php-fpm
         docker push ${{ vars.ECR_REPOSITORY_URI }}:latest-nginx
+
+  ecs-task:
+    runs-on: ubuntu-latest
+    needs: docker-image-ecr
+
+    steps:
+    - name: Check out the repository
+      uses: actions/checkout@v4
+
+    - name: Update ECS task definition
+      run: |
+        sed -i 's|<ECS_TASK_EXEC_ROLE>|${{ vars.ECS_TASK_EXEC_ROLE }}|' ./ecs/deployment-task.json
+        sed -i 's|<SSM_NAMESPACE>|${{ vars.SSM_NAMESPACE }}|' ./ecs/deployment-task.json
+        sed -i 's|<IMAGE_PHP_FPM>|${{ vars.ECR_REPOSITORY_URI }}:latest-php-fpm|' ./ecs/deployment-task.json
+        sed -i 's|<IMAGE_NGINX>|${{ vars.ECR_REPOSITORY_URI }}:latest-nginx|' ./ecs/deployment-task.json
+    
+    - name: Register updated task definition
+      run: |
+        aws ecs register-task-definition \
+          --cli-input-json file://./ecs/deployment-task.json \
+          --region ${{ vars.AWS_REGION }}
+
+  ecs-service:
+    runs-on: ubuntu-latest
+    needs: update-ecs-task
+
+    steps:
+    - name: Deploy updated ECS service
+      run: |
+        aws ecs update-service \
+          --cluster ${{ vars.ECS_CLUSTER }} \
+          --service ${{ vars.ECS_SERVICE_NAME }} \
+          --force-new-deployment \
+          --region ${{ vars.AWS_REGION }}

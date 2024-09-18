@@ -1,0 +1,191 @@
+{
+  "executionRoleArn": "<ECS_TASK_EXEC_ROLE>",
+  "family": "laravel-app-task",
+  "networkMode": "awsvpc",
+  "containerDefinitions": [
+    {
+      "name": "mysql",
+      "image": "mysql:8.0",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 3306,
+          "hostPort": 3306,
+          "protocol": "tcp"
+        }
+      ],
+      "healthCheck": {
+        "command": [
+          "CMD-SHELL",
+          "sh -c 'mysqladmin ping -h 127.0.0.1 -u root -p$MYSQL_ROOT_PASSWORD || exit 1'"
+        ],
+        "interval": 30,
+        "timeout": 10,
+        "retries": 3,
+        "startPeriod": 30
+      },
+      "secrets": [
+        {
+          "name": "MYSQL_DATABASE",
+          "valueFrom": "<SSM_NAMESPACE>/DB_DATABASE"
+        },
+        {
+          "name": "MYSQL_ROOT_PASSWORD",
+          "valueFrom": "<SSM_NAMESPACE>/DB_PASSWORD"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/laravel-app",
+          "awslogs-region": "us-east-2",
+          "awslogs-stream-prefix": "mysql",
+          "awslogs-create-group": "true"
+        }
+      }
+    },
+    {
+      "name": "php-fpm",
+      "image": "<IMAGE_PHP_FPM>",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 9000,
+          "hostPort": 9000,
+          "protocol": "tcp"
+        }
+      ],
+      "dependsOn": [
+        {
+          "containerName": "mysql",
+          "condition": "HEALTHY"
+        }
+      ],
+      "healthCheck": {
+        "command": [
+          "CMD-SHELL",
+          "supervisorctl status php-fpm | grep RUNNING || exit 1"
+        ],
+        "interval": 30,
+        "timeout": 10,
+        "retries": 3,
+        "startPeriod": 20
+      },
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/laravel-app",
+          "awslogs-region": "us-east-2",
+          "awslogs-stream-prefix": "php-fpm",
+          "awslogs-create-group": "true"
+        }
+      },
+      "secrets": [
+        {
+          "name": "APP_NAME",
+          "valueFrom": "<SSM_NAMESPACE>/APP_DEBUG"
+        },
+        {
+          "name": "APP_VERSION",
+          "valueFrom": "<SSM_NAMESPACE>/APP_VERSION"
+        },
+        {
+          "name": "APP_URL",
+          "valueFrom": "<SSM_NAMESPACE>/APP_URL"
+        },
+        {
+          "name": "APP_ENV",
+          "valueFrom": "<SSM_NAMESPACE>/APP_ENV"
+        },
+        {
+          "name": "APP_KEY",
+          "valueFrom": "<SSM_NAMESPACE>/APP_KEY"
+        },
+        {
+          "name": "APP_DEBUG",
+          "valueFrom": "<SSM_NAMESPACE>/APP_DEBUG"
+        },
+        {
+          "name": "DB_CONNECTION",
+          "valueFrom": "<SSM_NAMESPACE>/DB_CONNECTION"
+        },
+        {
+          "name": "DB_HOST",
+          "valueFrom": "<SSM_NAMESPACE>/DB_HOST"
+        },
+        {
+          "name": "DB_PORT",
+          "valueFrom": "<SSM_NAMESPACE>/DB_PORT"
+        },
+        {
+          "name": "DB_DATABASE",
+          "valueFrom": "<SSM_NAMESPACE>/DB_DATABASE"
+        },
+        {
+          "name": "DB_USERNAME",
+          "valueFrom": "<SSM_NAMESPACE>/DB_USERNAME"
+        },
+        {
+          "name": "DB_PASSWORD",
+          "valueFrom": "<SSM_NAMESPACE>/DB_PASSWORD"
+        },
+        {
+          "name": "REDIS_HOST",
+          "valueFrom": "<SSM_NAMESPACE>/REDIS_HOST"
+        },
+        {
+          "name": "REDIS_PASSWORD",
+          "valueFrom": "<SSM_NAMESPACE>/REDIS_PASSWORD"
+        }
+      ]
+    },
+    {
+      "name": "nginx",
+      "image": "<IMAGE_NGINX>",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 80,
+          "hostPort": 80,
+          "protocol": "tcp"
+        }
+      ],
+      "dependsOn": [
+        {
+          "containerName": "php-fpm",
+          "condition": "HEALTHY"
+        }
+      ],
+      "healthCheck": {
+        "command": [
+          "CMD-SHELL",
+          "curl -f http://localhost:80/up || exit 1"
+        ],
+        "interval": 30,
+        "timeout": 5,
+        "retries": 3,
+        "startPeriod": 10
+      },
+      "secrets": [
+        {
+          "name": "PHP_UPSTREAM_HOST",
+          "valueFrom": "<SSM_NAMESPACE>/PHP_UPSTREAM_HOST"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/laravel-app",
+          "awslogs-region": "us-east-2",
+          "awslogs-stream-prefix": "nginx",
+          "awslogs-create-group": "true"
+        }
+      }
+    }
+  ],
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "cpu": "256",
+  "memory": "1024"
+}

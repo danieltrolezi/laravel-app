@@ -19,6 +19,8 @@ This repository provides a solid foundation for your next Laravel project, accel
 * Web Server: Nginx
 * PHP Processor: PHP-fpm
 * Process Supervisor: Supervisord
+* CI/CD: Github Actions, AWS ECR and ECS
+* Vault: AWS SSM
 
 #### Streamlined Development Experience:
 
