@@ -4,12 +4,17 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.app
+    env_file:
+      - .env
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:
       - .:/var/www/laravel-app
       - ./vendor:/var/www/laravel-app/vendor
     working_dir: /var/www/laravel-app
+    depends_on:
+      mysql:
+        condition: service_healthy
     networks:
       - bridge
   
@@ -44,6 +49,11 @@ services:
     environment:
       MYSQL_DATABASE: ${DB_DATABASE}
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
     networks:
       - bridge
 

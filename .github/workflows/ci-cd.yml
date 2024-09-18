@@ -44,7 +44,7 @@ jobs:
         docker push ${{ vars.ECR_REPOSITORY_URI }}:latest-php-fpm
         docker push ${{ vars.ECR_REPOSITORY_URI }}:latest-nginx
 
-  ecs-task:
+  ecs-task-update:
     runs-on: ubuntu-latest
     needs: docker-image-ecr
 
@@ -65,9 +65,9 @@ jobs:
           --cli-input-json file://./ecs/deployment-task.json \
           --region ${{ vars.AWS_REGION }}
 
-  ecs-service:
+  ecs-service-deploy:
     runs-on: ubuntu-latest
-    needs: update-ecs-task
+    needs: ecs-task-update
 
     steps:
     - name: Deploy updated ECS service
