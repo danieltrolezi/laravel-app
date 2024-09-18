@@ -70,6 +70,7 @@ jobs:
         sed -i 's|<SSM_NAMESPACE>|${{ vars.SSM_NAMESPACE }}|' ./ecs/deployment-task.json
         sed -i 's|<IMAGE_PHP_FPM>|${{ vars.ECR_REPOSITORY_URI }}:latest-php-fpm|' ./ecs/deployment-task.json
         sed -i 's|<IMAGE_NGINX>|${{ vars.ECR_REPOSITORY_URI }}:latest-nginx|' ./ecs/deployment-task.json
+        sed -i 's|<IMAGE_MYSQL>|${{ vars.ECR_REPOSITORY_URI }}:latest-mysql|' ./ecs/deployment-task.json
     
     - name: Register updated task definition
       run: |
