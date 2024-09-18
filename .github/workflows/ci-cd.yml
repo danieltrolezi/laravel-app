@@ -29,6 +29,9 @@ jobs:
     - name: Build Docker image (Nginx)
       run: docker build . --file Dockerfile.nginx --tag ${{ vars.DOCKER_IMAGE_TAG }}/nginx
 
+    - name: Build Docker image (MySQL)
+      run: docker build . --file Dockerfile.mysql --tag ${{ vars.DOCKER_IMAGE_TAG }}/mysql
+
     - name: Login to Amazon ECR
       run: |
         aws ecr get-login-password --region ${{ vars.AWS_REGION }} \
@@ -38,11 +41,13 @@ jobs:
       run: |
         docker tag ${{ vars.DOCKER_IMAGE_TAG }}/php-fpm:latest ${{ vars.ECR_REPOSITORY_URI }}:latest-php-fpm
         docker tag ${{ vars.DOCKER_IMAGE_TAG }}/nginx:latest ${{ vars.ECR_REPOSITORY_URI }}:latest-nginx
+        docker tag ${{ vars.DOCKER_IMAGE_TAG }}/mysql:latest ${{ vars.ECR_REPOSITORY_URI }}:latest-mysql
 
     - name: Push Docker images to ECR
       run: |
         docker push ${{ vars.ECR_REPOSITORY_URI }}:latest-php-fpm
         docker push ${{ vars.ECR_REPOSITORY_URI }}:latest-nginx
+        docker push ${{ vars.ECR_REPOSITORY_URI }}:latest-mysql
 
   ecs-service-deploy:
     runs-on: ubuntu-latest

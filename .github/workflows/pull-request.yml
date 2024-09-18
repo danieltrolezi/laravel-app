@@ -21,3 +21,6 @@ jobs:
     - name: Build Docker image (Nginx)
       run: docker build . --file Dockerfile.nginx --tag ${{ vars.DOCKER_IMAGE_TAG }}/nginx
 
+    - name: Build Docker image (MySQL)
+      run: docker build . --file Dockerfile.mysql --tag ${{ vars.DOCKER_IMAGE_TAG }}/mysql
+
