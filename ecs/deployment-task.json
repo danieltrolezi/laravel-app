@@ -4,47 +4,6 @@
   "networkMode": "awsvpc",
   "containerDefinitions": [
     {
-      "name": "mysql",
-      "image": "mysql:8.0",
-      "essential": true,
-      "portMappings": [
-        {
-          "containerPort": 3306,
-          "hostPort": 3306,
-          "protocol": "tcp"
-        }
-      ],
-      "healthCheck": {
-        "command": [
-          "CMD-SHELL",
-          "sh -c 'mysqladmin ping -h 127.0.0.1 -u root -p$MYSQL_ROOT_PASSWORD || exit 1'"
-        ],
-        "interval": 30,
-        "timeout": 10,
-        "retries": 3,
-        "startPeriod": 30
-      },
-      "secrets": [
-        {
-          "name": "MYSQL_DATABASE",
-          "valueFrom": "<SSM_NAMESPACE>/DB_DATABASE"
-        },
-        {
-          "name": "MYSQL_ROOT_PASSWORD",
-          "valueFrom": "<SSM_NAMESPACE>/DB_PASSWORD"
-        }
-      ],
-      "logConfiguration": {
-        "logDriver": "awslogs",
-        "options": {
-          "awslogs-group": "/ecs/laravel-app",
-          "awslogs-region": "us-east-2",
-          "awslogs-stream-prefix": "mysql",
-          "awslogs-create-group": "true"
-        }
-      }
-    },
-    {
       "name": "php-fpm",
       "image": "<IMAGE_PHP_FPM>",
       "essential": true,
@@ -178,6 +137,47 @@
           "awslogs-group": "/ecs/laravel-app",
           "awslogs-region": "us-east-2",
           "awslogs-stream-prefix": "nginx",
+          "awslogs-create-group": "true"
+        }
+      }
+    },
+    {
+      "name": "mysql",
+      "image": "mysql:8.0",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 3306,
+          "hostPort": 3306,
+          "protocol": "tcp"
+        }
+      ],
+      "healthCheck": {
+        "command": [
+          "CMD-SHELL",
+          "sh -c 'mysqladmin ping -h 127.0.0.1 -u root -p$MYSQL_ROOT_PASSWORD || exit 1'"
+        ],
+        "interval": 30,
+        "timeout": 10,
+        "retries": 3,
+        "startPeriod": 30
+      },
+      "secrets": [
+        {
+          "name": "MYSQL_DATABASE",
+          "valueFrom": "<SSM_NAMESPACE>/DB_DATABASE"
+        },
+        {
+          "name": "MYSQL_ROOT_PASSWORD",
+          "valueFrom": "<SSM_NAMESPACE>/DB_PASSWORD"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/laravel-app",
+          "awslogs-region": "us-east-2",
+          "awslogs-stream-prefix": "mysql",
           "awslogs-create-group": "true"
         }
       }

@@ -19,12 +19,15 @@ RUN pecl install xdebug \
     && docker-php-ext-enable xdebug \
         redis
 
-RUN mkdir -p /var/log/supervisor && \
-    mkdir -p /var/log/php-fpm
+RUN mkdir -p /var/run/php && \
+        chown -R www-data:www-data /var/run/php && \
+        chmod 755 /var/run/php
 
 COPY . /var/www/laravel-app
-COPY ./docker/supervisor /etc/supervisor/
+
 COPY ./docker/php "${PHP_INI_DIR}/conf.d/"
+COPY ./docker/php-fpm/www.conf /usr/local/etc/php-fpm.d/www.conf
+COPY ./docker/supervisor /etc/supervisor/
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
