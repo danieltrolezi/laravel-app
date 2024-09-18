@@ -6,7 +6,7 @@ on:
 
 jobs:
   tests-n-cs: 
-    uses: ./.github/workflows/tests-n-cs.yml@master
+    uses: ./.github/workflows/tests-n-cs.yml
   
   docker-image:
     runs-on: ubuntu-latest
