@@ -35,19 +35,19 @@ jobs:
     - name: Login to Amazon ECR
       run: |
         aws ecr get-login-password --region ${{ vars.AWS_REGION }} \
-        | docker login --username AWS --password-stdin ${{ vars.ECR_REPOSITORY_URI }}
+        | docker login --username AWS --password-stdin ${{ secrets.ECR_REPOSITORY_URI }}
 
     - name: Tag Docker images
       run: |
-        docker tag ${{ vars.DOCKER_IMAGE_TAG }}/php-fpm:latest ${{ vars.ECR_REPOSITORY_URI }}:latest-php-fpm
-        docker tag ${{ vars.DOCKER_IMAGE_TAG }}/nginx:latest ${{ vars.ECR_REPOSITORY_URI }}:latest-nginx
-        docker tag ${{ vars.DOCKER_IMAGE_TAG }}/mysql:latest ${{ vars.ECR_REPOSITORY_URI }}:latest-mysql
+        docker tag ${{ vars.DOCKER_IMAGE_TAG }}/php-fpm:latest ${{ secrets.ECR_REPOSITORY_URI }}:latest-php-fpm
+        docker tag ${{ vars.DOCKER_IMAGE_TAG }}/nginx:latest ${{ secrets.ECR_REPOSITORY_URI }}:latest-nginx
+        docker tag ${{ vars.DOCKER_IMAGE_TAG }}/mysql:latest ${{ secrets.ECR_REPOSITORY_URI }}:latest-mysql
 
     - name: Push Docker images to ECR
       run: |
-        docker push ${{ vars.ECR_REPOSITORY_URI }}:latest-php-fpm
-        docker push ${{ vars.ECR_REPOSITORY_URI }}:latest-nginx
-        docker push ${{ vars.ECR_REPOSITORY_URI }}:latest-mysql
+        docker push ${{ secrets.ECR_REPOSITORY_URI }}:latest-php-fpm
+        docker push ${{ secrets.ECR_REPOSITORY_URI }}:latest-nginx
+        docker push ${{ secrets.ECR_REPOSITORY_URI }}:latest-mysql
 
   ecs-service-deploy:
     runs-on: ubuntu-latest
@@ -66,12 +66,12 @@ jobs:
 
     - name: Update ECS task definition
       run: |
-        sed -i 's|<ECS_TASK_EXEC_ROLE>|${{ vars.ECS_TASK_EXEC_ROLE }}|' ./ecs/deployment-task.json
-        sed -i 's|<SERVICE_DISCOVERY>|${{ vars.SERVICE_DISCOVERY }}|' ./ecs/deployment-task.json
-        sed -i 's|<SSM_NAMESPACE>|${{ vars.SSM_NAMESPACE }}|' ./ecs/deployment-task.json
-        sed -i 's|<IMAGE_PHP_FPM>|${{ vars.ECR_REPOSITORY_URI }}:latest-php-fpm|' ./ecs/deployment-task.json
-        sed -i 's|<IMAGE_NGINX>|${{ vars.ECR_REPOSITORY_URI }}:latest-nginx|' ./ecs/deployment-task.json
-        sed -i 's|<IMAGE_MYSQL>|${{ vars.ECR_REPOSITORY_URI }}:latest-mysql|' ./ecs/deployment-task.json
+        sed -i 's|<ECS_TASK_EXEC_ROLE>|${{ secrets.ECS_TASK_EXEC_ROLE }}|' ./ecs/deployment-task.json
+        sed -i 's|<SERVICE_DISCOVERY>|${{ secrets.SERVICE_DISCOVERY }}|' ./ecs/deployment-task.json
+        sed -i 's|<SSM_NAMESPACE>|${{ secrets.SSM_NAMESPACE }}|' ./ecs/deployment-task.json
+        sed -i 's|<IMAGE_PHP_FPM>|${{ secrets.ECR_REPOSITORY_URI }}:latest-php-fpm|' ./ecs/deployment-task.json
+        sed -i 's|<IMAGE_NGINX>|${{ secrets.ECR_REPOSITORY_URI }}:latest-nginx|' ./ecs/deployment-task.json
+        sed -i 's|<IMAGE_MYSQL>|${{ secrets.ECR_REPOSITORY_URI }}:latest-mysql|' ./ecs/deployment-task.json
     
     - name: Register updated task definition
       run: |
