@@ -1,4 +1,4 @@
-![version](https://img.shields.io/badge/version-0.8.0-blue?style=flat)
+![version](https://img.shields.io/badge/version-0.9.0-blue?style=flat)
 [![build](https://github.com/danieltrolezi/laravel-app/actions/workflows/application-ci.yml/badge.svg)](https://github.com/danieltrolezi/laravel-app/actions/workflows/application-ci.yml)
 
 ## :package: Base Laravel Application
@@ -29,7 +29,7 @@ Explore examples on how to use:
 * PHP Processor: PHP-fpm
 * Process Supervisor: Supervisord
 
-#### Streamlined Development Experience
+#### Development Experience
 
 * Code Sniffer (PSR-12): Enforces consistent and clean coding practices
 * Git Hooks: Automates tasks to enhance your workflow
