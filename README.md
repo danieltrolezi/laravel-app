@@ -1,17 +1,26 @@
-## Out of the Box Laravel Application
-
 ![version](https://img.shields.io/badge/version-0.8.0-blue?style=flat)
-[![build](https://github.com/danieltrolezi/laravel-app/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/danieltrolezi/laravel-app/actions/workflows/ci-cd.yml)
+[![build](https://github.com/danieltrolezi/laravel-app/actions/workflows/application-ci.yml/badge.svg)](https://github.com/danieltrolezi/laravel-app/actions/workflows/application-ci.yml)
 
-### Jumpstart Laravel Development with a Base Application
+## :package: Base Laravel Application
 
-This repository provides a solid foundation for your next Laravel project, accelerating development with a pre-configured environment.
+This setup serves as the foundation for my personal Laravel projects and a playground for my coding experiments. 
+
+If you prefer a streamlined development experience, consider checking out tools like [phpctl](https://github.com/opencodeco/phpctl), [docker-php](https://github.com/serversideup/docker-php), or [devpod](https://github.com/loft-sh/devpod). 
+
+However, if you enjoy diving deep into the workings of everything, feel free to take a look.
 
 #### Documentation
 
-:sparkle: [Full documentation available on the Wiki](https://github.com/danieltrolezi/laravel-app/wiki)
+:sparkle: [Full documentation available on the Wiki](https://github.com/danieltrolezi/laravel-app/wiki).  
 
-#### Key Technologies:
+Explore examples on how to use:
+
+* [Swagger](https://github.com/danieltrolezi/laravel-app/wiki/07.-Swagger)
+* [PHP's Yaml](https://github.com/danieltrolezi/laravel-app/wiki/98.-Appendix#yaml)
+* [Laravel Octane](https://github.com/danieltrolezi/laravel-app/wiki/08.-Laravel-Octane)
+* [Authentication & Authorization](https://github.com/danieltrolezi/laravel-app/wiki/09.-Authentication-&-Authorization)
+
+#### Key Technologies
 
 * Backend: PHP 8.3 + Laravel 11 Framework
 * Databases: MySQL 8 + Redis
@@ -19,26 +28,23 @@ This repository provides a solid foundation for your next Laravel project, accel
 * Web Server: Nginx
 * PHP Processor: PHP-fpm
 * Process Supervisor: Supervisord
-* CI/CD: Github Actions + AWS ECR & ECS
-* Vault: AWS SSM
 
-#### Streamlined Development Experience:
+#### Streamlined Development Experience
 
-* Installation Script: Simplifies the initial setup process
 * Code Sniffer (PSR-12): Enforces consistent and clean coding practices
-* Git Hooks: Automates tasks within your development workflow
-* Unit Testing: Ensures the functionality of your code
-* Xdebug Integration: For improved debugging capabilities
-* Swagger: For OpenAPI Documentation
-* Rector: For easy PHP/Laravel version upgrade
+* Git Hooks: Automates tasks to enhance your workflow
+* Unit Testing: Ensures your code works as intended
+* Xdebug Integration: Elevates your debugging capabilities
+* Swagger: For comprehensive OpenAPI documentation
+* Rector: Simplifies PHP/Laravel version upgrades
 
-By leveraging this base application, you can benefit from a well-structured foundation that promotes efficient and maintainable development practices for your Laravel projects.
+#### CD/CI Ready
 
-#### Experiments
+This repository includes GitHub Actions templates for:
 
-On the Wiki You'll also find some examples showing how to use Laravel's Octane instead of PHP-fpm and many other things, such as:
-
-* [Swagger](https://github.com/danieltrolezi/laravel-app/wiki/07.-Swagger)
-* [Laravel Octane](https://github.com/danieltrolezi/laravel-app/wiki/08.-Laravel-Octane)
-* [Authentication & Authorization](https://github.com/danieltrolezi/laravel-app/wiki/09.-Authentication-&-Authorization)
-* [PHP's Yaml](https://github.com/danieltrolezi/laravel-app/wiki/98.-Appendix#yaml)
+* Running Tests
+* Code Sniffer
+* Building Docker Images
+* Uploading Docker Images to AWS ECR
+* Updating Task Definitions on AWS ECS
+* Updating Services on AWS ECS

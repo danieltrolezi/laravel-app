@@ -29,9 +29,6 @@ jobs:
     - name: Build Docker image (Nginx)
       run: docker build . --file Dockerfile.nginx --tag ${{ vars.DOCKER_IMAGE_TAG }}/nginx
 
-    - name: Build Docker image (MySQL)
-      run: docker build . --file Dockerfile.mysql --tag ${{ vars.DOCKER_IMAGE_TAG }}/mysql
-
     - name: Login to Amazon ECR
       run: |
         aws ecr get-login-password --region ${{ vars.AWS_REGION }} \
@@ -41,13 +38,11 @@ jobs:
       run: |
         docker tag ${{ vars.DOCKER_IMAGE_TAG }}/php-fpm:latest ${{ secrets.ECR_REPOSITORY_URI }}:latest-php-fpm
         docker tag ${{ vars.DOCKER_IMAGE_TAG }}/nginx:latest ${{ secrets.ECR_REPOSITORY_URI }}:latest-nginx
-        docker tag ${{ vars.DOCKER_IMAGE_TAG }}/mysql:latest ${{ secrets.ECR_REPOSITORY_URI }}:latest-mysql
 
     - name: Push Docker images to ECR
       run: |
         docker push ${{ secrets.ECR_REPOSITORY_URI }}:latest-php-fpm
         docker push ${{ secrets.ECR_REPOSITORY_URI }}:latest-nginx
-        docker push ${{ secrets.ECR_REPOSITORY_URI }}:latest-mysql
 
   ecs-service-deploy:
     runs-on: ubuntu-latest
@@ -67,10 +62,10 @@ jobs:
     - name: Update ECS task definition
       run: |
         sed -i 's|<ECS_TASK_EXEC_ROLE>|${{ secrets.ECS_TASK_EXEC_ROLE }}|' ./ecs/deployment-task.json
+        sed -i 's|<ECS_SERVICE_NAME>|${{ vars.ECS_SERVICE_NAME }}|' ./ecs/deployment-task.json
         sed -i 's|<SSM_NAMESPACE>|${{ secrets.SSM_NAMESPACE }}|' ./ecs/deployment-task.json
         sed -i 's|<IMAGE_PHP_FPM>|${{ secrets.ECR_REPOSITORY_URI }}:latest-php-fpm|' ./ecs/deployment-task.json
         sed -i 's|<IMAGE_NGINX>|${{ secrets.ECR_REPOSITORY_URI }}:latest-nginx|' ./ecs/deployment-task.json
-        sed -i 's|<IMAGE_MYSQL>|${{ secrets.ECR_REPOSITORY_URI }}:latest-mysql|' ./ecs/deployment-task.json
     
     - name: Register updated task definition
       run: |

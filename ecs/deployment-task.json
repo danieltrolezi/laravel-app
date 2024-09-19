@@ -1,7 +1,7 @@
 {
   "executionRoleArn": "<ECS_TASK_EXEC_ROLE>",
-  "family": "laravel-app-task",
-  "networkMode": "awsvpc",
+  "family": "<ECS_SERVICE_NAME>-task",
+  "networkMode": "bridge",
   "containerDefinitions": [
     {
       "name": "php-fpm",
@@ -9,10 +9,8 @@
       "essential": true,
       "portMappings": [
         {
-          "name": "php-fpm",
           "containerPort": 9000,
-          "protocol": "tcp", 
-          "appProtocol": "http"
+          "protocol": "tcp"
         }
       ],
       "dependsOn": [
@@ -141,53 +139,8 @@
           "awslogs-create-group": "true"
         }
       }
-    },
-    {
-      "name": "mysql",
-      "image": "<IMAGE_MYSQL>",
-      "essential": true,
-      "portMappings": [
-        {
-          "name": "mysql",
-          "containerPort": 3306,
-          "protocol": "tcp", 
-          "appProtocol": "http"
-        }
-      ],
-      "healthCheck": {
-        "command": [
-          "CMD-SHELL",
-          "sh -c 'mysqladmin ping -h 127.0.0.1 -u root -p$MYSQL_ROOT_PASSWORD || exit 1'"
-        ],
-        "interval": 30,
-        "timeout": 10,
-        "retries": 3,
-        "startPeriod": 30
-      },
-      "secrets": [
-        {
-          "name": "MYSQL_DATABASE",
-          "valueFrom": "<SSM_NAMESPACE>/DB_DATABASE"
-        },
-        {
-          "name": "MYSQL_ROOT_PASSWORD",
-          "valueFrom": "<SSM_NAMESPACE>/DB_PASSWORD"
-        }
-      ],
-      "logConfiguration": {
-        "logDriver": "awslogs",
-        "options": {
-          "awslogs-group": "/ecs/laravel-app",
-          "awslogs-region": "us-east-2",
-          "awslogs-stream-prefix": "mysql",
-          "awslogs-create-group": "true"
-        }
-      }
     }
   ],
-  "requiresCompatibilities": [
-    "FARGATE"
-  ],
   "cpu": "256",
-  "memory": "1024"
+  "memory": "512"
 }

@@ -43,9 +43,7 @@ services:
   
   mysql:
     container_name: ${DB_HOST}
-    build:
-      context: .
-      dockerfile: Dockerfile.mysql
+    image: mysql:8.0
     ports:
       - '3306:3306'
     environment:
