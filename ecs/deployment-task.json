@@ -9,7 +9,7 @@
       "essential": true,
       "portMappings": [
         {
-          "name": "php-fpm.local",
+          "name": "php-fpm",
           "containerPort": 9000,
           "protocol": "tcp", 
           "appProtocol": "http"
@@ -148,7 +148,7 @@
       "essential": true,
       "portMappings": [
         {
-          "name": "mysql.local",
+          "name": "mysql",
           "containerPort": 3306,
           "protocol": "tcp", 
           "appProtocol": "http"
