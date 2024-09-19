@@ -83,5 +83,6 @@ jobs:
         aws ecs update-service \
           --cluster ${{ vars.ECS_CLUSTER }} \
           --service ${{ vars.ECS_SERVICE_NAME }} \
+          --task-definition ${{ vars.ECS_SERVICE_NAME }}-task:latest \
           --force-new-deployment \
           --region ${{ vars.AWS_REGION }}
