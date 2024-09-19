@@ -38,7 +38,7 @@ Explore examples on how to use:
 * Swagger: For comprehensive OpenAPI documentation
 * Rector: Simplifies PHP/Laravel version upgrades
 
-#### CD/CI Ready
+#### CI/CD Ready
 
 This repository includes GitHub Actions templates for:
 
