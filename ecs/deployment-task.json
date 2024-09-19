@@ -9,9 +9,10 @@
       "essential": true,
       "portMappings": [
         {
+          "name": "php-fpm.local",
           "containerPort": 9000,
-          "hostPort": 9000,
-          "protocol": "tcp"
+          "protocol": "tcp", 
+          "appProtocol": "http"
         }
       ],
       "dependsOn": [
@@ -147,9 +148,10 @@
       "essential": true,
       "portMappings": [
         {
+          "name": "mysql.local",
           "containerPort": 3306,
-          "hostPort": 3306,
-          "protocol": "tcp"
+          "protocol": "tcp", 
+          "appProtocol": "http"
         }
       ],
       "healthCheck": {
