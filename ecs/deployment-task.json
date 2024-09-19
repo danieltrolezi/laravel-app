@@ -7,6 +7,11 @@
       "name": "php-fpm",
       "image": "<IMAGE_PHP_FPM>",
       "essential": true,
+      "serviceRegistries": [
+        {
+          "registryArn": "<SERVICE_DISCOVERY>"
+        }
+      ],
       "portMappings": [
         {
           "containerPort": 9000,
@@ -102,6 +107,11 @@
       "name": "nginx",
       "image": "<IMAGE_NGINX>",
       "essential": true,
+      "serviceRegistries": [
+        {
+          "registryArn": "<SERVICE_DISCOVERY>"
+        }
+      ],
       "portMappings": [
         {
           "containerPort": 80,

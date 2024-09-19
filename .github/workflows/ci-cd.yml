@@ -67,6 +67,7 @@ jobs:
     - name: Update ECS task definition
       run: |
         sed -i 's|<ECS_TASK_EXEC_ROLE>|${{ vars.ECS_TASK_EXEC_ROLE }}|' ./ecs/deployment-task.json
+        sed -i 's|<SERVICE_DISCOVERY>|${{ vars.SERVICE_DISCOVERY }}|' ./ecs/deployment-task.json
         sed -i 's|<SSM_NAMESPACE>|${{ vars.SSM_NAMESPACE }}|' ./ecs/deployment-task.json
         sed -i 's|<IMAGE_PHP_FPM>|${{ vars.ECR_REPOSITORY_URI }}:latest-php-fpm|' ./ecs/deployment-task.json
         sed -i 's|<IMAGE_NGINX>|${{ vars.ECR_REPOSITORY_URI }}:latest-nginx|' ./ecs/deployment-task.json
