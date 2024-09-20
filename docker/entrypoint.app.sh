@@ -9,9 +9,13 @@ if [ ! -d "vendor" ] || [ -z "$(ls -A vendor)" ]; then
         composer install --no-interaction
         composer dump-autoload
         npm install
+
+        php artisan key:generate --ansi
     else
         composer install --no-interaction --optimize-autoloader --no-dev      
     fi
+
+    php artisan migrate --seed
 fi
 
 case "$RUN_MODE" in
