@@ -13,12 +13,6 @@
           "protocol": "tcp"
         }
       ],
-      "dependsOn": [
-        {
-          "containerName": "mysql",
-          "condition": "HEALTHY"
-        }
-      ],
       "healthCheck": {
         "command": [
           "CMD-SHELL",
