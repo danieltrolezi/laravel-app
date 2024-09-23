@@ -1,6 +1,10 @@
 {
-  "executionRoleArn": "<ECS_TASK_EXEC_ROLE>",
   "family": "<ECS_SERVICE_NAME>-task",
+  "executionRoleArn": "<ECS_TASK_EXEC_ROLE>",
+  "taskRoleArn": "<ECS_TASK_ROLE>",
+  "requiresCompatibilities": ["EC2"],
+  "cpu": "256",
+  "memory": "512",
   "networkMode": "bridge",
   "containerDefinitions": [
     {
@@ -131,8 +135,5 @@
         }
       }
     }
-  ],
-  "requiresCompatibilities": ["EC2"],
-  "cpu": "256",
-  "memory": "512"
+  ]
 }
