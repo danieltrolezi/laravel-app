@@ -19,6 +19,7 @@ Explore examples on how to use:
 * [PHP's Yaml](https://github.com/danieltrolezi/laravel-app/wiki/98.-Appendix#yaml)
 * [Laravel Octane](https://github.com/danieltrolezi/laravel-app/wiki/08.-Laravel-Octane)
 * [Authentication & Authorization](https://github.com/danieltrolezi/laravel-app/wiki/09.-Authentication-&-Authorization)
+* [AWS](https://github.com/danieltrolezi/laravel-app/wiki/11.-AWS-Cookbook)
 
 #### Key Technologies
 
@@ -31,23 +32,13 @@ Explore examples on how to use:
 
 #### Development Experience
 
+* CI/CD Ready: [Github Actions + AWS](https://github.com/danieltrolezi/laravel-app/wiki/10.-Github-Actions-&-CI%E2%80%90CD)
 * Code Sniffer (PSR-12): Enforces consistent and clean coding practices
 * Git Hooks: Automates tasks to enhance your workflow
 * Unit Testing: Ensures your code works as intended
 * Xdebug Integration: Elevates your debugging capabilities
 * Swagger: For comprehensive OpenAPI documentation
 * Rector: Simplifies PHP/Laravel version upgrades
-
-#### CI/CD Ready
-
-This repository includes GitHub Actions templates for:
-
-* Running Tests
-* Code Sniffer
-* Building Docker Images
-* Uploading Docker Images to AWS ECR
-* Updating Task Definitions on AWS ECS
-* Updating Services on AWS ECS
 
 ## License
 
