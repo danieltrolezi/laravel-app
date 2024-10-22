@@ -4,6 +4,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.app
+      args:
+        APP_ENV: ${APP_ENV}
     env_file:
       - .env
     extra_hosts:

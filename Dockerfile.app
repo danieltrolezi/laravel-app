@@ -1,5 +1,8 @@
 FROM php:8.3-fpm
 
+ARG APP_ENV=production
+ENV APP_ENV=${APP_ENV}
+
 WORKDIR /var/www/laravel-app
 
 RUN apt-get update && apt-get install -y \
@@ -31,11 +34,13 @@ COPY ./docker/supervisor /etc/supervisor/
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN find /var/www/laravel-app -not -path "/var/www/laravel-app/vendor/*" -type f -exec chmod 644 {} \;
-RUN find /var/www/laravel-app -type d -exec chmod 755 {} \;
-RUN chown -R www-data:www-data /var/www/laravel-app
-RUN chgrp -R www-data storage bootstrap/cache
-RUN chmod -R ug+rwx storage bootstrap/cache
+RUN if [ "$APP_ENV" = "production" ]; then \
+        composer install --no-interaction --optimize-autoloader --no-dev --prefer-dist \
+        && find /var/www/laravel-app -not -path "/var/www/laravel-app/vendor/*" -type f -exec chmod 644 {} \; \
+        && find /var/www/laravel-app -type d -exec chmod 755 {} \; \
+        && chown -R www-data:www-data /var/www/laravel-app \
+        && chmod -R ug+rwx storage bootstrap/cache; \
+    fi
 
 COPY ./docker/entrypoint.app.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
