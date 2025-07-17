@@ -1,0 +1,2 @@
+CREATE DATABASE IF NOT EXISTS laravel_app;
+CREATE DATABASE IF NOT EXISTS test_laravel_app;

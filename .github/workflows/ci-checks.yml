@@ -1,4 +1,4 @@
-name: Tests & Code Sniffer
+name: CI Checks
 
 on:
   workflow_call:
@@ -6,25 +6,16 @@ on:
 jobs:
   phpunit-phpcs:
     runs-on: ubuntu-latest
-
-    services:
-      redis:
-        image: redis:latest
-        ports:
-          - 6379:6379
     
     steps:
     - uses: shivammathur/setup-php@v2
       with:
-        php-version: '8.3'
+        php-version: '8.4'
     
     - uses: actions/checkout@v4
 
     - name: Create .env file
-      run: |
-        cp .env.example .env
-        sed -i 's/REDIS_HOST=.*/REDIS_HOST=localhost/' .env
-        sed -i 's/REDIS_PASSWORD=.*/REDIS_PASSWORD=null/' .env
+      run: cp .env.example .env
     
     - name: Install Dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
@@ -37,13 +28,6 @@ jobs:
     
     - name: Run Code Sniffer
       run: composer phpcs
-
-    - name: Wait for Redis
-      run: sleep 10
-
-    - name: Check Redis Connectivity
-      run: |
-        nc -zv localhost 6379
             
     - name: Run Tests
       run: composer test

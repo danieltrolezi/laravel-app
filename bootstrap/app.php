@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Exceptions\ExceptionHandler;
+use App\Http\Middleware\LogContextMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -14,34 +14,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->append(LogContextMiddleware::class);
+        $middleware->redirectGuestsTo(fn() => response());
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        $exceptions->shouldRenderJsonWhen(function (Request $request, Throwable $e) {
-            if ($request->is('api/*')) {
-                return true;
-            }
-
-            return $request->expectsJson();
-        });
-
-        $exceptions->render(function (HttpException $e, Request $request)
-        {
-            if($request->is('api/*')) {
-                $response = [
-                    'message' => $e->getMessage()
-                ];
-    
-                if(config('app.debug')) {
-                    $response = array_merge($response, [
-                        'exception' => get_class($e),
-                        'file'      => $e->getFile(),
-                        'line'      => $e->getLine(),
-                        'trace'     => $e->getTraceAsString()
-                    ]);
-                }
-
-                return response()->json($response, $e->getStatusCode());
-            }            
-        });
+        new ExceptionHandler($exceptions);
     })->create();

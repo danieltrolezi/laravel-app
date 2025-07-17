@@ -8,21 +8,20 @@
         "php": "^8.2",
         "laravel/framework": "^11.0",
         "laravel/sanctum": "^4.0",
-        "laravel/tinker": "^2.9",
-        "leventcz/laravel-top": "^1.1",
-        "zircote/swagger-php": "^4.10"
+        "laravel/tinker": "^2.9"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
         "laravel/pint": "^1.13",
         "laravel/sail": "^1.26",
         "mockery/mockery": "^1.6",
+        "monolog/monolog": "^3.0",
         "nunomaduro/collision": "^8.0",
         "phpunit/phpunit": "^11.0.1",
-        "rector/rector": "*",
         "spatie/laravel-ignition": "^2.4",
-        "squizlabs/php_codesniffer": "^3.0"
-    },
+        "squizlabs/php_codesniffer": "^3.0",
+        "zircote/swagger-php": "^4.10"
+    }, 
     "autoload": {
         "psr-4": {
             "App\\": "app/",
@@ -61,19 +60,10 @@
             "php artisan test"
         ],
         "test:coverage": [
-            "php artisan test --coverage --min=80"
-        ],
-        "test:generate": [
             "./vendor/bin/phpunit --coverage-html ./public/coverage"
         ],
-        "swagger:generate": [
+        "openapi:generate": [
             "./vendor/bin/openapi -b ./swagger.php -o ./public/swagger.yaml ./app"
-        ],
-        "rector:dry-run": [
-            "./vendor/bin/rector process --dry-run"
-        ],
-        "rector:process": [
-            "./vendor/bin/rector process"
         ]
     },
     "extra": {

@@ -1,6 +1,6 @@
 <?php
 
-function loadEnv($path)
+function loadEnv(string $path)
 {
     if (!file_exists($path)) {
         return;
@@ -27,8 +27,8 @@ loadEnv(__DIR__ . '/.env');
 
 $constants = [
     'APP_NAME'    => getenv('APP_NAME') ?: 'Laravel App',
-    'APP_VERSION' => getenv('APP_VERSION') ?: '1.0',
-    'APP_URL'     => getenv('APP_URL') ?: 'http://laravel-app.local'
+    'APP_VERSION' => getenv('APP_VERSION') ?: '1.0.0',
+    'APP_URL'     => getenv('APP_URL') ?: 'http://localhost'
 ];
 
 foreach ($constants as $key => $value) {
