@@ -1,6 +1,7 @@
 <?php
 
 use App\Exceptions\ExceptionHandler;
+use App\Http\Middleware\AuthenticateOnceWithBasicAuth;
 use App\Http\Middleware\LogContextMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -16,6 +17,10 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->append(LogContextMiddleware::class);
         $middleware->redirectGuestsTo(fn() => response());
+
+        $middleware->alias([
+            'auth.once.basic' => AuthenticateOnceWithBasicAuth::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         new ExceptionHandler($exceptions);
