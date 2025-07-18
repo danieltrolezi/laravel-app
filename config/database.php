@@ -16,9 +16,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'score_services'),
-
-    'ncbe_shared' => env('NCBE_SHARED_DB_CONNECTION', 'ncbe_shared'),
+    'default' => env('DB_CONNECTION', 'mysql'),
 
     /*
     |--------------------------------------------------------------------------
